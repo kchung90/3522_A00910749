@@ -29,6 +29,7 @@ def divide(a, b):
     Divides two numbers
     :param a: an int
     :param b: an int
+    :precondition: b is non-zero
     :return: the quotient of the two numbers as an int
     """
     return a / b
@@ -66,7 +67,8 @@ def main():
         result = input_map[user_input](a, b)
         print(f"Your answer is {result}\n")
 
-        main()
+        print("Menu\n1) Add\n2) Subtract\n3) Divide\n4) Multiply\n5) Exit")
+        user_input = int(input("Enter an option: "))
 
 
 if __name__ == '__main__':
