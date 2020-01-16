@@ -131,10 +131,10 @@ class BattleSimulator:
                     print(f"{defender.name} dodges the attack")
             sleep(0.5)
 
-        if attacker.health > 0:
-            winner = f"{attacker.name}"
+        if self.character_1.health > 0:
+            winner = f"{self.character_1.name}"
         else:
-            winner = f"{defender.name}"
+            winner = f"{self.character_2.name}"
 
         print("- " * 25)
         print("-" * 50)
