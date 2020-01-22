@@ -1,49 +1,46 @@
 """
 A simple card management application.
 """
-
+import abc
 from datetime import date
 
 
-class Card:
+class Card(abc.ABC):
     """
     Represent a Card that is stored in the wallet. A Card object has a
     cardholder name, expiry date, and the id number.
     """
-    def __init__(self, cardholder_name, expiry_date, id_number):
+    def __init__(self, cardholder_name, id_number, expiry_date):
         """
         Construct a Card
         :param cardholder_name: name of the cardholder as a String
-        :param expiry_date: expiry date of the card as a Date
         :param id_number: ID Number of the card as a String
+        :param expiry_date: expiry date of the card as a Date
         """
         self.cardholder_name = cardholder_name
-        self.expiry_date = expiry_date
         self._id_number = id_number
+        self.expiry_date = expiry_date
 
     @property
     def id_number(self):
         return self._id_number
 
+    @abc.abstractmethod
     def __str__(self):
         """
         Return the description of the card object.
         :return: description of the Card object as a String
         """
-        return f"Cardholder Name: {self.cardholder_name}\n" \
-               f"Expiry Date: {self.expiry_date}\n" \
-               f"ID Number: {self.id_number}"
+        pass
 
+    @abc.abstractmethod
     def access_card(self):
         """
         Check if the card can be accessed or not
         :return: True if the card's expiry date is greater than the
         today's date
         """
-        if self.expiry_date > date.today():
-            return True
-        else:
-            return False
+        pass
 
 
 class Person:
@@ -131,16 +128,15 @@ class Wallet:
 
 
 class IDCard(Card):
-    def __init__(self, name, id_number, expiry_date, date_of_birth,
-                 cardholder_name):
-        super().__init__(cardholder_name, expiry_date, id_number)
-        self.name = name
-        self._id_number = id_number
-        self.expiry_date = expiry_date
+    def __init__(self, cardholder_name, id_number, expiry_date, date_of_birth):
+        super().__init__(cardholder_name, id_number, expiry_date)
         self.date_of_birth = date_of_birth
 
     def __str__(self):
-        pass
+        return f"Cardholder Name: {self.cardholder_name}\n" \
+               f"ID Number: {self.id_number}\n" \
+               f"Expiry Date: {self.expiry_date}\n" \
+               f"Date of Birth: {self.date_of_birth}"
 
     def access_card(self):
         if len(self.id_number) == 9 and self.id_number[0:3] == "ARD"\
@@ -151,31 +147,64 @@ class IDCard(Card):
             return False
 
 
+class CreditCard(Card):
+    def __init__(self, name, id_number, expiry_date, balance, cvv):
+        super().__init__(name, id_number, expiry_date)
+        self.balance = balance
+        self.cvv = cvv
+
+    def __str__(self):
+        return f"Cardholder Name: {self.cardholder_name}\n" \
+               f"ID Number: {self.id_number}\n" \
+               f"Expiry Date: {self.expiry_date}\n" \
+               f"Balance: {self.balance}\n" \
+               f"CVV: {self.cvv}"
+
+    def access_card(self):
+        if len(self.id_number) == 16 and self.id_number.isdigit() \
+                and self.expiry_date > date.today():
+            charge_amount = float(input("Enter the amount to charge: "))
+            if charge_amount < self.balance:
+                self.balance -= charge_amount
+            return True
+        else:
+            return False
+
+
 def main():
     """
-    Create a wallet, person, and 2 cards to drive the program.
+    Create a wallet, a person, and 2 cards to drive the program.
     """
-    owner = Person("Captain America", date(1900, 11, 11))
+    owner = Person("Homer Simpson", date(1960, 12, 12))
     wallet = Wallet(owner)
-    card1 = Card("Hulk", date(2023, 1, 1), "ARD123456")
-    card2 = Card("Iron Man", date(2023, 2, 2), "ARD654321")
+    card1 = IDCard("Bart", "ARD123456", date(2023, 1, 1), date(1980, 1, 1))
+    card2 = CreditCard("Lisa", "1234123412341234", date(2023, 1, 1), 100.00,
+                       123)
 
+    print("- Add Card 1")
     print(wallet.add(card1))
+
+    print("- Add Card 2")
     print(wallet.add(card2))
+
+    print("- Access Card 1")
+    print(card1.access_card())
+
+    print("- Access Card 2")
+    print(card2.access_card())
 
     print(wallet)
 
-    print("- Search Card 'ARD123456':")
-    print(wallet.search("ARD123456"))
+    print("- Search for Card '1234123412341234'")
+    print(wallet.search("1234123412341234"))
 
-    print("- Remove Card 'ARD123456':")
-    print(wallet.remove("ARD123456"))
+    print("- Remove Card '1234123412341234'")
+    print(wallet.remove("1234123412341234"))
 
-    print("- Search Card 'ARD123456':")
-    print(wallet.search("ARD123456"))
+    print("- Search for Card '1234123412341234'")
+    print(wallet.search("1234123412341234"))
 
-    print("- Card can be accessed?")
-    print(card1.access_card())
+    # print(card2)
 
 
 if __name__ == '__main__':

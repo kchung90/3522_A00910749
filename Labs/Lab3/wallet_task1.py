@@ -10,16 +10,16 @@ class Card:
     Represent a Card that is stored in the wallet. A Card object has a
     cardholder name, expiry date, and the id number.
     """
-    def __init__(self, cardholder_name, expiry_date, id_number):
+    def __init__(self, cardholder_name, id_number, expiry_date):
         """
         Construct a Card
         :param cardholder_name: name of the cardholder as a String
-        :param expiry_date: expiry date of the card as a Date
         :param id_number: ID Number of the card as a String
+        :param expiry_date: expiry date of the card as a Date
         """
         self.cardholder_name = cardholder_name
-        self.expiry_date = expiry_date
         self._id_number = id_number
+        self.expiry_date = expiry_date
 
     @property
     def id_number(self):
@@ -31,8 +31,8 @@ class Card:
         :return: description of the Card object as a String
         """
         return f"Cardholder Name: {self.cardholder_name}\n" \
-               f"Expiry Date: {self.expiry_date}\n" \
-               f"ID Number: {self.id_number}"
+               f"ID Number: {self.id_number}\n" \
+               f"Expiry Date: {self.expiry_date}"
 
     def access_card(self):
         """
@@ -132,12 +132,12 @@ class Wallet:
 
 def main():
     """
-    Create a wallet, person, and 2 cards to drive the program.
+    Create a wallet, a person, and 2 cards to drive the program.
     """
     owner = Person("Captain America", date(1900, 11, 11))
     wallet = Wallet(owner)
-    card1 = Card("Hulk", date(2023, 1, 1), "ARD123456")
-    card2 = Card("Iron Man", date(2023, 2, 2), "ARD654321")
+    card1 = Card("Hulk", "ARD123456", date(2023, 1, 1))
+    card2 = Card("Iron Man", "ARD654321", date(2023, 2, 2))
 
     print(wallet.add(card1))
     print(wallet.add(card2))
