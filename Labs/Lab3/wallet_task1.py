@@ -14,18 +14,16 @@ class Card:
         """
         Construct a Card
         :param cardholder_name: name of the cardholder as a String
-        :param expiry_date: expiry date of the card as a String
+        :param expiry_date: expiry date of the card as a Date
         :param id_number: ID Number of the card as a String
-        :precondition: id_number must be 9 characters long, start with
-        "ARD", and the contains last 6 characters as digits
         """
         self.cardholder_name = cardholder_name
         self.expiry_date = expiry_date
-        if len(id_number) == 9 and id_number[0:3] == "ARD"\
-                and id_number[3:].isdigit():
-            self.id_number = id_number
-        else:
-            print("Please enter a valid ID number")
+        self._id_number = id_number
+
+    @property
+    def id_number(self):
+        return self._id_number
 
     def __str__(self):
         """
@@ -56,7 +54,7 @@ class Person:
         """
         Construct a Person object
         :param name: name of the person as a String
-        :param date_of_birth: date of the birth as a String
+        :param date_of_birth: date of the birth as a Date
         """
         self.name = name
         self.date_of_birth = date_of_birth
