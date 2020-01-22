@@ -28,17 +28,17 @@ class Card(abc.ABC):
     @abc.abstractmethod
     def __str__(self):
         """
-        Return the description of the card object.
-        :return: description of the Card object as a String
+        Returns the description of the card depending on the card type.
+        Needs to be overridden by each child class.
         """
         pass
 
     @abc.abstractmethod
     def access_card(self):
         """
-        Check if the card can be accessed or not
-        :return: True if the card's expiry date is greater than the
-        today's date
+        Each call to this method will check if the card can be accessed
+        or not depending on the card type. Needs to be overridden by
+        each child class.
         """
         pass
 
@@ -166,6 +166,8 @@ class CreditCard(Card):
             charge_amount = float(input("Enter the amount to charge: "))
             if charge_amount < self.balance:
                 self.balance -= charge_amount
+            else:
+                print("Insufficient amount in credit card.s")
             return True
         else:
             return False
@@ -173,7 +175,8 @@ class CreditCard(Card):
 
 def main():
     """
-    Create a wallet, a person, and 2 cards to drive the program.
+    Create a wallet, a person, an ID Card, and a Credit Card to
+    drive the program.
     """
     owner = Person("Homer Simpson", date(1960, 12, 12))
     wallet = Wallet(owner)
@@ -181,16 +184,16 @@ def main():
     card2 = CreditCard("Lisa", "1234123412341234", date(2023, 1, 1), 100.00,
                        123)
 
-    print("- Add Card 1")
+    print("- Add ID Card")
     print(wallet.add(card1))
 
-    print("- Add Card 2")
+    print("- Add Credit Card")
     print(wallet.add(card2))
 
-    print("- Access Card 1")
+    print("- Access ID Card")
     print(card1.access_card())
 
-    print("- Access Card 2")
+    print("- Access Credit Card")
     print(card2.access_card())
 
     print(wallet)
@@ -203,8 +206,6 @@ def main():
 
     print("- Search for Card '1234123412341234'")
     print(wallet.search("1234123412341234"))
-
-    # print(card2)
 
 
 if __name__ == '__main__':
