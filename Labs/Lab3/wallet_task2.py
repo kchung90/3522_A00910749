@@ -1,5 +1,8 @@
 """
-A simple card management application.
+This module creates a wallet which holds multiple cards of a person.
+There are 2 types of cards, ID Card and Credit Card, which inherit the
+Card abstract base class. A person can add valid cards to his wallet
+and make purchases.
 """
 import abc
 from datetime import date
@@ -8,7 +11,8 @@ from datetime import date
 class Card(abc.ABC):
     """
     Represent a Card that is stored in the wallet. A Card object has a
-    cardholder name, expiry date, and the id number.
+    cardholder name, expiry date, and the id number. This is an
+    abstract base class and will be inherited by its child classes.
     """
     def __init__(self, cardholder_name, id_number, expiry_date):
         """
@@ -23,6 +27,10 @@ class Card(abc.ABC):
 
     @property
     def id_number(self):
+        """
+        Return the ID number of the card
+        :return: ID number as a String
+        """
         return self._id_number
 
     @abc.abstractmethod
@@ -45,13 +53,14 @@ class Card(abc.ABC):
 
 class Person:
     """
-    Represent a Person who holds the wallet.
+    Represent a Person who holds the wallet. A person object has a name
+    and date of birth.
     """
     def __init__(self, name, date_of_birth):
         """
         Construct a Person object
         :param name: name of the person as a String
-        :param date_of_birth: date of the birth as a Date
+        :param date_of_birth: date of birth as a Date
         """
         self.name = name
         self.date_of_birth = date_of_birth
@@ -67,11 +76,11 @@ class Person:
 
 class Wallet:
     """
-    Represent a Wallet which holds cards
+    Represent a Wallet which holds cards.
     """
     def __init__(self, owner):
         """
-        Construct a Wallet object
+        Construct a Wallet object.
         :param owner: owner of the wallet as a Person
         """
         self.owner = owner
@@ -81,8 +90,8 @@ class Wallet:
         """
         Remove a card from a wallet with the input id number.
         :param id_number: id number of the card as a String
-        :return: a Card object that is removed if the card is found,
-        or None if the card is not found.
+        :return: a Card object that is removed, or None if the card is
+        not found.
         """
         if id_number in self.cards:
             return self.cards.pop(id_number)
@@ -109,7 +118,7 @@ class Wallet:
         :return: a Card object that is added to the wallet
         """
         if self.search(a_card.id_number):
-            print("Card already exists in the wallet.")
+            print("This card already exists in the wallet.")
         else:
             self.cards[a_card.id_number] = a_card
             return a_card
@@ -117,7 +126,7 @@ class Wallet:
     def __str__(self):
         """
         Return the description of the Wallet object.
-        :return: description of the wallet object
+        :return: description of the wallet object as a String
         """
         card_list = ""
         for key in self.cards:
@@ -128,17 +137,40 @@ class Wallet:
 
 
 class IDCard(Card):
+    """
+    Represent an ID Card objectwhich is the child class of the Card
+    class.
+    """
     def __init__(self, cardholder_name, id_number, expiry_date, date_of_birth):
+        """
+        Construct an ID Card object
+        :param cardholder_name: name of the cardholder as a String
+        :param id_number: ID number of the card as a String
+        :param expiry_date: expiry date of the card as a Date
+        :param date_of_birth: date of birth of the cardholder as a Date
+        """
         super().__init__(cardholder_name, id_number, expiry_date)
         self.date_of_birth = date_of_birth
 
     def __str__(self):
+        """
+        Return the description of the ID card.
+        :return: description of the ID card as a String
+        """
         return f"Cardholder Name: {self.cardholder_name}\n" \
                f"ID Number: {self.id_number}\n" \
                f"Expiry Date: {self.expiry_date}\n" \
                f"Date of Birth: {self.date_of_birth}"
 
     def access_card(self):
+        """
+        Check if the card is valid by checking the id number of the
+        card and the expiry date. Return True if the id number is
+        composed of 9 characters, starts with 'ARD', remaining 6
+        characters are digits, and the expiry date is future.
+        :return: True if the id number is valid. False if the id number
+        is invalid
+        """
         if len(self.id_number) == 9 and self.id_number[0:3] == "ARD"\
                 and self.id_number[3:].isdigit() \
                 and self.expiry_date > date.today():
@@ -148,12 +180,29 @@ class IDCard(Card):
 
 
 class CreditCard(Card):
+    """
+    Represent a Credit Card object which is a child class of the Card
+    class.
+    """
     def __init__(self, name, id_number, expiry_date, balance, cvv):
+        """
+        Construct a Credit Card object.
+        :param name: name of the cardholder as a String
+        :param id_number: id number of the card as a String
+        :param expiry_date: expiry date of the card as a Date
+        :param balance: balance remaining on card as a float
+        :param cvv: security code of the card as an integer
+        :precondition: balance must be a float
+        """
         super().__init__(name, id_number, expiry_date)
         self.balance = balance
         self.cvv = cvv
 
     def __str__(self):
+        """
+        Return the description of the Credit Card object.
+        :return: desciription of the credit card object as a String
+        """
         return f"Cardholder Name: {self.cardholder_name}\n" \
                f"ID Number: {self.id_number}\n" \
                f"Expiry Date: {self.expiry_date}\n" \
@@ -161,6 +210,16 @@ class CreditCard(Card):
                f"CVV: {self.cvv}"
 
     def access_card(self):
+        """
+        Check if the card is valid by checking the id number of the
+        card and the expiry date. Return True if the id number is
+        composed of 16 digits and the expiry date is future. If the
+        card is valid, a user can make purchases using the balance. If
+        the balance is greater than the amount to pay, a user can make
+        a purchase.
+        :return: True if the card is valid, False if the card is
+        invalid
+        """
         if len(self.id_number) == 16 and self.id_number.isdigit() \
                 and self.expiry_date > date.today():
             charge_amount = float(input("Enter the amount to charge: "))
