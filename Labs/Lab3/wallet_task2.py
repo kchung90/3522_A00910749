@@ -1,5 +1,5 @@
 """
-This module creates a wallet which holds multiple cards of a person.
+This module creates a wallet which can hold multiple cards of a person.
 There are 2 types of cards, ID Card and Credit Card, which inherit the
 Card abstract base class. A person can add valid cards to his wallet
 and make purchases.
@@ -29,7 +29,7 @@ class Card(abc.ABC):
     def id_number(self):
         """
         Return the ID number of the card
-        :return: ID number as a String
+        :return: ID number of the card as a String
         """
         return self._id_number
 
@@ -237,33 +237,33 @@ def main():
     Create a wallet, a person, an ID Card, and a Credit Card to
     drive the program.
     """
-    owner = Person("Homer Simpson", date(1960, 12, 12))
+    owner = Person("Homer", date(1960, 12, 12))
     wallet = Wallet(owner)
     card1 = IDCard("Bart", "ARD123456", date(2023, 1, 1), date(1980, 1, 1))
     card2 = CreditCard("Lisa", "1234123412341234", date(2023, 1, 1), 100.00,
                        123)
 
-    print("- Add ID Card")
+    print("- Add ID Card:")
     print(wallet.add(card1))
 
-    print("- Add Credit Card")
+    print("- Add Credit Card:")
     print(wallet.add(card2))
 
-    print("- Access ID Card")
+    print("- Access ID Card:")
     print(card1.access_card())
 
-    print("- Access Credit Card")
+    print("- Access Credit Card:")
     print(card2.access_card())
 
     print(wallet)
 
-    print("- Search for Card '1234123412341234'")
+    print("- Search for Card '1234123412341234':")
     print(wallet.search("1234123412341234"))
 
-    print("- Remove Card '1234123412341234'")
+    print("- Remove Card '1234123412341234':")
     print(wallet.remove("1234123412341234"))
 
-    print("- Search for Card '1234123412341234'")
+    print("- Search for Card '1234123412341234' which was removed:")
     print(wallet.search("1234123412341234"))
 
 

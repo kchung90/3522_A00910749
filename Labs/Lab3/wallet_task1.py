@@ -1,5 +1,5 @@
 """
-A simple card management application.
+This module creates a wallet which can hold multiple cards of a person.
 """
 
 from datetime import date
@@ -23,6 +23,10 @@ class Card:
 
     @property
     def id_number(self):
+        """
+        Return the ID number of the card.
+        :return: ID number of the card as a String
+        """
         return self._id_number
 
     def __str__(self):
@@ -36,9 +40,10 @@ class Card:
 
     def access_card(self):
         """
-        Check if the card can be accessed or not
-        :return: True if the card's expiry date is greater than the
-        today's date
+        Check if the card can be accessed or not by checking the expiry
+        date. Return True if the card's expiry date is future.
+        :return: True if the card is valid. False if the card is
+        invalid
         """
         if self.expiry_date > date.today():
             return True
@@ -48,7 +53,8 @@ class Card:
 
 class Person:
     """
-    Represent a Person who holds the wallet.
+    Represent a Person who holds the wallet. A person object has a name
+    and date of birth.
     """
     def __init__(self, name, date_of_birth):
         """
@@ -84,8 +90,8 @@ class Wallet:
         """
         Remove a card from a wallet with the input id number.
         :param id_number: id number of the card as a String
-        :return: a Card object that is removed if the card is found,
-        or None if the card is not found.
+        :return: a Card object that is removed, or None if the card is
+        not found.
         """
         if id_number in self.cards:
             return self.cards.pop(id_number)
@@ -120,7 +126,7 @@ class Wallet:
     def __str__(self):
         """
         Return the description of the Wallet object.
-        :return: description of the wallet object
+        :return: description of the wallet object as a String
         """
         card_list = ""
         for key in self.cards:
@@ -136,11 +142,13 @@ def main():
     """
     owner = Person("Captain America", date(1900, 11, 11))
     wallet = Wallet(owner)
-    card1 = Card("Hulk", "ARD123456", date(2023, 1, 1))
-    card2 = Card("Iron Man", "ARD654321", date(2023, 2, 2))
+    card_1 = Card("Hulk", "ARD123456", date(2023, 1, 1))
+    card_2 = Card("Iron Man", "ARD654321", date(2023, 2, 2))
 
-    print(wallet.add(card1))
-    print(wallet.add(card2))
+    print("- Add the first card:")
+    print(wallet.add(card_1))
+    print("- Add the second card:")
+    print(wallet.add(card_2))
 
     print(wallet)
 
@@ -150,11 +158,11 @@ def main():
     print("- Remove Card 'ARD123456':")
     print(wallet.remove("ARD123456"))
 
-    print("- Search Card 'ARD123456':")
+    print("- Search Card 'ARD123456' which was removed:")
     print(wallet.search("ARD123456"))
 
     print("- Card can be accessed?")
-    print(card1.access_card())
+    print(card_1.access_card())
 
 
 if __name__ == '__main__':
