@@ -20,7 +20,15 @@ class BankAccount:
 
     def process_transaction(self, transaction):
         if self.verify_transaction(transaction):
+            self._balance = self._balance - transaction.amount
+
             category = int(transaction.budget_category)
+
+            for budget in self.budgets:
+                if budget.budget_type == BudgetTypes(category).name:
+                    budget.total_budget = budget.total_budget\
+                                          - transaction.amount
+
             self.trans_list[f"{BudgetTypes(category).name}"]\
                 .append(transaction)
         else:
@@ -31,4 +39,7 @@ class BankAccount:
             return False
         if transaction.amount > self.balance:
             return False
+        for budget in self.budgets:
+            if transaction.amount > budget.total_budget:
+                return False
         return True
