@@ -3,12 +3,11 @@ import enum
 
 class Budget:
 
-    def __init__(self, total_budget, budget_type, amount_spent, amount_left,
-                 is_locked=False):
-        self.total_budget = total_budget
-        self.amount_spent = amount_spent
-        self.amount_left = amount_left
+    def __init__(self, budget_type, total_budget, is_locked=False):
         self.budget_type = budget_type
+        self.total_budget = total_budget
+        self.amount_spent = 0
+        self.amount_left = 0
         self.is_locked = is_locked
 
 
