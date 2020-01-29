@@ -1,7 +1,7 @@
 class Menu:
 
-    def __init__(self):
-        pass
+    def __init__(self, user):
+        self.user = user
 
-    def record_transaction(self):
+    def record_transaction(self, transaction):
         pass
