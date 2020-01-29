@@ -52,7 +52,7 @@ class Driver:
         if input_menu == 1:
             input_trans_time = (input("Enter the date and time of the "
                                       "transaction in the following format\n"
-                                      "(ex. YYYY, MM, DD, HH, MM, SS): "))
+                                      "(ex. YYYY, MM, DD, HH, MN, SS): "))
             year = int(input_trans_time.split(',')[0].lstrip('0'))
             month = int(input_trans_time.split(',')[1].lstrip('0'))
             day = int(input_trans_time.split(',')[2].lstrip('0'))
