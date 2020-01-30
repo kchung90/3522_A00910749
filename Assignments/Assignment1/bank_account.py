@@ -27,7 +27,7 @@ class BankAccount:
                                        input_total_budget))
 
     def create_transaction(self):
-        input_trans_amount = float(input("Enter the amount spent: "))
+        input_trans_amount = float(input("\nEnter the amount spent: "))
         input_trans_category = int(input(f"Select a category:\n"
                                          f"1) {BudgetTypes(1).name}\n"
                                          f"2) {BudgetTypes(2).name}\n"
@@ -49,13 +49,15 @@ class BankAccount:
 
             self.trans_list[f"{trans_category}"] \
                 .append(transaction)
+
+            print("\n%-25s%-15s%-15s%s" % ("Timestamp", "Amount",
+                                           "Category", "Shop Name"))
+            for transaction in self.trans_list[f"{trans_category}"]:
+                print(transaction)
         else:
-            print("Transaction is not valid. Cannot be processed!")
+            print("\nTransaction is not valid. Cannot be processed!")
 
     def verify_transaction(self, amount):
         if amount > self.balance:
             return False
-        for budget in self.budgets:
-            if amount > budget.total_budget:
-                return False
         return True
