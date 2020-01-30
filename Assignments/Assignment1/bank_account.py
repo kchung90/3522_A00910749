@@ -1,10 +1,26 @@
+"""
+@author Kevin Chung
+
+This module depicts the bank account which holds all the banking
+information of the user.
+
+Bank account information are used to process valid transactions.
+"""
 from Assignments.Assignment1.budget import BudgetTypes, Budget
 from Assignments.Assignment1.transaction import Transaction
 
 
 class BankAccount:
-
+    """
+    Represents a bank account.
+    """
     def __init__(self, name, account_number, balance):
+        """
+        Initialize a bank account object
+        :param name: name of the bank as a String
+        :param account_number: account number as an integer
+        :param balance: balance as a float
+        """
         self.name = name
         self.account_number = account_number
         self._balance = balance
@@ -16,9 +32,17 @@ class BankAccount:
 
     @property
     def balance(self):
+        """
+        Return the balance of the bank account
+        :return: balance as a float
+        """
         return self._balance
 
     def add_budget(self):
+        """
+        Create budget objects for each budget category and store the
+        budget objects in a list in the bank account object
+        """
         for i in BudgetTypes:
             input_total_budget = float(input(f"Enter the total budget for "
                                              f"'{BudgetTypes(i).name}' "
@@ -26,7 +50,14 @@ class BankAccount:
             self.budgets.append(Budget(BudgetTypes(i).name,
                                        input_total_budget))
 
-    def create_transaction(self):
+    def process_transaction(self):
+        """
+        Process transactions that are verified and store the processed
+        transaction objects as a list in the dictionary in the bank
+        account object. When transactions are processed, the balance in
+        the bank account and the budget amount get decreased by the
+        amount spent.
+        """
         input_trans_amount = float(input("\nEnter the amount spent: "))
         input_trans_category = int(input(f"Select a category:\n"
                                          f"1) {BudgetTypes(1).name}\n"
@@ -55,9 +86,18 @@ class BankAccount:
             for transaction in self.trans_list[f"{trans_category}"]:
                 print(transaction)
         else:
-            print("\nTransaction is not valid. Cannot be processed!")
+            print("\nTransaction cannot be processed. You cannot spend more "
+                  "than what you have!")
 
     def verify_transaction(self, amount):
+        """
+        Verify transaction by making sure that the amount spent is less
+        than the balance in the user's bank account and return Bool
+        depending on the condition
+        :param amount: amount spent as a float
+        :return: True if the amount spent is less than the balance in
+        the user's bank account
+        """
         if amount > self.balance:
             return False
         return True

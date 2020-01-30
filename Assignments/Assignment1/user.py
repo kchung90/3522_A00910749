@@ -1,16 +1,37 @@
+"""
+@author Kevin Chung
+
+This module depicts a user who participates in the F.A.M. program.
+
+A user initially has a name and an age. Bank account information are to
+be added to the user.
+"""
 from Assignments.Assignment1.bank_account import BankAccount
 from Assignments.Assignment1.budget import Budget
 from Assignments.Assignment1.budget import BudgetTypes
 
 
 class User:
-
+    """
+    Represents a user object who participate in this program.
+    """
     def __init__(self, name, age):
+        """
+        Initialize a user by taking in the name and the age. Bank
+        account information are set to None at the beginning.
+        :param name: name of the user as a String
+        :param age: age of the user as an integer
+        """
         self.name = name
         self.age = age
         self.bank_account = None
 
     def add_bank_account(self):
+        """
+        Add a bank account object to the user. After the bank account
+        object has been added, this method calls a method to add
+        budget to the bank account object
+        """
         input_bank_name = input("Enter the user's bank name: ")
         input_account_num = int(input("Enter the user's "
                                       "bank account number: "))
@@ -21,11 +42,18 @@ class User:
         self.bank_account.add_budget()
 
     @classmethod
-    def load_test_users(cls):
+    def load_test_user(cls):
+        """
+        Initialize a test user by hardcoding the information for a
+        testing purpose.
+        A test user has all the information including the bank account
+        and budget information.
+        :return: a test user as a User object
+        """
         test_user = User("Test User", 20)
 
         test_user.bank_account = BankAccount("Scotiabank", "4536000011112222",
-                                          500)
+                                             500)
 
         test_budget_1 = Budget(BudgetTypes(1).name, 100)
         test_budget_2 = Budget(BudgetTypes(2).name, 100)
