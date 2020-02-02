@@ -84,7 +84,7 @@ class BankAccount:
                     budget.budget_spent = \
                         budget.budget_spent + transaction.amount
                     budget.budget_remaining = \
-                        budget.budget_remaining - budget.budget_spent
+                        budget.budget_remaining - amount
 
             self.trans_list[f"{trans_category}"] \
                 .append(transaction)
@@ -120,5 +120,15 @@ class BankAccount:
         for budget in self.budgets:
             if budget.budget_type == budget_category:
                 if budget.budget_remaining < 0:
+                    return True
+        return False
+
+    def verify_warning_level(self, category, level):
+        budget_category = BudgetTypes(category).name
+        for budget in self.budgets:
+            if budget.budget_type == budget_category:
+                warning_level = \
+                    budget.total_budget - budget.total_budget * level
+                if warning_level >= budget.budget_remaining > 0:
                     return True
         return False
