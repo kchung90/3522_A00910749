@@ -14,6 +14,7 @@ class BankAccount:
     """
     Represents a bank account.
     """
+
     def __init__(self, name, account_number, balance):
         """
         Initialize a bank account object
@@ -87,10 +88,10 @@ class BankAccount:
 
             for budget in self.budgets:
                 if budget.budget_type == trans_category:
-                    budget.budget_spent = budget.budget_spent \
-                                          + transaction.amount
-                    budget.budget_remaining = budget.budget_remaining \
-                                              - budget.budget_spent
+                    budget.budget_spent = \
+                        budget.budget_spent + transaction.amount
+                    budget.budget_remaining = \
+                        budget.budget_remaining - budget.budget_spent
 
             self.trans_list[f"{trans_category}"] \
                 .append(transaction)
@@ -115,3 +116,8 @@ class BankAccount:
         if amount > self.balance:
             return False
         return True
+
+    def lock_budget(self):
+        for budget in self.budgets:
+            if budget.budget_remaining < 0:
+                budget.is_locked = True

@@ -6,6 +6,7 @@ This module depicts a user who participates in the F.A.M. program.
 A user initially has a name and an age. Bank account information are to
 be added to the user.
 """
+import abc
 from Assignments.Assignment1.bank_account import BankAccount
 from Assignments.Assignment1.budget import Budget
 from Assignments.Assignment1.budget import BudgetTypes

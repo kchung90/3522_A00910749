@@ -1,5 +1,6 @@
 from Assignments.Assignment1.user import User
 
+
 class Angel(User):
 
     def __init__(self, name, age, user_type):

@@ -23,7 +23,7 @@ class Budget:
         self.total_budget = total_budget
         self.budget_spent = 0
         self.budget_remaining = total_budget
-        self.isLocked = False
+        self.is_locked = False
 
     def __str__(self):
         """
@@ -34,10 +34,10 @@ class Budget:
                                            f"{self.total_budget:.2f}",
                                            f"{self.budget_spent:.2f}",
                                            f"{self.budget_remaining:.2f}",
-                                           f"{self.get_status()}")
+                                           f"{self.get_lock_status()}")
 
-    def get_status(self):
-        if self.isLocked:
+    def get_lock_status(self):
+        if self.is_locked:
             return "Locked"
         return "Unlocked"
 
