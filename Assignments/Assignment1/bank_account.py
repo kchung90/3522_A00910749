@@ -54,7 +54,11 @@ class BankAccount:
         """
         Print the details of each budget by its category
         """
-        print("\n%-20s%s" % ("Budget Category", "Total Budget"))
+        print("\n%-20s%-20s%-20s%-20s%s" % ("Budget Category",
+                                            "Total Budget",
+                                            "Budget Spent",
+                                            "Budget Remaining",
+                                            "Status"))
         for budget in self.budgets:
             print(budget)
 
@@ -83,8 +87,10 @@ class BankAccount:
 
             for budget in self.budgets:
                 if budget.budget_type == trans_category:
-                    budget.total_budget = budget.total_budget \
-                                          - transaction.amount
+                    budget.budget_spent = budget.budget_spent \
+                                          + transaction.amount
+                    budget.budget_remaining = budget.budget_remaining \
+                                              - budget.budget_spent
 
             self.trans_list[f"{trans_category}"] \
                 .append(transaction)

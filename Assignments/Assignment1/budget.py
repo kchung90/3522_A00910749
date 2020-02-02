@@ -21,13 +21,25 @@ class Budget:
         """
         self.budget_type = budget_type
         self.total_budget = total_budget
+        self.budget_spent = 0
+        self.budget_remaining = total_budget
+        self.isLocked = False
 
     def __str__(self):
         """
         Return the description of the budget object
         :return: the description as a String
         """
-        return "%-20s%s" % (f"{self.budget_type}", f"{self.total_budget}")
+        return "%-20s%-20s%-20s%-20s%s" % (f"{self.budget_type}",
+                                           f"{self.total_budget:.2f}",
+                                           f"{self.budget_spent:.2f}",
+                                           f"{self.budget_remaining:.2f}",
+                                           f"{self.get_status()}")
+
+    def get_status(self):
+        if self.isLocked:
+            return "Locked"
+        return "Unlocked"
 
 
 class BudgetTypes(enum.Enum):
