@@ -87,7 +87,17 @@ class Driver:
             if input_menu == 1:
                 self.user.view_budgets()
             elif input_menu == 2:
-                self.user.record_transaction()
+                input_trans_amount = float(input("\nEnter the amount spent: "))
+                input_trans_category = int(input(f"Select a category:\n"
+                                                 f"1) GAMES\n"
+                                                 f"2) CLOTHING\n"
+                                                 f"3) FOOD\n"
+                                                 f"4) MISC\n"))
+                input_shop_name = input("Enter the name of the shop: ")
+
+                self.user.record_transaction(input_trans_amount,
+                                             input_trans_category,
+                                             input_shop_name)
             elif input_menu == 3:
                 pass
             elif input_menu == 4:

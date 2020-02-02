@@ -33,13 +33,13 @@ class User:
         """
         self.bank_account.get_budget_details()
 
-    def record_transaction(self):
+    def record_transaction(self, amount, category, shop_name):
         """
         Initiate to create a transaction. Successful transactions are
         recorded in the list of transactions in the bank account object
         and printed out.
         """
-        self.bank_account.process_transaction()
+        self.bank_account.process_transaction(amount, category, shop_name)
 
     def view_transactions_by_budget(self):
         pass

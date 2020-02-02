@@ -7,6 +7,6 @@ class Troublemaker(User):
         super().__init__(name, age)
         self.user_type = user_type
 
-    def record_transaction(self):
-        self.bank_account.process_transaction()
+    def record_transaction(self, amount, category, shop_name):
+        self.bank_account.process_transaction(amount, category, shop_name)
         self.bank_account.lock_budget()

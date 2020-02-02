@@ -63,7 +63,7 @@ class BankAccount:
         for budget in self.budgets:
             print(budget)
 
-    def process_transaction(self):
+    def process_transaction(self, amount, category, shop_name):
         """
         Process transactions that are verified and store the processed
         transaction objects as a list in the dictionary in the bank
@@ -71,18 +71,11 @@ class BankAccount:
         the bank account and the budget amount get decreased by the
         amount spent.
         """
-        input_trans_amount = float(input("\nEnter the amount spent: "))
-        input_trans_category = int(input(f"Select a category:\n"
-                                         f"1) {BudgetTypes(1).name}\n"
-                                         f"2) {BudgetTypes(2).name}\n"
-                                         f"3) {BudgetTypes(3).name}\n"
-                                         f"4) {BudgetTypes(4).name}\n"))
-        trans_category = BudgetTypes(input_trans_category).name
-        input_shop_name = input("Enter the name of the shop: ")
+        trans_category = BudgetTypes(category).name
 
-        if self.verify_transaction(input_trans_amount):
-            transaction = Transaction(input_trans_amount,
-                                      trans_category, input_shop_name)
+        if self.verify_transaction(amount):
+            transaction = Transaction(amount,
+                                      trans_category, shop_name)
 
             self._balance = self._balance - transaction.amount
 
@@ -121,3 +114,11 @@ class BankAccount:
         for budget in self.budgets:
             if budget.budget_remaining < 0:
                 budget.is_locked = True
+
+    def verify_budget_limit(self, category):
+        budget_category = BudgetTypes(category).name
+        for budget in self.budgets:
+            if budget.budget_type == budget_category:
+                if budget.budget_remaining < 0:
+                    return True
+        return False
