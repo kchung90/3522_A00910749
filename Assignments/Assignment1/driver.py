@@ -60,20 +60,21 @@ class Driver:
             elif input_option == 2:
                 self.user = User.load_test_user()
 
-        while input_menu != 2:
+        while input_menu != 5:
             input_menu = int(input("\nSelect the following menu:\n"
-                                   "1) Record Transaction\n"
-                                   "2) Quit\n"))
+                                   "1) View Budgets\n"
+                                   "2) Record Transaction\n"
+                                   "3) View Transactions by Budget\n"
+                                   "4) View Bank Account Details\n"
+                                   "5) Quit\n"))
             if input_menu == 1:
-                self.record_transaction()
-
-    def record_transaction(self):
-        """
-        Initiate to create a transaction. Successful transactions are
-        recorded in the list of transactions in the bank account object
-        and printed out.
-        """
-        self.user.bank_account.process_transaction()
+                self.user.view_budgets()
+            elif input_menu == 2:
+                self.user.record_transaction()
+            elif input_menu == 3:
+                pass
+            elif input_menu == 4:
+                pass
 
 
 def main():

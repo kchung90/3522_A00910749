@@ -50,6 +50,14 @@ class BankAccount:
             self.budgets.append(Budget(BudgetTypes(i).name,
                                        input_total_budget))
 
+    def get_budget_details(self):
+        """
+        Print the details of each budget by its category
+        """
+        print("\n%-20s%s" % ("Budget Category", "Total Budget"))
+        for budget in self.budgets:
+            print(budget)
+
     def process_transaction(self):
         """
         Process transactions that are verified and store the processed

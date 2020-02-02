@@ -26,6 +26,23 @@ class User:
         self.age = age
         self.bank_account = None
 
+    def view_budgets(self):
+        """
+        Print all budget details of the user by its category.
+        """
+        self.bank_account.get_budget_details()
+
+    def record_transaction(self):
+        """
+        Initiate to create a transaction. Successful transactions are
+        recorded in the list of transactions in the bank account object
+        and printed out.
+        """
+        self.bank_account.process_transaction()
+
+    def view_transactions_by_budget(self):
+        pass
+
     def add_bank_account(self):
         """
         Add a bank account object to the user. After the bank account

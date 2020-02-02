@@ -22,6 +22,13 @@ class Budget:
         self.budget_type = budget_type
         self.total_budget = total_budget
 
+    def __str__(self):
+        """
+        Return the description of the budget object
+        :return: the description as a String
+        """
+        return "%-20s%s" % (f"{self.budget_type}", f"{self.total_budget}")
+
 
 class BudgetTypes(enum.Enum):
     """
