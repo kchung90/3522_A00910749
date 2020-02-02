@@ -7,6 +7,9 @@ which monitors the user's expenses in each category of budget.
 This module provides the UI to enter user inputs to select menu to
 perform tasks.
 """
+from Assignments.Assignment1.angel import Angel
+from Assignments.Assignment1.rebel import Rebel
+from Assignments.Assignment1.troublemaker import Troublemaker
 from Assignments.Assignment1.user import User
 
 
@@ -34,7 +37,21 @@ class Driver:
         input_name = input("\nEnter the user's name: ")
         input_age = int(input("Enter the user's age: "))
 
-        self.user = User(input_name, input_age)
+        input_user_type = None
+        while input_user_type != 1 and input_user_type != 2 and \
+                input_user_type != 3:
+            input_user_type = int(input("Enter the type of the user:\n"
+                                        "1) Angel\n"
+                                        "2) Troublemaker\n"
+                                        "3) Rebel\n"))
+
+        if input_user_type == 1:
+            self.user = Angel(input_name, input_age, input_user_type)
+        elif input_user_type == 2:
+            self.user = Troublemaker(input_name, input_age, input_user_type)
+        elif input_user_type == 3:
+            self.user = Rebel(input_name, input_age, input_user_type)
+
         self.user.add_bank_account()
 
     def menu(self):
