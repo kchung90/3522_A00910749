@@ -40,9 +40,18 @@ class BankAccount:
         return self._balance
 
     def get_bank_account_details(self):
-        print(f"\nBank Name: {self.name}")
-        print(f"Account Number: {self.account_number}")
-        print(f"Balance: {self._balance:.2f}")
+        print("-" * 50)
+        print("Here are the details of your bank account:\n")
+        print("%-20s%s" % ("Bank Name:", f"{self.name}"))
+        print("%-20s%s" % ("Account Number:", f"{self.account_number}"))
+        print("%-20s$%s" % ("Balance", f"{self._balance:.2f}"))
+
+        self.get_transaction_by_budget(1)
+        self.get_transaction_by_budget(2)
+        self.get_transaction_by_budget(3)
+        self.get_transaction_by_budget(4)
+
+        print("-" * 50)
 
     def add_budget(self):
         """
@@ -70,11 +79,15 @@ class BankAccount:
 
     def get_transaction_by_budget(self, category):
         budget_type = BudgetTypes(category).name
-        print(f"\nBudget Details for {budget_type}:")
-        print("%-25s%-15s%-15s%s" % ("Timestamp", "Amount",
-                                     "Category", "Shop Name"))
-        for transaction in self.trans_list[f"{budget_type}"]:
-            print(transaction)
+        print(f"\nTransaction Details for {budget_type}:")
+
+        if self.trans_list[f"{budget_type}"]:
+            print("%-25s%-15s%-15s%s" % ("Timestamp", "Amount",
+                                         "Category", "Shop Name"))
+            for transaction in self.trans_list[f"{budget_type}"]:
+                print(transaction)
+        else:
+            print("No Transactions")
 
     def process_transaction(self, amount, category, shop_name):
         """
