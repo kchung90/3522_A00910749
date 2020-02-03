@@ -133,3 +133,14 @@ class BankAccount:
                 if warning_level >= budget.budget_remaining > 0:
                     return True
         return False
+
+    def get_test_user_budgets(self):
+        test_budget_1 = Budget(BudgetTypes(1).name, 100)
+        test_budget_2 = Budget(BudgetTypes(2).name, 100)
+        test_budget_3 = Budget(BudgetTypes(3).name, 100)
+        test_budget_4 = Budget(BudgetTypes(4).name, 100)
+
+        self.budgets.append(test_budget_1)
+        self.budgets.append(test_budget_2)
+        self.budgets.append(test_budget_3)
+        self.budgets.append(test_budget_4)

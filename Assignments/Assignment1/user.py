@@ -8,8 +8,6 @@ be added to the user.
 """
 import abc
 from Assignments.Assignment1.bank_account import BankAccount
-from Assignments.Assignment1.budget import Budget
-from Assignments.Assignment1.budget import BudgetTypes
 
 
 class User(abc.ABC):
@@ -69,6 +67,7 @@ class User(abc.ABC):
         pass
 
     @classmethod
+    @abc.abstractmethod
     def load_test_user(cls):
         """
         Initialize a test user by hardcoding the information for a
@@ -77,19 +76,4 @@ class User(abc.ABC):
         and budget information.
         :return: a test user as a User object
         """
-        test_user = User("Test User", 20)
-
-        test_user.bank_account = BankAccount("Scotiabank", "4536000011112222",
-                                             500)
-
-        test_budget_1 = Budget(BudgetTypes(1).name, 100)
-        test_budget_2 = Budget(BudgetTypes(2).name, 100)
-        test_budget_3 = Budget(BudgetTypes(3).name, 200)
-        test_budget_4 = Budget(BudgetTypes(4).name, 100)
-
-        test_user.bank_account.budgets.append(test_budget_1)
-        test_user.bank_account.budgets.append(test_budget_2)
-        test_user.bank_account.budgets.append(test_budget_3)
-        test_user.bank_account.budgets.append(test_budget_4)
-
-        return test_user
+        pass

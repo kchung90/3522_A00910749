@@ -46,11 +46,11 @@ class Driver:
                                         "3) Rebel\n"))
 
         if input_user_type == 1:
-            self.user = Angel(input_name, input_age, input_user_type)
+            self.user = Angel(input_name, input_age)
         elif input_user_type == 2:
-            self.user = Troublemaker(input_name, input_age, input_user_type)
+            self.user = Troublemaker(input_name, input_age)
         elif input_user_type == 3:
-            self.user = Rebel(input_name, input_age, input_user_type)
+            self.user = Rebel(input_name, input_age)
 
         self.user.add_bank_account()
 
@@ -71,11 +71,13 @@ class Driver:
         while input_option != 1 and input_option != 2:
             print("\nPlease select an option:")
             input_option = int(input("1) Register a new user\n"
-                                     "2) Load test users\n"))
+                                     "2) Load test user\n"))
             if input_option == 1:
                 self.register_user()
             elif input_option == 2:
-                self.user = User.load_test_user()
+                self.user = Angel.load_test_user()
+                # self.user = Troublemaker.load_test_user()
+                # self.user = Rebel.load_test_user()
 
         while input_menu != 5:
             input_menu = int(input("\nSelect the following menu:\n"
