@@ -10,7 +10,6 @@ perform tasks.
 from Assignments.Assignment1.angel import Angel
 from Assignments.Assignment1.rebel import Rebel
 from Assignments.Assignment1.troublemaker import Troublemaker
-from Assignments.Assignment1.user import User
 
 
 class Driver:
@@ -75,7 +74,7 @@ class Driver:
             if input_option == 1:
                 self.register_user()
             elif input_option == 2:
-                self.user = User.load_test_user()
+                self.user = Rebel.load_test_user()
 
         while input_menu != 5:
             input_menu = int(input("\nSelect the following menu:\n"
