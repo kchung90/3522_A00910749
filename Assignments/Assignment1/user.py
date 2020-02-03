@@ -12,7 +12,7 @@ from Assignments.Assignment1.budget import Budget
 from Assignments.Assignment1.budget import BudgetTypes
 
 
-class User:
+class User(abc.ABC):
     """
     Represents a user object who participate in this program.
     """
@@ -27,19 +27,14 @@ class User:
         self.age = age
         self.bank_account = None
 
-    def view_budgets(self):
-        """
-        Print all budget details of the user by its category.
-        """
-        self.bank_account.get_budget_details()
-
+    @abc.abstractmethod
     def record_transaction(self, amount, category, shop_name):
         """
         Initiate to create a transaction. Successful transactions are
         recorded in the list of transactions in the bank account object
         and printed out.
         """
-        self.bank_account.process_transaction(amount, category, shop_name)
+        pass
 
     def view_transactions_by_budget(self):
         pass
@@ -58,6 +53,20 @@ class User:
         self.bank_account = BankAccount(input_bank_name, input_account_num,
                                         input_bank_balance)
         self.bank_account.add_budget()
+
+    def view_budgets(self):
+        """
+        Print all budget details of the user by its category.
+        """
+        self.bank_account.get_budget_details()
+
+    @abc.abstractmethod
+    def overage_notification(self, category):
+        pass
+
+    @abc.abstractmethod
+    def warning_notification(self, category):
+        pass
 
     @classmethod
     def load_test_user(cls):

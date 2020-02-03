@@ -110,9 +110,10 @@ class BankAccount:
             return False
         return True
 
-    def lock_budget(self):
+    def lock_budget(self, limit):
         for budget in self.budgets:
-            if budget.budget_remaining < 0:
+            if budget.budget_remaining < 0 and budget.budget_spent > \
+                    budget.total_budget * limit:
                 budget.is_locked = True
 
     def verify_budget_limit(self, category):
@@ -128,7 +129,7 @@ class BankAccount:
         for budget in self.budgets:
             if budget.budget_type == budget_category:
                 warning_level = \
-                    budget.total_budget - budget.total_budget * level
+                    budget.total_budget - (budget.total_budget * level)
                 if warning_level >= budget.budget_remaining > 0:
                     return True
         return False
