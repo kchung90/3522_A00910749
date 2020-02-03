@@ -32,12 +32,17 @@ class BankAccount:
                            BudgetTypes(4).name: []}
 
     @property
-    def balance(self):
+    def get_balance(self):
         """
         Return the balance of the bank account
         :return: balance as a float
         """
         return self._balance
+
+    def get_bank_account_details(self):
+        print(f"\nBank Name: {self.name}")
+        print(f"Account Number: {self.account_number}")
+        print(f"Balance: {self._balance:.2f}")
 
     def add_budget(self):
         """
@@ -62,6 +67,14 @@ class BankAccount:
                                             "Status"))
         for budget in self.budgets:
             print(budget)
+
+    def get_transaction_by_budget(self, category):
+        budget_type = BudgetTypes(category).name
+        print(f"\nBudget Details for {budget_type}:")
+        print("%-25s%-15s%-15s%s" % ("Timestamp", "Amount",
+                                     "Category", "Shop Name"))
+        for transaction in self.trans_list[f"{budget_type}"]:
+            print(transaction)
 
     def process_transaction(self, amount, category, shop_name):
         """
@@ -106,7 +119,7 @@ class BankAccount:
         :return: True if the amount spent is less than the balance in
         the user's bank account
         """
-        if amount > self.balance:
+        if amount > self.get_balance:
             return False
         return True
 

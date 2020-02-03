@@ -98,9 +98,15 @@ class Driver:
                                              input_trans_category,
                                              input_shop_name)
             elif input_menu == 3:
-                pass
+                input_budget_category = int(input(f"Select a category to "
+                                                  f"view transactions:\n"
+                                                  f"1) GAMES\n"
+                                                  f"2) CLOTHING\n"
+                                                  f"3) FOOD\n"
+                                                  f"4) MISC\n"))
+                self.user.view_transactions_by_budget(input_budget_category)
             elif input_menu == 4:
-                pass
+                self.user.view_bank_account_details()
 
 
 def main():

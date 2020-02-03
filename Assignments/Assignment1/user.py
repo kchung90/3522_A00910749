@@ -34,8 +34,11 @@ class User(abc.ABC):
         """
         pass
 
-    def view_transactions_by_budget(self):
-        pass
+    def view_transactions_by_budget(self, category):
+        self.bank_account.get_transaction_by_budget(category)
+
+    def view_bank_account_details(self):
+        self.bank_account.get_bank_account_details()
 
     def add_bank_account(self):
         """
