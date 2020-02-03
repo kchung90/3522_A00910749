@@ -7,9 +7,7 @@ which monitors the user's expenses in each category of budget.
 This module provides the UI to enter user inputs to select menu to
 perform tasks.
 """
-from Assignments.Assignment1.angel import Angel
-from Assignments.Assignment1.rebel import Rebel
-from Assignments.Assignment1.troublemaker import Troublemaker
+from Assignments.Assignment1.user import Angel, Troublemaker, Rebel
 
 
 class Driver:

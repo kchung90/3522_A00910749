@@ -15,21 +15,22 @@ class BankAccount:
     Represents a bank account.
     """
 
-    def __init__(self, name, account_number, balance):
+    def __init__(self, name, account_num, balance):
         """
         Initialize a bank account object
         :param name: name of the bank as a String
-        :param account_number: account number as an integer
+        :param account_num: account number as an integer
         :param balance: balance as a float
         """
         self.name = name
-        self.account_number = account_number
+        self.account_num = account_num
         self._balance = balance
         self.budgets = []
         self.trans_list = {BudgetTypes(1).name: [],
                            BudgetTypes(2).name: [],
                            BudgetTypes(3).name: [],
                            BudgetTypes(4).name: []}
+        self.budget_locked = 0
 
     @property
     def get_balance(self):
@@ -40,11 +41,9 @@ class BankAccount:
         return self._balance
 
     def get_bank_account_details(self):
-        print("-" * 50)
-        print("Here are the details of your bank account:\n")
-        print("%-20s%s" % ("Bank Name:", f"{self.name}"))
-        print("%-20s%s" % ("Account Number:", f"{self.account_number}"))
-        print("%-20s$%s" % ("Balance", f"{self._balance:.2f}"))
+        print("%-25s%s" % ("Bank Name:", f"{self.name}"))
+        print("%-25s%s" % ("Account Number:", f"{self.account_num}"))
+        print("%-25s$%s" % ("Balance", f"{self._balance:.2f}"))
 
         self.get_transaction_by_budget(1)
         self.get_transaction_by_budget(2)
@@ -99,7 +98,7 @@ class BankAccount:
         """
         trans_category = BudgetTypes(category).name
 
-        if self.verify_transaction(amount):
+        if self.verify_transaction(amount, category):
             transaction = Transaction(amount,
                                       trans_category, shop_name)
 
@@ -123,41 +122,45 @@ class BankAccount:
             print("\nTransaction cannot be processed. You cannot spend more "
                   "than what you have!")
 
-    def verify_transaction(self, amount):
+    def verify_transaction(self, amount, budget_type):
         """
         Verify transaction by making sure that the amount spent is less
         than the balance in the user's bank account and return Bool
         depending on the condition
         :param amount: amount spent as a float
+        :param budget_type: index of the budget type in the budgets list
+        as an integer
         :return: True if the amount spent is less than the balance in
         the user's bank account
         """
+        budget = self.budgets[budget_type - 1]
         if amount > self.get_balance:
+            return False
+        if budget.is_locked:
+            return False
+        if self.budget_locked >= 2:
             return False
         return True
 
-    def lock_budget(self, limit):
-        for budget in self.budgets:
-            if budget.budget_remaining < 0 and budget.budget_spent > \
-                    budget.total_budget * limit:
-                budget.is_locked = True
+    def lock_budget(self, limit, budget_type):
+        budget = self.budgets[budget_type - 1]
+        if budget.budget_remaining <= 0 and budget.budget_spent >= \
+                budget.total_budget * limit and not budget.is_locked:
+            budget.is_locked = True
+            self.budget_locked = self.budget_locked + 1
+            print(f"\nBudget is locked for {budget.budget_type}")
 
-    def verify_budget_limit(self, category):
-        budget_category = BudgetTypes(category).name
-        for budget in self.budgets:
-            if budget.budget_type == budget_category:
-                if budget.budget_remaining < 0:
-                    return True
+    def verify_budget_limit(self, budget_type):
+        budget = self.budgets[budget_type - 1]
+        if budget.budget_remaining <= 0:
+            return True
         return False
 
-    def verify_warning_level(self, category, level):
-        budget_category = BudgetTypes(category).name
-        for budget in self.budgets:
-            if budget.budget_type == budget_category:
-                warning_level = \
-                    budget.total_budget - (budget.total_budget * level)
-                if warning_level >= budget.budget_remaining > 0:
-                    return True
+    def verify_warning_level(self, budget_type, level):
+        budget = self.budgets[budget_type - 1]
+        warning_level = budget.total_budget - (budget.total_budget * level)
+        if warning_level >= budget.budget_remaining > 0:
+            return True
         return False
 
     def add_test_budgets(self):
