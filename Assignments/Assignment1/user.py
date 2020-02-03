@@ -52,6 +52,10 @@ class User(abc.ABC):
                                         input_bank_balance)
         self.bank_account.add_budget()
 
+    def add_test_bank_account(self):
+        self.bank_account = BankAccount("Scotiabank", "4536000011112222",
+                                        500)
+
     def view_budgets(self):
         """
         Print all budget details of the user by its category.
@@ -67,7 +71,6 @@ class User(abc.ABC):
         pass
 
     @classmethod
-    @abc.abstractmethod
     def load_test_user(cls):
         """
         Initialize a test user by hardcoding the information for a
@@ -76,4 +79,8 @@ class User(abc.ABC):
         and budget information.
         :return: a test user as a User object
         """
-        pass
+        test_user = User("Test User", 20)
+        test_user.bank_account.add_test_bank_account()
+        test_user.bank_account.add_test_budgets()
+
+        return test_user

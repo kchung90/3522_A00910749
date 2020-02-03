@@ -75,9 +75,7 @@ class Driver:
             if input_option == 1:
                 self.register_user()
             elif input_option == 2:
-                self.user = Angel.load_test_user()
-                # self.user = Troublemaker.load_test_user()
-                # self.user = Rebel.load_test_user()
+                self.user = User.load_test_user()
 
         while input_menu != 5:
             input_menu = int(input("\nSelect the following menu:\n"

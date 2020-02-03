@@ -134,7 +134,7 @@ class BankAccount:
                     return True
         return False
 
-    def get_test_user_budgets(self):
+    def add_test_budgets(self):
         test_budget_1 = Budget(BudgetTypes(1).name, 100)
         test_budget_2 = Budget(BudgetTypes(2).name, 100)
         test_budget_3 = Budget(BudgetTypes(3).name, 100)
