@@ -25,15 +25,6 @@ class User(abc.ABC):
         self.age = age
         self.bank_account = None
 
-    @abc.abstractmethod
-    def record_transaction(self, amount, category, shop_name):
-        """
-        Initiate to create a transaction. Successful transactions are
-        recorded in the list of transactions in the bank account object
-        and printed out.
-        """
-        pass
-
     def view_transactions_by_budget(self, category):
         self.bank_account.get_transaction_by_budget(category)
 
@@ -64,6 +55,15 @@ class User(abc.ABC):
         Print all budget details of the user by its category.
         """
         self.bank_account.get_budget_details()
+
+    @abc.abstractmethod
+    def record_transaction(self, amount, category, shop_name):
+        """
+        Initiate to create a transaction. Successful transactions are
+        recorded in the list of transactions in the bank account object
+        and printed out.
+        """
+        pass
 
     @abc.abstractmethod
     def overage_notification(self, category):
@@ -151,6 +151,7 @@ class Rebel(User):
         super().__init__(name, age)
         self._warning_level = 0.5
         self._lock_level = 1
+        self.num_locks_allowed = 2
 
     def get_warning_level(self):
         return self._warning_level
@@ -159,10 +160,13 @@ class Rebel(User):
         return self._lock_level
 
     def record_transaction(self, amount, category, shop_name):
-        self.bank_account.process_transaction(amount, category, shop_name)
-        self.bank_account.lock_budget(self.get_lock_level(), category)
-        self.overage_notification(category)
-        self.warning_notification(category)
+        if self.bank_account.get_num_locks() >= self.num_locks_allowed:
+            print("\nYour bank account is locked")
+        else:
+            self.bank_account.process_transaction(amount, category, shop_name)
+            self.bank_account.lock_budget(self.get_lock_level(), category)
+            self.overage_notification(category)
+            self.warning_notification(category)
 
     def overage_notification(self, category):
         if self.bank_account.verify_budget_limit(category):

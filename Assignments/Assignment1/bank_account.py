@@ -138,8 +138,6 @@ class BankAccount:
             return False
         if budget.is_locked:
             return False
-        if self.budget_locked >= 2:
-            return False
         return True
 
     def lock_budget(self, limit, budget_type):
@@ -149,6 +147,9 @@ class BankAccount:
             budget.is_locked = True
             self.budget_locked = self.budget_locked + 1
             print(f"\nBudget is locked for {budget.budget_type}")
+
+    def get_num_locks(self):
+        return self.budget_locked
 
     def verify_budget_limit(self, budget_type):
         budget = self.budgets[budget_type - 1]
