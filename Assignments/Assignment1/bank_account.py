@@ -30,7 +30,7 @@ class BankAccount:
                            BudgetTypes(2).name: [],
                            BudgetTypes(3).name: [],
                            BudgetTypes(4).name: []}
-        self.budget_locked = 0
+        self.num_locked = 0
 
     @property
     def get_balance(self):
@@ -43,12 +43,10 @@ class BankAccount:
     def get_bank_account_details(self):
         print("%-25s%s" % ("Bank Name:", f"{self.name}"))
         print("%-25s%s" % ("Account Number:", f"{self.account_num}"))
-        print("%-25s$%s" % ("Balance", f"{self._balance:.2f}"))
+        print("%-25s$%s" % ("Current Balance:", f"{self._balance:.2f}"))
 
-        self.get_transaction_by_budget(1)
-        self.get_transaction_by_budget(2)
-        self.get_transaction_by_budget(3)
-        self.get_transaction_by_budget(4)
+        for i in BudgetTypes:
+            self.get_transaction_by_budget(i)
 
         print("-" * 50)
 
@@ -145,11 +143,11 @@ class BankAccount:
         if budget.budget_remaining <= 0 and budget.budget_spent >= \
                 budget.total_budget * limit and not budget.is_locked:
             budget.is_locked = True
-            self.budget_locked = self.budget_locked + 1
+            self.num_locked = self.num_locked + 1
             print(f"\nBudget is locked for {budget.budget_type}")
 
     def get_num_locks(self):
-        return self.budget_locked
+        return self.num_locked
 
     def verify_budget_limit(self, budget_type):
         budget = self.budgets[budget_type - 1]

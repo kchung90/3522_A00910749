@@ -41,13 +41,12 @@ class User(abc.ABC):
         object has been added, this method calls a method to add
         budget to the bank account object
         """
-        input_bank_name = input("Enter the user's bank name: ")
-        input_account_num = int(input("Enter the user's "
-                                      "bank account number: "))
-        input_bank_balance = float(input("Enter the user's bank balance: "))
+        bank_name = input("Enter the user's bank name: ")
+        account_num = int(input("Enter the user's "
+                                "bank account number: "))
+        bank_balance = float(input("Enter the user's bank balance: "))
 
-        self.bank_account = BankAccount(input_bank_name, input_account_num,
-                                        input_bank_balance)
+        self.bank_account = BankAccount(bank_name, account_num, bank_balance)
         self.bank_account.add_budget()
 
     def view_budgets(self):
@@ -99,18 +98,18 @@ class Angel(User):
     def get_warning_level(self):
         return self._warning_level
 
-    def record_transaction(self, amount, category, shop_name):
-        self.bank_account.process_transaction(amount, category, shop_name)
-        self.overage_notification(category)
-        self.warning_notification(category)
+    def record_transaction(self, amount, budget_type, shop_name):
+        self.bank_account.process_transaction(amount, budget_type, shop_name)
+        self.overage_notification(budget_type)
+        self.warning_notification(budget_type)
 
-    def overage_notification(self, category):
-        if self.bank_account.verify_budget_limit(category):
+    def overage_notification(self, budget_type):
+        if self.bank_account.verify_budget_limit(budget_type):
             print("\nYou have exceeded your total budget for this category.")
 
-    def warning_notification(self, category):
+    def warning_notification(self, budget_type):
         if self.bank_account\
-                .verify_warning_level(category, self.get_warning_level()):
+                .verify_warning_level(budget_type, self.get_warning_level()):
             print(f"\nYou have exceeded {self.get_warning_level() * 100:.0f}% "
                   f"of your budget for this category.")
 
@@ -128,19 +127,19 @@ class Troublemaker(User):
     def get_lock_level(self):
         return self._lock_level
 
-    def record_transaction(self, amount, category, shop_name):
-        self.bank_account.process_transaction(amount, category, shop_name)
-        self.bank_account.lock_budget(self.get_lock_level(), category)
-        self.overage_notification(category)
-        self.warning_notification(category)
+    def record_transaction(self, amount, budget_type, shop_name):
+        self.bank_account.process_transaction(amount, budget_type, shop_name)
+        self.bank_account.lock_budget(self.get_lock_level(), budget_type)
+        self.overage_notification(budget_type)
+        self.warning_notification(budget_type)
 
-    def overage_notification(self, category):
-        if self.bank_account.verify_budget_limit(category):
+    def overage_notification(self, budget_type):
+        if self.bank_account.verify_budget_limit(budget_type):
             print("\nYou have exceeded your total budget for this category.")
 
-    def warning_notification(self, category):
+    def warning_notification(self, budget_type):
         if self.bank_account\
-                .verify_warning_level(category, self.get_warning_level()):
+                .verify_warning_level(budget_type, self.get_warning_level()):
             print(f"\nYou have exceeded {self.get_warning_level() * 100:.0f}% "
                   f"of your budget for this category.")
 
@@ -159,22 +158,23 @@ class Rebel(User):
     def get_lock_level(self):
         return self._lock_level
 
-    def record_transaction(self, amount, category, shop_name):
+    def record_transaction(self, amount, budget_type, shop_name):
         if self.bank_account.get_num_locks() >= self.num_locks_allowed:
             print("\nYour bank account is locked")
         else:
-            self.bank_account.process_transaction(amount, category, shop_name)
-            self.bank_account.lock_budget(self.get_lock_level(), category)
-            self.overage_notification(category)
-            self.warning_notification(category)
+            self.bank_account.process_transaction(amount, budget_type,
+                                                  shop_name)
+            self.bank_account.lock_budget(self.get_lock_level(), budget_type)
+            self.overage_notification(budget_type)
+            self.warning_notification(budget_type)
 
-    def overage_notification(self, category):
-        if self.bank_account.verify_budget_limit(category):
+    def overage_notification(self, budget_type):
+        if self.bank_account.verify_budget_limit(budget_type):
             print("\nYOU CAN NO LONGER SPEND MONEY FOR THIS CATEGORY!"
                   "\nYOUR MAXIMUM BUDGET FOR THIS CATEGORY HAS BEEN REACHED!")
 
-    def warning_notification(self, category):
+    def warning_notification(self, budget_type):
         if self.bank_account\
-                .verify_warning_level(category, self.get_warning_level()):
+                .verify_warning_level(budget_type, self.get_warning_level()):
             print(f"\nYou have exceeded {self.get_warning_level() * 100:.0f}%"
                   f" of your budget for this category.")
