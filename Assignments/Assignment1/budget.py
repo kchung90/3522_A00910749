@@ -30,8 +30,7 @@ class Budget:
         Return the description of the budget object
         :return: the description as a String
         """
-        return "%-20s%-20s%-20s" \
-               "%-20s%s" % (f"{self.budget_type}",
+        return "%-20s%-20s%-20s%-20s%s" % (f"{self.budget_type}",
                                            f"{self.total_budget:.2f}",
                                            f"{self.budget_spent:.2f}",
                                            f"{self.budget_remaining:.2f}",

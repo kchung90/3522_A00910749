@@ -74,19 +74,19 @@ class BankAccount:
         for budget in self.budgets:
             print(budget)
 
-    def get_transaction_by_budget(self, category):
-        budget_type = BudgetTypes(category).name
-        print(f"\nTransaction Details for {budget_type}:")
+    def get_transaction_by_budget(self, budget_type):
+        budget_name = BudgetTypes(budget_type).name
+        print(f"\nTransaction Details for {budget_name}:")
 
-        if self.trans_list[f"{budget_type}"]:
+        if self.trans_list[f"{budget_name}"]:
             print("%-25s%-15s%-15s%s" % ("Timestamp", "Amount",
                                          "Category", "Shop Name"))
-            for transaction in self.trans_list[f"{budget_type}"]:
+            for transaction in self.trans_list[f"{budget_name}"]:
                 print(transaction)
         else:
             print("No Transactions")
 
-    def process_transaction(self, amount, category, shop_name):
+    def process_transaction(self, amount, budget_type, shop_name):
         """
         Process transactions that are verified and store the processed
         transaction objects as a list in the dictionary in the bank
@@ -94,27 +94,26 @@ class BankAccount:
         the bank account and the budget amount get decreased by the
         amount spent.
         """
-        trans_category = BudgetTypes(category).name
+        budget_name = BudgetTypes(budget_type).name
 
-        if self.verify_transaction(amount, category):
-            transaction = Transaction(amount,
-                                      trans_category, shop_name)
+        if self.verify_transaction(amount, budget_type):
+            trans = Transaction(amount, budget_name, shop_name)
 
-            self._balance = self._balance - transaction.amount
+            self._balance = self._balance - trans.amount
 
             for budget in self.budgets:
-                if budget.budget_type == trans_category:
+                if budget.budget_type == budget_name:
                     budget.budget_spent = \
-                        budget.budget_spent + transaction.amount
+                        budget.budget_spent + trans.amount
                     budget.budget_remaining = \
                         budget.budget_remaining - amount
 
-            self.trans_list[f"{trans_category}"] \
-                .append(transaction)
+            self.trans_list[f"{budget_name}"] \
+                .append(trans)
 
             print("\n%-25s%-15s%-15s%s" % ("Timestamp", "Amount",
                                            "Category", "Shop Name"))
-            for transaction in self.trans_list[f"{trans_category}"]:
+            for transaction in self.trans_list[f"{budget_name}"]:
                 print(transaction)
         else:
             print("\nTransaction cannot be processed. You cannot spend more "
