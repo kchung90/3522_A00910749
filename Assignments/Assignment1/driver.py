@@ -31,8 +31,8 @@ class Driver:
         Register a user to the program. Calls a method to add a bank
         account for the user.
         """
-        input_name = input("\nEnter the user's name: ")
-        input_age = int(input("Enter the user's age: "))
+        user_name = input("\nEnter the user's name: ")
+        user_age = int(input("Enter the user's age: "))
 
         input_user_type = None
         while input_user_type != 1 and input_user_type != 2 and \
@@ -43,15 +43,15 @@ class Driver:
                                         "3) Rebel\n"))
 
         if input_user_type == 1:
-            self.user = Angel(input_name, input_age)
+            self.user = Angel(user_name, user_age)
         elif input_user_type == 2:
-            self.user = Troublemaker(input_name, input_age)
+            self.user = Troublemaker(user_name, user_age)
         elif input_user_type == 3:
-            self.user = Rebel(input_name, input_age)
+            self.user = Rebel(user_name, user_age)
 
         self.user.add_bank_account()
 
-    def menu(self):
+    def start(self):
         """
         Show menu prompts to the user. A user can perform actions by
         following the prompts until he decides to exit the program.
@@ -62,48 +62,52 @@ class Driver:
         print("{0:^50}".format("Family Appointed Moderator"))
         print("-" * 50)
 
-        input_option = None
-        input_menu = None
-
-        while input_option != 1 and input_option != 2:
-            print("\nPlease select an option:")
-            input_option = int(input("1) Register a new user\n"
-                                     "2) Load test user\n"))
-            if input_option == 1:
+        start_menu = None
+        while start_menu != 1 and start_menu != 2:
+            print("\nStart Menu:"
+                  "\n1) Register a New User"
+                  "\n2) Load a Test User")
+            start_menu = int(input("Select your option: "))
+            if start_menu == 1:
                 self.register_user()
-            elif input_option == 2:
+            elif start_menu == 2:
                 self.user = Rebel.load_test_user()
 
-        while input_menu != 5:
-            input_menu = int(input("\nSelect the following menu:\n"
-                                   "1) View Budgets\n"
-                                   "2) Record Transaction\n"
-                                   "3) View Transactions by Budget\n"
-                                   "4) View Bank Account Details\n"
-                                   "5) Quit\n"))
-            if input_menu == 1:
-                self.user.view_budgets()
-            elif input_menu == 2:
-                input_trans_amount = float(input("\nEnter the amount spent: "))
-                input_trans_category = int(input(f"Select a category:\n"
-                                                 f"1) GAMES\n"
-                                                 f"2) CLOTHING\n"
-                                                 f"3) FOOD\n"
-                                                 f"4) MISC\n"))
-                input_shop_name = input("Enter the name of the shop: ")
+        self.main_menu()
 
-                self.user.record_transaction(input_trans_amount,
-                                             input_trans_category,
-                                             input_shop_name)
-            elif input_menu == 3:
-                input_budget_category = int(input(f"Select a category to "
-                                                  f"view transactions:\n"
-                                                  f"1) GAMES\n"
-                                                  f"2) CLOTHING\n"
-                                                  f"3) FOOD\n"
-                                                  f"4) MISC\n"))
-                self.user.view_transactions_by_budget(input_budget_category)
-            elif input_menu == 4:
+    def main_menu(self):
+        main_menu = None
+        while main_menu != 5:
+            print("\nMain Menu:"
+                  "\n1) View Budgets"
+                  "\n2) Record Transaction"
+                  "\n3) View Transactions by Budget"
+                  "\n4) View Bank Account Details"
+                  "\n5) Quit")
+            main_menu = int(input("Select your option: "))
+            if main_menu == 1:
+                self.user.view_budgets()
+            elif main_menu == 2:
+                trans_amount = float(input("\nEnter the amount spent: "))
+                budget_type = int(input("Select a category:\n"
+                                        "1) GAMES\n"
+                                        "2) CLOTHING\n"
+                                        "3) FOOD\n"
+                                        "4) MISC\n"))
+                shop_name = input("Enter the name of the shop: ")
+
+                self.user.record_transaction(trans_amount,
+                                             budget_type,
+                                             shop_name)
+            elif main_menu == 3:
+                budget_type = int(input("\nSelect a category to "
+                                        "view transactions:\n"
+                                        "1) GAMES\n"
+                                        "2) CLOTHING\n"
+                                        "3) FOOD\n"
+                                        "4) MISC\n"))
+                self.user.view_trans_by_budget(budget_type)
+            elif main_menu == 4:
                 self.user.view_bank_account_details()
 
 
@@ -113,7 +117,7 @@ def main():
     menu method
     """
     driver = Driver()
-    driver.menu()
+    driver.start()
 
 
 if __name__ == '__main__':

@@ -25,7 +25,7 @@ class User(abc.ABC):
         self.age = age
         self.bank_account = None
 
-    def view_transactions_by_budget(self, category):
+    def view_trans_by_budget(self, category):
         self.bank_account.get_transaction_by_budget(category)
 
     def view_bank_account_details(self):
