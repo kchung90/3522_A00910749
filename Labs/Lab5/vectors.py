@@ -9,8 +9,7 @@ class Vector:
                        "z": z}
 
     def __str__(self):
-        return f"Vector: ({self.vector['x']}, {self.vector['y']}," \
-               f" {self.vector['z']})"
+        return f"({self.vector['x']}, {self.vector['y']}, {self.vector['z']})"
 
     def __getitem__(self, item):
         return self.vector[item]
@@ -57,6 +56,48 @@ class Vector:
                             self.vector['y'] * other,
                             self.vector['z'] * other)
         return result
+
+    def __abs__(self):
+        magnitude = math.sqrt(self.vector['x'] ** 2 +
+                              self.vector['y'] ** 2 +
+                              self.vector['z'] ** 2)
+        return magnitude
+
+    def __lt__(self, other):
+        if abs(self) < abs(other):
+            return True
+        return False
+
+    def __le__(self, other):
+        if abs(self) <= abs(other):
+            return True
+        return False
+
+    def __gt__(self, other):
+        if abs(self) > abs(other):
+            return True
+        return False
+
+    def __ge__(self, other):
+        if abs(self) >= abs(other):
+            return True
+        return False
+
+    def __eq__(self, other):
+        if abs(self) == abs(other) and \
+                self.vector['x'] == other.vector['x'] and \
+                self.vector['y'] == other.vector['y'] and \
+                self.vector['z'] == other.vector['z']:
+            return True
+        return False
+
+    def __ne__(self, other):
+        if abs(self) != abs(other) and \
+                self.vector['x'] != other.vector['x'] and \
+                self.vector['y'] != other.vector['y'] and \
+                self.vector['z'] != other.vector['z']:
+            return True
+        return False
 
 
 def main():
