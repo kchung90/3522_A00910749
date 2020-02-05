@@ -116,8 +116,8 @@ class Vector:
 
     def __lt__(self, other):
         """
-        Compare two vectors to find out if a vector is less than the
-        other vector
+        Compare the magnitudes of two vectors to find out if a vector
+        is less than the other vector
         :param other: a Vector object to be compared
         :return: result as a Bool
         """
@@ -127,8 +127,8 @@ class Vector:
 
     def __le__(self, other):
         """
-        Compare two vectors to find out if a vector is less than or
-        equal to the other vector
+        Compare the magnitudes and the directions of two vectors to
+        find out if a vector is less than or equal to the other vector
         :param other: a Vector object to be compared
         :return: result as a Bool
         """
@@ -138,23 +138,48 @@ class Vector:
         return False
 
     def __gt__(self, other):
+        """
+        Compare the magnitudes of two vectors to find out if a vector
+        is greater than the other vector
+        :param other: a Vector object to be compared
+        :return: result as a Bool
+        """
         if abs(self) > abs(other):
             return True
         return False
 
     def __ge__(self, other):
+        """
+        Compare the magnitudes and the directions of two vectors to
+        find out if a vector is greater than or equal to the other
+        vector
+        :param other: a Vector object to be compared
+        :return: result as a Bool
+        """
         if abs(self) >= abs(other) and self.x == other.x and \
                 self.y == other.y and self.z == other.z:
             return True
         return False
 
     def __eq__(self, other):
+        """
+        Compare the magnitudes and the directions of two vectors to
+        find out if two vectors are equal
+        :param other: a Vector object to be compared
+        :return: result as a Bool
+        """
         if abs(self) == abs(other) and self.x == other.x and \
                 self.y == other.y and self.z == other.z:
             return True
         return False
 
     def __ne__(self, other):
+        """
+        Compare the magnitudes and the directions of two vectors to
+        find out if two vectors are not equal
+        :param other: a Vector object to be compared
+        :return: result as a Bool
+        """
         if abs(self) != abs(other) and self.x != other.x and \
                 self.y != other.y and self.z != other.z:
             return True
@@ -168,6 +193,7 @@ def main():
     print(f"First vector: {my_vector}")
     print(f"Second vector: {other_vector}")
     print(f"x-coordinate of the first vector: {my_vector['x']}")
+    print(f"x-coordinate of the second vector: {other_vector.x}")
     my_vector['x'] = 5
     print(f"Update x-coordinate of the first vector to 5: {my_vector}")
 
