@@ -1,9 +1,9 @@
 """
 @author Kevin Chung
 
-This module overloads the arithmetic operators and comparison operators
-to perform addition, subtractions, and multiplication of two vectors,
-and compare their values.
+This module overloads the mathematical operators to perform addition,
+subtraction, and multiplication of two vectors, and compare their
+magnitude and direction.
 """
 import math
 
@@ -27,16 +27,16 @@ class Vector:
 
     def __str__(self):
         """
-        Return the description of the vector object
+        Return the description of the Vector object
         :return: the description as a String
         """
         return f"({self.x}, {self.y}, {self.z})"
 
     def __getitem__(self, item):
         """
-        Get the attribute of the vector object
-        :param item: key of the dictionary
-        :return: value of the dictionary
+        Get the attribute of the Vector object
+        :param item: coordinate to get as a String
+        :return: coordinate value as a float
         """
         if item == "x":
             return self.x
@@ -47,10 +47,9 @@ class Vector:
 
     def __setitem__(self, key, value):
         """
-        Set the attribute of the vector object
-        :param key: key of the dictionary as a String
-        :param value: value of the dictionary as a float
-        :return: value of the dictionary at index key as a float
+        Set the attribute of the Vector object
+        :param key: coordinate to be set as a String
+        :param value: value of the coordinate as a float
         """
         if key == "x":
             self.x = value
@@ -65,40 +64,36 @@ class Vector:
         :param other: a Vector object to be added
         :return: a Vector object
         """
-        result = Vector((self.x + other.x),
-                        (self.y + other.y),
-                        (self.z + other.z))
-        return result
+        return Vector((self.x + other.x), (self.y + other.y),
+                      (self.z + other.z))
 
     def __sub__(self, other):
         """
-        Subtract two vectors together
+        Subtract another vector from a vector
         :param other: a Vector object to be subtracted
         :return: a Vector object
         """
-        result = Vector((self.x - other.x),
-                        (self.y - other.y),
-                        (self.z - other.z))
-        return result
+        return Vector((self.x - other.x), (self.y - other.y),
+                      (self.z - other.z))
 
     def __mul__(self, other):
         """
-        Multiply two objects together
+        Multiply a vector with another vector or a scalar
         :param other: a Vector object or a float to be multiplied
         :return: a Vector object
         """
         if type(other) == Vector:
-            result = Vector(self.y * other.z - self.z * other.y,
-                            self.z * other.x - self.x * other.z,
-                            self.x * other.y - self.y * other.x)
+            return Vector(self.y * other.z - self.z * other.y,
+                          self.z * other.x - self.x * other.z,
+                          self.x * other.y - self.y * other.x)
         else:
-            result = Vector(self.x * other, self.y * other, self.z * other)
-        return result
+            return Vector(self.x * other, self.y * other, self.z * other)
 
     def __rmul__(self, other):
         """
-        Multiplication reflection of two objects. This method was added
-        to ensure that the multiplication works even when the order is
+        Reflection multiplication of a vector with another vector or a
+        scalar. This method was added to ensure that the multiplication
+        works even when the order is
         flipped.
         :param other: a Vector object or a float to be multiplied
         :return: a Vector object
@@ -113,15 +108,15 @@ class Vector:
 
     def __abs__(self):
         """
-        Calculate the magnitude of the vector object
-        :return: magnitude of the vector object as a float
+        Calculate the magnitude of the vector
+        :return: magnitude of the vector as a float
         """
         magnitude = math.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
         return magnitude
 
     def __lt__(self, other):
         """
-        Compare two vectors to find out if the vector is less than the
+        Compare two vectors to find out if a vector is less than the
         other vector
         :param other: a Vector object to be compared
         :return: result as a Bool
@@ -132,9 +127,9 @@ class Vector:
 
     def __le__(self, other):
         """
-        Compare two vectors to find out if the vector is less than or
-        eqaul to the other vector
-        :param other: a Vector obejct to be compared
+        Compare two vectors to find out if a vector is less than or
+        equal to the other vector
+        :param other: a Vector object to be compared
         :return: result as a Bool
         """
         if abs(self) <= abs(other) and self.x == other.x and \
