@@ -21,16 +21,16 @@ class Vector:
         :param y: y-coordinate value as a float
         :param z: z-coordinate value as a float
         """
-        self.vector = {"x": x,
-                       "y": y,
-                       "z": z}
+        self.x = x
+        self.y = y
+        self.z = z
 
     def __str__(self):
         """
         Return the description of the vector object
         :return: the description as a String
         """
-        return f"({self.vector['x']}, {self.vector['y']}, {self.vector['z']})"
+        return f"({self.x}, {self.y}, {self.z})"
 
     def __getitem__(self, item):
         """
@@ -38,7 +38,12 @@ class Vector:
         :param item: key of the dictionary
         :return: value of the dictionary
         """
-        return self.vector[item]
+        if item == "x":
+            return self.x
+        elif item == "y":
+            return self.y
+        elif item == "z":
+            return self.z
 
     def __setitem__(self, key, value):
         """
@@ -47,7 +52,12 @@ class Vector:
         :param value: value of the dictionary as a float
         :return: value of the dictionary at index key as a float
         """
-        self.vector[key] = value
+        if key == "x":
+            self.x = value
+        elif key == "y":
+            self.y = value
+        elif key == "z":
+            self.z = value
 
     def __add__(self, other):
         """
@@ -55,9 +65,9 @@ class Vector:
         :param other: a Vector object to be added
         :return: a Vector object
         """
-        result = Vector((self.vector['x'] + other.vector['x']),
-                        (self.vector['y'] + other.vector['y']),
-                        (self.vector['z'] + other.vector['z']))
+        result = Vector((self.x + other.x),
+                        (self.y + other.y),
+                        (self.z + other.z))
         return result
 
     def __sub__(self, other):
@@ -66,9 +76,9 @@ class Vector:
         :param other: a Vector object to be subtracted
         :return: a Vector object
         """
-        result = Vector((self.vector['x'] - other.vector['x']),
-                        (self.vector['y'] - other.vector['y']),
-                        (self.vector['z'] - other.vector['z']))
+        result = Vector((self.x - other.x),
+                        (self.y - other.y),
+                        (self.z - other.z))
         return result
 
     def __mul__(self, other):
@@ -78,16 +88,11 @@ class Vector:
         :return: a Vector object
         """
         if type(other) == Vector:
-            result = Vector(other.vector['z'] * self.vector['y'] -
-                            self.vector['z'] * other.vector['y'],
-                            self.vector['z'] * other.vector['x'] -
-                            self.vector['x'] * other.vector['z'],
-                            self.vector['x'] * other.vector['y'] -
-                            self.vector['y'] * other.vector['x'])
+            result = Vector(self.y * other.z - self.z * other.y,
+                            self.z * other.x - self.x * other.z,
+                            self.x * other.y - self.y * other.x)
         else:
-            result = Vector(self.vector['x'] * other,
-                            self.vector['y'] * other,
-                            self.vector['z'] * other)
+            result = Vector(self.x * other, self.y * other, self.z * other)
         return result
 
     def __rmul__(self, other):
@@ -99,16 +104,11 @@ class Vector:
         :return: a Vector object
         """
         if type(other) == Vector:
-            result = Vector(self.vector['y'] * other.vector['z'] -
-                            self.vector['z'] * other.vector['y'],
-                            self.vector['z'] * other.vector['x'] -
-                            self.vector['x'] * other.vector['z'],
-                            self.vector['x'] * other.vector['y'] -
-                            self.vector['y'] * other.vector['x'])
+            result = Vector(self.y * other.z - self.z * other.y,
+                            self.z * other.x - self.x * other.z,
+                            self.x * other.y - self.y * other.x)
         else:
-            result = Vector(self.vector['x'] * other,
-                            self.vector['y'] * other,
-                            self.vector['z'] * other)
+            result = Vector(self.x * other, self.y * other, self.z * other)
         return result
 
     def __abs__(self):
@@ -116,9 +116,7 @@ class Vector:
         Calculate the magnitude of the vector object
         :return: magnitude of the vector object as a float
         """
-        magnitude = math.sqrt(self.vector['x'] ** 2 +
-                              self.vector['y'] ** 2 +
-                              self.vector['z'] ** 2)
+        magnitude = math.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
         return magnitude
 
     def __lt__(self, other):
@@ -139,7 +137,8 @@ class Vector:
         :param other: a Vector obejct to be compared
         :return: result as a Bool
         """
-        if abs(self) <= abs(other):
+        if abs(self) <= abs(other) and self.x == other.x and \
+                self.y == other.y and self.z == other.z:
             return True
         return False
 
@@ -149,23 +148,20 @@ class Vector:
         return False
 
     def __ge__(self, other):
-        if abs(self) >= abs(other):
+        if abs(self) >= abs(other) and self.x == other.x and \
+                self.y == other.y and self.z == other.z:
             return True
         return False
 
     def __eq__(self, other):
-        if abs(self) == abs(other) and \
-                self.vector['x'] == other.vector['x'] and \
-                self.vector['y'] == other.vector['y'] and \
-                self.vector['z'] == other.vector['z']:
+        if abs(self) == abs(other) and self.x == other.x and \
+                self.y == other.y and self.z == other.z:
             return True
         return False
 
     def __ne__(self, other):
-        if abs(self) != abs(other) and \
-                self.vector['x'] != other.vector['x'] and \
-                self.vector['y'] != other.vector['y'] and \
-                self.vector['z'] != other.vector['z']:
+        if abs(self) != abs(other) and self.x != other.x and \
+                self.y != other.y and self.z != other.z:
             return True
         return False
 
