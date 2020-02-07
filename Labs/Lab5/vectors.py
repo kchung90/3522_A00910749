@@ -187,6 +187,10 @@ class Vector:
 
 
 def main():
+    """
+    Drive the program. Initiate two vector objects and run all the
+    overloaded mathematical methods against them.
+    """
     my_vector = Vector(1, 3, 7)
     other_vector = Vector(2, 4, 6)
 
