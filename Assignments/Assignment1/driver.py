@@ -2,10 +2,10 @@
 @author Kevin Chung
 
 This module drives the Family Appointed Moderator (F.A.M.) program
-which monitors the user's expenses in each category of budget.
+which monitors the user's expenses for each category of budget.
 
-This module provides the UI to enter user inputs to select menu to
-perform tasks.
+This module provides the UI to enter user inputs to select menu options
+to perform desired tasks.
 """
 from Assignments.Assignment1.user import Angel, Troublemaker, Rebel
 
@@ -32,8 +32,10 @@ class Driver:
         account for the user.
         """
         user_name = input("\nEnter the user's name: ")
+        # user_age must be a positive integer
         user_age = int(input("Enter the user's age: "))
 
+        # user_type must be a positive integer
         input_user_type = None
         while input_user_type != 1 and input_user_type != 2 and \
                 input_user_type != 3:
@@ -58,10 +60,11 @@ class Driver:
 
         :precondition: a user must input correct type for each prompt
         """
-        print("-" * 50)
-        print("{0:^50}".format("Family Appointed Moderator"))
-        print("-" * 50)
+        print("-" * 80)
+        print("{0:^80}".format("Family Appointed Moderator"))
+        print("-" * 80)
 
+        # start_menu must be a positive integer
         start_menu = None
         while start_menu != 1 and start_menu != 2:
             print("\nStart Menu:"
@@ -76,6 +79,12 @@ class Driver:
         self.main_menu()
 
     def main_menu(self):
+        """
+        Display main menu to the user. User can select menu options to
+        view their budgets, record transactions, view transactions by
+        budget, and view bank account details.
+        """
+        # main_menu must be a positive integer
         main_menu = None
         while main_menu != 5:
             print("\nMain Menu:"
@@ -88,24 +97,33 @@ class Driver:
             if main_menu == 1:
                 self.user.view_budgets()
             elif main_menu == 2:
+                # trans_amount must be a positive number
                 trans_amount = float(input("\nEnter the amount spent: "))
-                budget_type = int(input("Select a category:\n"
-                                        "1) GAMES\n"
-                                        "2) CLOTHING\n"
-                                        "3) FOOD\n"
-                                        "4) MISC\n"))
+                # budget_type must be a positive integer
+                budget_type = None
+                while budget_type != 1 and budget_type != 2 and \
+                        budget_type != 3 and budget_type != 4:
+                    budget_type = int(input("Select a category:\n"
+                                            "1) GAMES\n"
+                                            "2) CLOTHING\n"
+                                            "3) FOOD\n"
+                                            "4) MISC\n"))
                 shop_name = input("Enter the name of the shop: ")
 
                 self.user.record_transaction(trans_amount,
                                              budget_type,
                                              shop_name)
             elif main_menu == 3:
-                budget_type = int(input("\nSelect a category to "
-                                        "view transactions:\n"
-                                        "1) GAMES\n"
-                                        "2) CLOTHING\n"
-                                        "3) FOOD\n"
-                                        "4) MISC\n"))
+                # budget_type must be a positive integer
+                budget_type = None
+                while budget_type != 1 and budget_type != 2 and \
+                    budget_type != 3 and budget_type != 4:
+                    budget_type = int(input("\nSelect a category to "
+                                            "view transactions:\n"
+                                            "1) GAMES\n"
+                                            "2) CLOTHING\n"
+                                            "3) FOOD\n"
+                                            "4) MISC\n"))
                 self.user.view_trans_by_budget(budget_type)
             elif main_menu == 4:
                 self.user.view_bank_account_details()
@@ -114,7 +132,7 @@ class Driver:
 def main():
     """
     Drives the program by creating a Driver object and calling the
-    menu method
+    start() method
     """
     driver = Driver()
     driver.start()
