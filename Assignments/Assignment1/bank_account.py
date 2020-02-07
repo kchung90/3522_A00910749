@@ -48,8 +48,6 @@ class BankAccount:
         for i in BudgetTypes:
             self.get_transaction_by_budget(i)
 
-        print("-" * 50)
-
     def add_budget(self):
         """
         Create budget objects for each budget category and store the
@@ -76,15 +74,18 @@ class BankAccount:
 
     def get_transaction_by_budget(self, budget_type):
         budget_name = BudgetTypes(budget_type).name
-        print(f"\nTransaction Details for {budget_name}:")
+        print("\n" + "-" * 80)
+        print(f"Transaction Details for {budget_name}:")
+        print("-" * 80)
 
         if self.trans_list[f"{budget_name}"]:
             print("%-25s%-15s%-15s%s" % ("Timestamp", "Amount",
                                          "Category", "Shop Name"))
+            # print("-" * 80)
             for transaction in self.trans_list[f"{budget_name}"]:
                 print(transaction)
         else:
-            print("No Transactions")
+            print("No transactions have been processed for this category")
 
     def process_transaction(self, amount, budget_type, shop_name):
         """

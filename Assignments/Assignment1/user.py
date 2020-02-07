@@ -3,6 +3,9 @@
 
 This module depicts a user who participates in the F.A.M. program.
 
+User class is an abstract class and three user types (Angel,
+Troublemaker, and Rebel) inherit from the User class.
+
 A user initially has a name and an age. Bank account information are to
 be added to the user.
 """
@@ -12,7 +15,8 @@ from Assignments.Assignment1.bank_account import BankAccount
 
 class User(abc.ABC):
     """
-    Represents a user object who participate in this program.
+    An abstract class which represents a user object who participate
+    in the F.A.M. program.
     """
     def __init__(self, name, age):
         """
@@ -25,12 +29,25 @@ class User(abc.ABC):
         self.age = age
         self.bank_account = None
 
-    def view_trans_by_budget(self, category):
-        self.bank_account.get_transaction_by_budget(category)
+    def view_trans_by_budget(self, budget_type):
+        """
+        Let the user view all processed transactions up to date by each
+        budget type
+        :param budget_type: budget_type as an integer
+        """
+        self.bank_account.get_transaction_by_budget(budget_type)
 
     def view_bank_account_details(self):
-        print("-" * 50)
-        print("Here are the details of your bank account:\n")
+        """
+        Let the user view all details of his bank account including
+        the account holder's name and age, name of the bank, account
+        number, current balance remaining, and all transactions
+        processed up to date.
+        """
+        print("\n" + "-" * 80)
+        print("Your Bank Account Details")
+        print("-" * 80)
+
         print("%-25s%s" % ("Account Holder Name:", f"{self.name}"))
         print("%-25s%s" % ("Account Holder Age:", f"{self.age}"))
         self.bank_account.get_bank_account_details()
