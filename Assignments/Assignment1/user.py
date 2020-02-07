@@ -15,9 +15,10 @@ from Assignments.Assignment1.bank_account import BankAccount
 
 class User(abc.ABC):
     """
-    An abstract class which represents a user object who participate
+    An abstract class which represents a user object who participates
     in the F.A.M. program.
     """
+
     def __init__(self, name, age):
         """
         Initialize a user by taking in the name and the age. Bank
@@ -73,26 +74,40 @@ class User(abc.ABC):
         self.bank_account.get_budget_details()
 
     @abc.abstractmethod
-    def record_transaction(self, amount, category, shop_name):
+    def record_transaction(self, amount, budget_type, shop_name):
         """
         Initiate to create a transaction. Successful transactions are
         recorded in the list of transactions in the bank account object
         and printed out.
+        Needs to be overridden by each child class.
         """
         pass
 
     @abc.abstractmethod
-    def overage_notification(self, category):
+    def overage_notification(self, budget_type):
+        """
+        Sends out a notification to the user when the user spends more
+        than the budget limit.
+        Needs to be overridden by each child class.
+        :param budget_type: budget type as an integer
+        """
         pass
 
     @abc.abstractmethod
-    def warning_notification(self, category):
+    def warning_notification(self, budget_type):
+        """
+        Sends out a notification to the user when the user spends more
+        than certain percentage of its budget for each type. The
+        percentage level differs by its user type.
+        Needs to be overridden by each child class.
+        :param budget_type: budget type as an integer
+        """
         pass
 
     @classmethod
     def load_test_user(cls):
         """
-        Initialize a test user by hardcoding the information for a
+        Initialize a test user by hard-coding the information for a
         testing purpose.
         A test user has all the information including the bank account
         and budget information.
@@ -107,91 +122,235 @@ class User(abc.ABC):
 
 
 class Angel(User):
+    """
+    Represent an Angel type user.
+
+    Angel type users never get locked out of a budget category. As long
+    as they have a balance in their bank account, they can continue
+    spending money
+
+    They get notified when they exceed 90% and 100% of their budget.
+    """
 
     def __init__(self, name, age):
+        """
+        Initiate an Angel Type object
+        :param name: name of the user as a String
+        :param age: age of the user as an integer
+        """
         super().__init__(name, age)
         self._warning_level = 0.9
 
-    def get_warning_level(self):
+    @property
+    def warning_level(self):
+        """
+        Return the warning level of the Angel type user
+        :return: warning level as a float
+        """
         return self._warning_level
 
     def record_transaction(self, amount, budget_type, shop_name):
+        """
+        Initiate to create a transaction. Successful transactions are
+        recorded in the list of transactions in the bank account object
+        and printed out.
+        When transactions are recorded, notifications are sent out
+        depending on the amount the user has spent for each category.
+        :param amount: amount to spend as a float
+        :param budget_type: budget type as an integer
+        :param shop_name: name of the shop as a String
+        """
         self.bank_account.process_transaction(amount, budget_type, shop_name)
         self.overage_notification(budget_type)
         self.warning_notification(budget_type)
 
     def overage_notification(self, budget_type):
+        """
+        Print out a notification to the user when the user exceeds the
+        budget limit.
+        :param budget_type: budget type as an integer
+        """
         if self.bank_account.verify_budget_limit(budget_type):
-            print("\nYou have exceeded your total budget for this category.")
+            print("\n[IMPORTANT]"
+                  "\nYou have exceeded your total budget for this category.")
 
     def warning_notification(self, budget_type):
+        """
+        Print out a notification to the user when the user spends more
+        than the warning level.
+        Warning level for Angel type user is set to 90%
+        :param budget_type: budget type as an integer
+        """
         if self.bank_account\
-                .verify_warning_level(budget_type, self.get_warning_level()):
-            print(f"\nYou have exceeded {self.get_warning_level() * 100:.0f}% "
+                .verify_warning_level(budget_type, self.warning_level):
+            print(f"\n[WARNING]\n"
+                  f"You have exceeded {self.warning_level * 100:.0f}% "
                   f"of your budget for this category.")
 
 
 class Troublemaker(User):
+    """
+    Represent a Troublemaker type user
+
+    Troublemaker user types get locked out of a budget category if they
+    exceed 120% of their budget.
+
+    They get notified when they exceed 75% and 100% of their budget.
+    """
 
     def __init__(self, name, age):
+        """
+        Initialize Troublemaker user type
+        :param name: name of the user as a String
+        :param age: age of the user as an integer
+        """
         super().__init__(name, age)
         self._warning_level = 0.75
         self._lock_level = 1.2
 
-    def get_warning_level(self):
+    @property
+    def warning_level(self):
+        """
+        Return the warning level of the Troublemaker type user
+        :return: warning level as a float
+        """
         return self._warning_level
 
-    def get_lock_level(self):
+    @property
+    def lock_level(self):
+        """
+        Return the lock out level of the Troublemaker type user
+        :return: lock out level as a float
+        """
         return self._lock_level
 
     def record_transaction(self, amount, budget_type, shop_name):
+        """
+        Initiate to create a transaction. Successful transactions are
+        recorded in the list of transactions in the bank account object
+        and printed out.
+        When transactions are recorded, notifications are sent out
+        depending on the amount the user has spent for each category.
+        Also, when the amount spent for a budget exceed the lock out
+        level, the budget category will be locked.
+        :param amount: amount to spend as a float
+        :param budget_type: budget type as an integer
+        :param shop_name: name of the shop as a String
+        """
         self.bank_account.process_transaction(amount, budget_type, shop_name)
-        self.bank_account.lock_budget(self.get_lock_level(), budget_type)
+        self.bank_account.lock_budget(self.lock_level, budget_type)
         self.overage_notification(budget_type)
         self.warning_notification(budget_type)
 
     def overage_notification(self, budget_type):
+        """
+        Print out a notification to the user when the user exceeds the
+        budget limit.
+        :param budget_type: budget type as an integer
+        :return:
+        """
         if self.bank_account.verify_budget_limit(budget_type):
-            print("\nYou have exceeded your total budget for this category.")
+            print("\n[IMPORTANT]"
+                  "\nYou have exceeded your total budget for this category.")
 
     def warning_notification(self, budget_type):
+        """
+        Print out a notification to the user when the user spends more
+        than the warning level.
+        Warning level for Angel type user is set to 90%
+        :param budget_type: budget type as an integer
+        """
         if self.bank_account\
-                .verify_warning_level(budget_type, self.get_warning_level()):
-            print(f"\nYou have exceeded {self.get_warning_level() * 100:.0f}% "
+                .verify_warning_level(budget_type, self.warning_level):
+            print(f"\n[WARNING]\n"
+                  f"You have exceeded {self.warning_level * 100:.0f}% "
                   f"of your budget for this category.")
 
 
 class Rebel(User):
+    """
+    Represent a Rebel type user
+
+    Rebel type user gets locked out of a budget category when they
+    exceed 100% of their budget.
+    When they are locked out from 2 or more categories, they get locked
+    out of their bank account and can no longer make transactions.
+
+    They get notified when they exceed 50% and 100% of their budget.
+    """
 
     def __init__(self, name, age):
+        """
+        Initialize the Rebel type user
+        :param name: name of the user as a String
+        :param age: age of the user as an integer
+        """
         super().__init__(name, age)
         self._warning_level = 0.5
         self._lock_level = 1
         self.num_locks_allowed = 2
 
-    def get_warning_level(self):
+    @property
+    def warning_level(self):
+        """
+        Return the warning level of the Rebel type user
+        :return: warning level as a float
+        """
         return self._warning_level
 
-    def get_lock_level(self):
+    @property
+    def lock_level(self):
+        """
+        Return the lock out level of the Rebel type user
+        :return: lock out level as a float
+        """
         return self._lock_level
 
     def record_transaction(self, amount, budget_type, shop_name):
+        """
+        Initiate to create a transaction. Successful transactions are
+        recorded in the list of transactions in the bank account object
+        and printed out.
+        When transactions are recorded, notifications are sent out
+        depending on the amount the user has spent for each category.
+        Also, when the amount spent for a budget exceed the lock out
+        level, the budget category will be locked.
+        If 2 or more budget categories are locked, user gets locked out
+        from their bank account.
+        :param amount: amount to spend as a float
+        :param budget_type: budget type as an integer
+        :param shop_name: name of the shop as a String
+        """
         if self.bank_account.get_num_locks() >= self.num_locks_allowed:
-            print("\nYour bank account is locked")
+            print("\n[IMPORTANT]"
+                  "\nYOUR BANK ACCOUNT HAS BEEN LOCKED."
+                  "\nYOU CAN NO LONGER MAKE ANY TRANSACTIONS.")
         else:
             self.bank_account.process_transaction(amount, budget_type,
                                                   shop_name)
-            self.bank_account.lock_budget(self.get_lock_level(), budget_type)
+            self.bank_account.lock_budget(self.lock_level, budget_type)
             self.overage_notification(budget_type)
             self.warning_notification(budget_type)
 
     def overage_notification(self, budget_type):
+        """
+        Print out a notification to the user when the user exceeds the
+        budget limit.
+        :param budget_type: budget type as an integer
+        """
         if self.bank_account.verify_budget_limit(budget_type):
-            print("\nYOU CAN NO LONGER SPEND MONEY FOR THIS CATEGORY!"
-                  "\nYOUR MAXIMUM BUDGET FOR THIS CATEGORY HAS BEEN REACHED!")
+            print("\n[IMPORTANT]"
+                  "\nYOUR MAXIMUM BUDGET FOR THIS CATEGORY HAS BEEN REACHED!"
+                  "\nYOU CAN NO LONGER SPEND MONEY FOR THIS CATEGORY!")
 
     def warning_notification(self, budget_type):
+        """
+        Print out a notification to the user when the user spends more
+        than the warning level.
+        :param budget_type: budget type as an integer
+        """
         if self.bank_account\
-                .verify_warning_level(budget_type, self.get_warning_level()):
-            print(f"\nYou have exceeded {self.get_warning_level() * 100:.0f}%"
+                .verify_warning_level(budget_type, self.warning_level):
+            print(f"\n[WARNING]\n"
+                  f"You have exceeded {self.warning_level * 100:.0f}%"
                   f" of your budget for this category.")
