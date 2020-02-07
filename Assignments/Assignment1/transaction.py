@@ -29,7 +29,7 @@ class Transaction:
         Describes the transaction object
         :return: the description of the Transaction object as a String
         """
-        return "%-25s%-15s%-15s%s" % (f"{self.timestamp}",
-                                      f"{self.amount:.2f}",
+        return "%-30s%-20s%-20s%s" % (f"{self.timestamp}",
+                                      f"${self.amount:.2f}",
                                       f"{self.budget_type}",
                                       f"{self.shop_name}")

@@ -45,9 +45,9 @@ class User(abc.ABC):
         number, current balance remaining, and all transactions
         processed up to date.
         """
-        print("\n" + "-" * 80)
+        print("\n" + "-" * 100)
         print("Your Bank Account Details")
-        print("-" * 80)
+        print("-" * 100)
 
         print("%-25s%s" % ("Account Holder Name:", f"{self.name}"))
         print("%-25s%s" % ("Account Holder Age:", f"{self.age}"))
@@ -238,9 +238,9 @@ class Troublemaker(User):
         :param shop_name: name of the shop as a String
         """
         self.bank_account.process_transaction(amount, budget_type, shop_name)
-        self.bank_account.lock_budget(self.lock_level, budget_type)
         self.overage_notification(budget_type)
         self.warning_notification(budget_type)
+        self.bank_account.lock_budget(self.lock_level, budget_type)
 
     def overage_notification(self, budget_type):
         """
@@ -322,15 +322,15 @@ class Rebel(User):
         :param shop_name: name of the shop as a String
         """
         if self.bank_account.get_num_locks() >= self.num_locks_allowed:
-            print("\n[IMPORTANT]"
+            print("\n[CRITICAL]"
                   "\nYOUR BANK ACCOUNT HAS BEEN LOCKED."
                   "\nYOU CAN NO LONGER MAKE ANY TRANSACTIONS.")
         else:
             self.bank_account.process_transaction(amount, budget_type,
                                                   shop_name)
-            self.bank_account.lock_budget(self.lock_level, budget_type)
             self.overage_notification(budget_type)
             self.warning_notification(budget_type)
+            self.bank_account.lock_budget(self.lock_level, budget_type)
 
     def overage_notification(self, budget_type):
         """
@@ -340,8 +340,8 @@ class Rebel(User):
         """
         if self.bank_account.verify_budget_limit(budget_type):
             print("\n[IMPORTANT]"
-                  "\nYOUR MAXIMUM BUDGET FOR THIS CATEGORY HAS BEEN REACHED!"
-                  "\nYOU CAN NO LONGER SPEND MONEY FOR THIS CATEGORY!")
+                  "\nYOU HAVE EXCEEDED YOUR TOTAL BUDGET FOR THIS "
+                  "CATEGORY!!!")
 
     def warning_notification(self, budget_type):
         """

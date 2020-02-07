@@ -31,9 +31,9 @@ class Budget:
         :return: the description as a String
         """
         return "%-20s%-20s%-20s%-20s%s" % (f"{self.budget_type}",
-                                           f"{self.total_budget:.2f}",
-                                           f"{self.budget_spent:.2f}",
-                                           f"{self.budget_remaining:.2f}",
+                                           f"${self.total_budget:.2f}",
+                                           f"${self.budget_spent:.2f}",
+                                           f"${self.budget_remaining:.2f}",
                                            f"{self.get_lock_status()}")
 
     def get_lock_status(self):

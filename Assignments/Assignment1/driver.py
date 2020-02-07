@@ -20,6 +20,7 @@ class Driver:
 
     More features on the menu are to be added in the future.
     """
+
     def __init__(self):
         """
         Initializes the driver object
@@ -60,9 +61,9 @@ class Driver:
 
         :precondition: a user must input correct type for each prompt
         """
-        print("-" * 80)
-        print("{0:^80}".format("Family Appointed Moderator"))
-        print("-" * 80)
+        print("-" * 100)
+        print("{0:^100}".format("Family Appointed Moderator"))
+        print("-" * 100)
 
         # start_menu must be a positive integer
         start_menu = None
@@ -117,7 +118,7 @@ class Driver:
                 # budget_type must be a positive integer
                 budget_type = None
                 while budget_type != 1 and budget_type != 2 and \
-                    budget_type != 3 and budget_type != 4:
+                        budget_type != 3 and budget_type != 4:
                     budget_type = int(input("\nSelect a category to "
                                             "view transactions:\n"
                                             "1) GAMES\n"
