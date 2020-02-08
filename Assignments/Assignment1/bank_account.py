@@ -27,10 +27,10 @@ class BankAccount:
         self._account_num = account_num
         self._balance = balance
         self.budgets = []
-        self.trans_list = {BudgetTypes(1).name: [],
-                           BudgetTypes(2).name: [],
-                           BudgetTypes(3).name: [],
-                           BudgetTypes(4).name: []}
+        self._trans_list = {BudgetTypes(1).name: [],
+                            BudgetTypes(2).name: [],
+                            BudgetTypes(3).name: [],
+                            BudgetTypes(4).name: []}
         self.num_locked = 0
 
     @property
@@ -48,6 +48,14 @@ class BankAccount:
         :return: balance as a float
         """
         return self._balance
+
+    @property
+    def trans_list(self):
+        """
+        Return the transaction list of the bank account
+        :return: transaction list as a container
+        """
+        return self._trans_list
 
     def get_bank_account_details(self):
         """
@@ -123,27 +131,27 @@ class BankAccount:
         """
         budget_name = BudgetTypes(budget_type).name
 
-        if self.verify_transaction(amount, budget_type):
-            trans = Transaction(amount, budget_name, shop_name)
+        # if self.verify_transaction(amount, budget_type):
+        trans = Transaction(amount, budget_name, shop_name)
 
-            self._balance = self._balance - trans.amount
+        self._balance = self._balance - trans.amount
 
-            for budget in self.budgets:
-                if budget.budget_type == budget_name:
-                    budget.budget_spent = \
-                        budget.budget_spent + trans.amount
-                    budget.budget_remaining = \
-                        budget.budget_remaining - amount
+        for budget in self.budgets:
+            if budget.budget_type == budget_name:
+                budget.budget_spent = \
+                    budget.budget_spent + trans.amount
+                budget.budget_remaining = \
+                    budget.budget_remaining - amount
 
-            self.trans_list[f"{budget_name}"] \
-                .append(trans)
+        self.trans_list[f"{budget_name}"] \
+            .append(trans)
 
-            print("\n%-30s%-20s%-20s%s" % ("Timestamp", "Amount",
-                                           "Category", "Shop Name"))
-            for transaction in self.trans_list[f"{budget_name}"]:
-                print(transaction)
-        else:
-            print("Transaction cannot be processed.")
+        print("\n%-30s%-20s%-20s%s" % ("Timestamp", "Amount",
+                                       "Category", "Shop Name"))
+        for transaction in self.trans_list[f"{budget_name}"]:
+            print(transaction)
+        # else:
+        #     print("Transaction cannot be processed.")
 
     def verify_transaction(self, amount, budget_type):
         """
@@ -158,11 +166,14 @@ class BankAccount:
         """
         budget = self.budgets[budget_type - 1]
         if amount > self.balance:
-            print("\nYou cannot spend more than what you have! "
-                  "Please check your bank account balance.")
+            print("\n[WARNING]"
+                  "\nYou cannot spend more than what you have!"
+                  "\nPlease check your bank account balance.")
             return False
         if budget.is_locked:
-            print("\nYour budget is locked for this category.")
+            print("\n[CRITICAL]"
+                  "\nYour budget is locked for this category."
+                  "\nTransactions cannot be processed for this category.")
             return False
         return True
 

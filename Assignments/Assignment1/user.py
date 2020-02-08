@@ -160,9 +160,11 @@ class Angel(User):
         :param budget_type: budget type as an integer
         :param shop_name: name of the shop as a String
         """
-        self.bank_account.process_transaction(amount, budget_type, shop_name)
-        self.overage_notification(budget_type)
-        self.warning_notification(budget_type)
+        if self.bank_account.verify_transaction(amount, budget_type):
+            self.bank_account.process_transaction(amount, budget_type,
+                                                  shop_name)
+            self.overage_notification(budget_type)
+            self.warning_notification(budget_type)
 
     def overage_notification(self, budget_type):
         """
@@ -237,10 +239,12 @@ class Troublemaker(User):
         :param budget_type: budget type as an integer
         :param shop_name: name of the shop as a String
         """
-        self.bank_account.process_transaction(amount, budget_type, shop_name)
-        self.overage_notification(budget_type)
-        self.warning_notification(budget_type)
-        self.bank_account.lock_budget(self.lock_level, budget_type)
+        if self.bank_account.verify_transaction(amount, budget_type):
+            self.bank_account.process_transaction(amount, budget_type,
+                                                  shop_name)
+            self.overage_notification(budget_type)
+            self.warning_notification(budget_type)
+            self.bank_account.lock_budget(self.lock_level, budget_type)
 
     def overage_notification(self, budget_type):
         """
@@ -326,11 +330,12 @@ class Rebel(User):
                   "\nYOUR BANK ACCOUNT HAS BEEN LOCKED."
                   "\nYOU CAN NO LONGER MAKE ANY TRANSACTIONS.")
         else:
-            self.bank_account.process_transaction(amount, budget_type,
-                                                  shop_name)
-            self.overage_notification(budget_type)
-            self.warning_notification(budget_type)
-            self.bank_account.lock_budget(self.lock_level, budget_type)
+            if self.bank_account.verify_transaction(amount, budget_type):
+                self.bank_account.process_transaction(amount, budget_type,
+                                                      shop_name)
+                self.overage_notification(budget_type)
+                self.warning_notification(budget_type)
+                self.bank_account.lock_budget(self.lock_level, budget_type)
 
     def overage_notification(self, budget_type):
         """
