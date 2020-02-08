@@ -24,7 +24,7 @@ class BankAccount:
         :param balance: balance as a float
         """
         self.name = name
-        self.account_num = account_num
+        self._account_num = account_num
         self._balance = balance
         self.budgets = []
         self.trans_list = {BudgetTypes(1).name: [],
@@ -32,6 +32,14 @@ class BankAccount:
                            BudgetTypes(3).name: [],
                            BudgetTypes(4).name: []}
         self.num_locked = 0
+
+    @property
+    def account_num(self):
+        """
+        Return the account number of the bank account
+        :return: account number as an integer
+        """
+        return self._account_num
 
     @property
     def balance(self):
@@ -50,7 +58,6 @@ class BankAccount:
         print("%-25s%s" % ("Bank Name:", f"{self.name}"))
         print("%-25s%s" % ("Account Number:", f"{self.account_num}"))
         print("%-25s$%s" % ("Current Balance:", f"{self._balance:.2f}"))
-        print("%-25s%s" % ("Status:", f"{self.status}"))
 
         for i in BudgetTypes:
             self.get_transaction_by_budget(i)
