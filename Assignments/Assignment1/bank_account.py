@@ -26,7 +26,7 @@ class BankAccount:
         self.name = name
         self._account_num = account_num
         self._balance = balance
-        self.budgets = []
+        self._budgets = []
         self._trans_list = {BudgetTypes(1).name: [],
                             BudgetTypes(2).name: [],
                             BudgetTypes(3).name: [],
@@ -48,6 +48,14 @@ class BankAccount:
         :return: balance as a float
         """
         return self._balance
+
+    @property
+    def budgets(self):
+        """
+        Return the budgets list of the bank account
+        :return: budgets as a container
+        """
+        return self._budgets
 
     @property
     def trans_list(self):

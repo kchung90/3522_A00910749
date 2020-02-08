@@ -28,7 +28,15 @@ class User(abc.ABC):
         """
         self.name = name
         self.age = age
-        self.bank_account = None
+        self._bank_account = None
+
+    @property
+    def bank_account(self):
+        """
+        Return bank account object of the user
+        :return: bank account as a BankAccount object
+        """
+        return self._bank_account
 
     def view_trans_by_budget(self, budget_type):
         """
@@ -64,7 +72,7 @@ class User(abc.ABC):
                                 "bank account number: "))
         bank_balance = float(input("Enter the user's bank balance: "))
 
-        self.bank_account = BankAccount(bank_name, account_num, bank_balance)
+        self._bank_account = BankAccount(bank_name, account_num, bank_balance)
         self.bank_account.add_budget()
 
     def view_budgets(self):
@@ -114,8 +122,8 @@ class User(abc.ABC):
         :return: a test user as a User object
         """
         test_user = Rebel("Test User", 20)
-        test_user.bank_account = BankAccount("Scotiabank", "4536000011112222",
-                                             500)
+        test_user._bank_account = BankAccount("Scotiabank", "4536000011112222",
+                                              500)
         test_user.bank_account.add_test_budgets()
 
         return test_user
