@@ -333,7 +333,7 @@ class Rebel(User):
         :param budget_type: budget type as an integer
         :param shop_name: name of the shop as a String
         """
-        if self.bank_account.get_num_locks() >= self.num_locks_allowed:
+        if self.bank_account.num_locked >= self.num_locks_allowed:
             print("\n[CRITICAL]"
                   "\nYOUR BANK ACCOUNT HAS BEEN LOCKED."
                   "\nYOU CAN NO LONGER MAKE ANY TRANSACTIONS.")

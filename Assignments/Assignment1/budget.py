@@ -21,16 +21,25 @@ class Budget:
         :param budget_type: category of the budget as a String
         :param total_budget: total limit for the budget as a float
         """
-        self.budget_type = budget_type
+        self._budget_type = budget_type
         self._total_budget = total_budget
         self._budget_spent = 0
         self._budget_remaining = total_budget
         self._is_locked = False
 
     @property
+    def budget_type(self):
+        """
+        Return the budget type of the budget which represents the
+        BudgetType enum value
+        :return: budget type as an integer
+        """
+        return self._budget_type
+
+    @property
     def total_budget(self):
         """
-        Return the amount of the total budget
+        Return the total budget limit of the budget
         :return: total budget as a float
         """
         return self._total_budget
@@ -38,24 +47,24 @@ class Budget:
     @property
     def budget_spent(self):
         """
-        Return the budget amount spent
-        :return: amount spent as a float
+        Return the amount spent for the budget
+        :return: budget spent as a float
         """
         return self._budget_spent
 
     @property
     def budget_remaining(self):
         """
-        Return the budget amount remaining
-        :return: budget amount remaining as a float
+        Return the amount of budget remaining
+        :return: budget remaining as a float
         """
         return self._budget_remaining
 
     @property
     def is_locked(self):
         """
-        Return the status of the budget
-        :return: True if the budget is locked
+        Return if the budget is locked or not
+        :return: status of the budget as a Bool
         """
         return self._is_locked
 

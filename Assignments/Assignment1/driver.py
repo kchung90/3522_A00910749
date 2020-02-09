@@ -32,6 +32,7 @@ class Driver:
         Register a user to the program. Calls a method to add a bank
         account for the user.
         """
+        # user_name should be a String
         user_name = input("\nEnter the user's name: ")
         # user_age must be a positive integer
         user_age = int(input("Enter the user's age: "))
