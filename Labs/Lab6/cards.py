@@ -229,9 +229,32 @@ class BalanceCard(Card, ABC):
 class TransitCard(BalanceCard):
 
     def __init__(self, name, email, monthly_pass, **kwargs):
-        super().__init__()
+        super().__init__(**kwargs)
         self.has_monthly_pass = monthly_pass
-        for key, item in kwargs:
-            self.contact_details = {key: item}
+        self.contact_details = ContactDetails(name, email=email)
+
+    def validate_card(self):
+        pass
+
+    def get_fields(cls):
+        pass
+
+    def __str__(self):
+        pass
+
 
 # TODO: GiftCard
+class GiftCard(BalanceCard, Expirable):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        pass
+
+    def validate_card(self):
+        pass
+
+    def get_fields(cls):
+        pass
+
+    def __str__(self):
+        pass
