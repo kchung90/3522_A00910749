@@ -300,7 +300,7 @@ class Rebel(User):
         super().__init__(name, age)
         self._warning_level = 0.5
         self._lock_level = 1
-        self.num_locks_allowed = 2
+        self._num_locks_allowed = 2
 
     @property
     def warning_level(self):
@@ -317,6 +317,14 @@ class Rebel(User):
         :return: lock out level as a float
         """
         return self._lock_level
+
+    @property
+    def num_locks_allowed(self):
+        """
+        Return the number of locks allowed for the Rebel type user
+        :return: number of locks allowed as an integer
+        """
+        return self._num_locks_allowed
 
     def record_transaction(self, amount, budget_type, shop_name):
         """
