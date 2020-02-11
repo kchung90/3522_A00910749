@@ -23,31 +23,15 @@ class BankAccount:
         :param account_num: account number as an integer
         :param balance: balance as a float
         """
-        self._name = name
-        self._account_num = account_num
+        self.name = name
+        self.account_num = account_num
         self._balance = balance
-        self._budgets = []
-        self._trans_list = {BudgetTypes.GAMES: [],
-                            BudgetTypes.CLOTHING: [],
-                            BudgetTypes.FOOD: [],
-                            BudgetTypes.MISC: []}
-        self._num_locked = 0
-
-    @property
-    def name(self):
-        """
-        Return the name of the bank
-        :return: name of the bank as a String
-        """
-        return self._name
-
-    @property
-    def account_num(self):
-        """
-        Return the account number of the bank account
-        :return: account number as an integer
-        """
-        return self._account_num
+        self.budgets = []
+        self.trans_list = {BudgetTypes.GAMES: [],
+                           BudgetTypes.CLOTHING: [],
+                           BudgetTypes.FOOD: [],
+                           BudgetTypes.MISC: []}
+        self.num_locked = 0
 
     @property
     def balance(self):
@@ -56,30 +40,6 @@ class BankAccount:
         :return: balance as a float
         """
         return self._balance
-
-    @property
-    def budgets(self):
-        """
-        Return the budgets list of the bank account
-        :return: budgets as a container
-        """
-        return self._budgets
-
-    @property
-    def trans_list(self):
-        """
-        Return the transaction list of the bank account
-        :return: transaction list as a dictionary
-        """
-        return self._trans_list
-
-    @property
-    def num_locked(self):
-        """
-        Return the number of the locked budgets
-        :return: number of the locked budgets as an integer
-        """
-        return self._num_locked
 
     def get_bank_account_details(self):
         """
@@ -161,8 +121,8 @@ class BankAccount:
 
         for budget in self.budgets:
             if budget.budget_type == budget_name:
-                budget._budget_spent = budget.budget_spent + trans.amount
-                budget._budget_remaining = budget.budget_remaining - amount
+                budget.budget_spent = budget.budget_spent + trans.amount
+                budget.budget_remaining = budget.budget_remaining - amount
 
         self.trans_list[budget_name].append(trans)
 
@@ -207,8 +167,8 @@ class BankAccount:
         budget = self.budgets[budget_type - 1]
         if budget.budget_spent >= budget.total_budget * limit \
                 and not budget.is_locked:
-            budget._is_locked = True
-            self._num_locked = self._num_locked + 1
+            budget.is_locked = True
+            self.num_locked = self.num_locked + 1
             print(f"\n[CRITICAL]"
                   f"\nYour budget for this category has been locked."
                   f"\nYou can no longer spend money for this category.")

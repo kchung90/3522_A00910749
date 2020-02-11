@@ -21,52 +21,11 @@ class Budget:
         :param budget_type: budget type as a BudgetType enum
         :param total_budget: total limit for the budget as a float
         """
-        self._budget_type = budget_type
-        self._total_budget = total_budget
-        self._budget_spent = 0
-        self._budget_remaining = total_budget
-        self._is_locked = False
-
-    @property
-    def budget_type(self):
-        """
-        Return the budget type of the budget which represents the
-        BudgetType enum value
-        :return: budget type as an integer
-        """
-        return self._budget_type
-
-    @property
-    def total_budget(self):
-        """
-        Return the total budget limit of the budget
-        :return: total budget as a float
-        """
-        return self._total_budget
-
-    @property
-    def budget_spent(self):
-        """
-        Return the amount spent for the budget
-        :return: budget spent as a float
-        """
-        return self._budget_spent
-
-    @property
-    def budget_remaining(self):
-        """
-        Return the amount of budget remaining
-        :return: budget remaining as a float
-        """
-        return self._budget_remaining
-
-    @property
-    def is_locked(self):
-        """
-        Return if the budget is locked or not
-        :return: status of the budget as a Bool
-        """
-        return self._is_locked
+        self.budget_type = budget_type
+        self.total_budget = total_budget
+        self.budget_spent = 0
+        self.budget_remaining = total_budget
+        self.is_locked = False
 
     def __str__(self):
         """
