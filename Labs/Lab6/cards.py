@@ -235,7 +235,7 @@ class TransitCard(BalanceCard):
 
     def validate_card(self):
         if self.card_id[:1] == "T" and self.card_id[1:].isdigit() and \
-                self._balance >= 0:
+                int(self._balance) >= 0:
             return True
         return False
 
@@ -246,7 +246,6 @@ class TransitCard(BalanceCard):
         fields["name"] = "Contact Name"
         fields["email"] = "Email"
         fields["monthly_pass"] = "Monthly Pass"
-
         return fields
 
     def __str__(self):
@@ -276,7 +275,6 @@ class GiftCard(Expirable, BalanceCard):
         fields["expiry_year"] = "Expiry Year"
         fields["expiry_month"] = "Expiry Month"
         fields["expiry_day"] = "Expiry Day"
-
         return fields
 
     def __str__(self):
