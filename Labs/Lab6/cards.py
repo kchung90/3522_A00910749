@@ -231,30 +231,55 @@ class TransitCard(BalanceCard):
     def __init__(self, name, email, monthly_pass, **kwargs):
         super().__init__(**kwargs)
         self.has_monthly_pass = monthly_pass
-        self.contact_details = ContactDetails(name, email=email)
+        self.contact_details = ContactDetails(name=name, email=email)
 
     def validate_card(self):
-        pass
+        if self.card_id[:1] == "T" and self.card_id[1:].isdigit() and \
+                self._balance >= 0:
+            return True
+        return False
 
+    @classmethod
     def get_fields(cls):
-        pass
+        fields = super().get_fields()
+        fields["balance"] = "Balance"
+        fields["name"] = "Contact Name"
+        fields["email"] = "Email"
+        fields["monthly_pass"] = "Monthly Pass"
+
+        return fields
 
     def __str__(self):
-        pass
+        formatted = super().__str__()
+        formatted = formatted + f"\nBalance: {self._balance}"
+        for key, value in self.contact_details.get_details().items():
+            formatted = f"{formatted}\n{key}: {value}"
+        return formatted
 
 
 # TODO: GiftCard
-class GiftCard(BalanceCard, Expirable):
+class GiftCard(Expirable, BalanceCard):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        pass
 
     def validate_card(self):
-        pass
+        if self.card_id[:1] == "G" and self.card_id[1:].isdigit() and \
+                int(self._balance) >= 0 and not self.expired:
+            return True
+        return False
 
+    @classmethod
     def get_fields(cls):
-        pass
+        fields = super().get_fields()
+        fields["balance"] = "Balance"
+        fields["expiry_year"] = "Expiry Year"
+        fields["expiry_month"] = "Expiry Month"
+        fields["expiry_day"] = "Expiry Day"
+
+        return fields
 
     def __str__(self):
-        pass
+        formatted = super().__str__()
+        formatted = formatted + f"\nBalance: {self._balance}"
+        return formatted

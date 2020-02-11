@@ -4,7 +4,7 @@ inheritance. Classes contained:
 - CardManager
 - CardMenu
 """
-from Labs.Lab6.cards import Card, IDCard
+from Labs.Lab6.cards import Card, IDCard, TransitCard, GiftCard
 
 
 class CardManager:
@@ -90,7 +90,9 @@ class CardMenu:
     def __init__(self, card_manager: CardManager):
         self.card_type_menu = {
             1: (IDCard, "ID Card"),
-            2: (None, "Back")
+            2: (TransitCard, "Transit Card"),
+            3: (GiftCard, "Gift Card"),
+            4: (None, "Back")
         }
         self.card_manager = card_manager
 
