@@ -6,8 +6,8 @@ information of a user.
 
 Bank account information are used to process valid transactions.
 """
+from datetime import datetime
 from Assignments.Assignment1.budget import BudgetTypes, Budget
-from Assignments.Assignment1.transaction import Transaction
 
 
 class BankAccount:
@@ -253,3 +253,30 @@ class BankAccount:
         self.budgets.append(test_budget_2)
         self.budgets.append(test_budget_3)
         self.budgets.append(test_budget_4)
+
+
+class Transaction:
+    """
+    Represents a transaction a user makes
+    """
+    def __init__(self, amount, budget_type, shop_name):
+        """
+        Initialize the transaction object
+        :param amount: amount spent as a float
+        :param budget_type: category of the budget as a String
+        :param shop_name: name of the shop as a String
+        """
+        self.amount = amount
+        self.budget_type = budget_type
+        self.shop_name = shop_name
+        self.timestamp = datetime.today().replace(microsecond=0)
+
+    def __str__(self):
+        """
+        Describes the transaction object
+        :return: the description of the Transaction object as a String
+        """
+        return "%-30s%-20s%-20s%s" % (f"{self.timestamp}",
+                                      f"${self.amount:.2f}",
+                                      f"{self.budget_type}",
+                                      f"{self.shop_name}")

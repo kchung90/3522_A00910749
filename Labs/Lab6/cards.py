@@ -217,7 +217,6 @@ class IDCard(Expirable, Card):
         return formatted
 
 
-# TODO: Balance Card ABC here
 class BalanceCard(Card, ABC):
 
     def __init__(self, balance, **kwargs):
@@ -225,7 +224,6 @@ class BalanceCard(Card, ABC):
         self._balance = balance
 
 
-# TODO: TransitCard
 class TransitCard(BalanceCard):
 
     def __init__(self, name, email, monthly_pass, **kwargs):
@@ -256,7 +254,6 @@ class TransitCard(BalanceCard):
         return formatted
 
 
-# TODO: GiftCard
 class GiftCard(Expirable, BalanceCard):
 
     def __init__(self, **kwargs):
