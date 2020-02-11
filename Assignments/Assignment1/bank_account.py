@@ -27,10 +27,10 @@ class BankAccount:
         self._account_num = account_num
         self._balance = balance
         self._budgets = []
-        self._trans_list = {BudgetTypes(1).name: [],
-                            BudgetTypes(2).name: [],
-                            BudgetTypes(3).name: [],
-                            BudgetTypes(4).name: []}
+        self._trans_list = {BudgetTypes.GAMES: [],
+                            BudgetTypes.CLOTHING: [],
+                            BudgetTypes.FOOD: [],
+                            BudgetTypes.MISC: []}
         self._num_locked = 0
 
     @property
@@ -105,8 +105,7 @@ class BankAccount:
                                        f"'{BudgetTypes(i).name}' "
                                        f"category: "))
 
-            self.budgets.append(Budget(BudgetTypes(i).name,
-                                       total_budget))
+            self.budgets.append(Budget(BudgetTypes(i), total_budget))
 
     def get_budget_details(self):
         """
@@ -129,15 +128,15 @@ class BankAccount:
         :param budget_type:
         :return:
         """
-        budget_name = BudgetTypes(budget_type).name
+        budget_name = BudgetTypes(budget_type)
         print("\n" + "-" * 100)
-        print(f"Transaction Details for {budget_name}:")
+        print(f"Transaction Details for {budget_name.name}:")
         print("-" * 100)
 
-        if self.trans_list[f"{budget_name}"]:
+        if self.trans_list[budget_name]:
             print("%-30s%-20s%-20s%s" % ("Timestamp", "Amount",
                                          "Category", "Shop Name"))
-            for transaction in self.trans_list[f"{budget_name}"]:
+            for transaction in self.trans_list[budget_name]:
                 print(transaction)
         else:
             print("No transactions have been processed for this category.")
@@ -153,7 +152,7 @@ class BankAccount:
         :param budget_type: budget type as an integer
         :param shop_name: name of the shop as a String
         """
-        budget_name = BudgetTypes(budget_type).name
+        budget_name = BudgetTypes(budget_type)
 
         # if self.verify_transaction(amount, budget_type):
         trans = Transaction(amount, budget_name, shop_name)
@@ -165,11 +164,11 @@ class BankAccount:
                 budget._budget_spent = budget.budget_spent + trans.amount
                 budget._budget_remaining = budget.budget_remaining - amount
 
-        self.trans_list[f"{budget_name}"].append(trans)
+        self.trans_list[budget_name].append(trans)
 
         print("\n%-30s%-20s%-20s%s" % ("Timestamp", "Amount",
                                        "Category", "Shop Name"))
-        for transaction in self.trans_list[f"{budget_name}"]:
+        for transaction in self.trans_list[budget_name]:
             print(transaction)
         # else:
         #     print("Transaction cannot be processed.")
@@ -211,8 +210,7 @@ class BankAccount:
             budget._is_locked = True
             self._num_locked = self._num_locked + 1
             print(f"\n[CRITICAL]"
-                  f"\nYour budget for {budget.budget_type} category has been "
-                  f"locked."
+                  f"\nYour budget for this category has been locked."
                   f"\nYou can no longer spend money for this category.")
 
     def verify_budget_limit(self, budget_type):
@@ -244,10 +242,10 @@ class BankAccount:
         Adds budgets to the test user. All budget information are
         hard-coded for testing purpose.
         """
-        test_budget_1 = Budget(BudgetTypes(1).name, 100)
-        test_budget_2 = Budget(BudgetTypes(2).name, 100)
-        test_budget_3 = Budget(BudgetTypes(3).name, 100)
-        test_budget_4 = Budget(BudgetTypes(4).name, 100)
+        test_budget_1 = Budget(BudgetTypes.GAMES, 100)
+        test_budget_2 = Budget(BudgetTypes.CLOTHING, 100)
+        test_budget_3 = Budget(BudgetTypes.FOOD, 100)
+        test_budget_4 = Budget(BudgetTypes.MISC, 100)
 
         self.budgets.append(test_budget_1)
         self.budgets.append(test_budget_2)
@@ -278,5 +276,5 @@ class Transaction:
         """
         return "%-30s%-20s%-20s%s" % (f"{self.timestamp}",
                                       f"${self.amount:.2f}",
-                                      f"{self.budget_type}",
+                                      f"{self.budget_type.name}",
                                       f"{self.shop_name}")

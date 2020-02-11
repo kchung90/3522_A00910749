@@ -18,7 +18,7 @@ class Budget:
     def __init__(self, budget_type, total_budget):
         """
         Initialize the budget object
-        :param budget_type: category of the budget as a String
+        :param budget_type: budget type as a BudgetType enum
         :param total_budget: total limit for the budget as a float
         """
         self._budget_type = budget_type
@@ -73,7 +73,7 @@ class Budget:
         Return the description of the budget object
         :return: the description as a String
         """
-        return "%-20s%-20s%-20s%-20s%s" % (f"{self.budget_type}",
+        return "%-20s%-20s%-20s%-20s%s" % (f"{self.budget_type.name}",
                                            f"${self.total_budget:.2f}",
                                            f"${self.budget_spent:.2f}",
                                            f"${self.budget_remaining:.2f}",
