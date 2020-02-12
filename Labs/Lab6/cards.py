@@ -253,7 +253,10 @@ class BalanceCard(Card, ABC):
         representations to allow a Menu class to dynamically initialize
         the class using kwargs. Will be overridden by child class.
         """
-        pass
+
+        fields = super().get_fields()
+        fields["balance"] = "Balance"
+        return fields
 
     @abstractmethod
     def __str__(self):
@@ -261,7 +264,8 @@ class BalanceCard(Card, ABC):
         Return the description of the card. Will be overridden by child
         class.
         """
-        pass
+        formatted = super().__str__()
+        return formatted
 
 
 class TransitCard(BalanceCard):
@@ -314,7 +318,6 @@ class TransitCard(BalanceCard):
         representations
         """
         fields = super().get_fields()
-        fields["balance"] = "Balance"
         fields["name"] = "Contact Name"
         fields["email"] = "Email"
         fields["monthly_pass"] = "Monthly Pass"
@@ -354,9 +357,10 @@ class GiftCard(Expirable, BalanceCard):
 
     def validate_card(self):
         """
-        Contains the logic to check if a card is valid or not. Transit
+        Contains the logic to check if a card is valid or not. Gift
         Card ID must start with a "G" and are followed by digits. Also,
-        a Transit Card must have a balance of 0 or more.
+        a Transit Card must have a balance of 0 or more. The expiry
+        date of a Gift Card must be a future date.
         :return: True if the card id valid. False if the card is
         invalid
         """
@@ -375,7 +379,6 @@ class GiftCard(Expirable, BalanceCard):
         representations
         """
         fields = super().get_fields()
-        fields["balance"] = "Balance"
         fields["expiry_year"] = "Expiry Year"
         fields["expiry_month"] = "Expiry Month"
         fields["expiry_day"] = "Expiry Day"
