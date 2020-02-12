@@ -218,20 +218,87 @@ class IDCard(Expirable, Card):
 
 
 class BalanceCard(Card, ABC):
+    """
+    Represent a card that holds a balance.
+
+    This class implements and inherits the Card base class.
+    """
 
     def __init__(self, balance, **kwargs):
+        """
+        Initialize the balance card
+        :param balance: balance as a float
+        :param kwargs: a dictionary of named arguments and values. This
+        is to provide support in the event of multiple inheritance and
+        complex super() MRO calls. Usually contains the attributes of
+        other interfaces that have been implemented.
+        """
         super().__init__(**kwargs)
         self._balance = balance
 
+    @abstractmethod
+    def validate_card(self):
+        """
+        Contains the logic to check if a card is valid or note. The
+        exact algorithm would vary card to card. Will be overridden by
+        child class.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def get_fields(cls):
+        """
+        Returns a dictionary of attributes and their string
+        representations to allow a Menu class to dynamically initialize
+        the class using kwargs. Will be overridden by child class.
+        """
+        pass
+
+    @abstractmethod
+    def __str__(self):
+        """
+        Return the description of the card. Will be overridden by child
+        class.
+        """
+        pass
+
 
 class TransitCard(BalanceCard):
+    """
+    Represent a card used for transit system. TransitCard holds a
+    balance, a boolean variable to tell whether it is a monthly pass or
+    not, and some contact information.
+
+    TransitCard must have a balance of 0 or more and the card ID
+    must start with a "T" followed by digits in order to be validated.
+
+    This class implements and inherits from the BalanceCard Base Class.
+    """
 
     def __init__(self, name, email, monthly_pass, **kwargs):
+        """
+        Initialize the transit card object
+        :param name: name of the contact as a String
+        :param email: email of the contact as a String
+        :param monthly_pass: Bool that checks if it is a monthly pass
+        :param kwargs: a dictionary of named arguments and values. This
+        is to provide support in the event of multiple inheritance and
+        complex super() MRO calls. Usually contains the attributes of
+        other interfaces that have been implemented.
+        """
         super().__init__(**kwargs)
         self.has_monthly_pass = monthly_pass
         self.contact_details = ContactDetails(name=name, email=email)
 
     def validate_card(self):
+        """
+        Contains the logic to check if a card is valid or not. Transit
+        Card ID must start with a "T" and are followed by digits. Also,
+        a Transit Card must have a balance of 0 or more.
+        :return: True if the card is valid. False if the card is not
+        valid.
+        """
         if self.card_id[:1] == "T" and self.card_id[1:].isdigit() and \
                 int(self._balance) >= 0:
             return True
@@ -239,6 +306,13 @@ class TransitCard(BalanceCard):
 
     @classmethod
     def get_fields(cls):
+        """
+        Returns a dictionary of attributes and their string
+        representations to allow a Menu class to dynamically initialize
+        the class using kwargs.
+        :return: fields as a dictionary of attributes and their string
+        representations
+        """
         fields = super().get_fields()
         fields["balance"] = "Balance"
         fields["name"] = "Contact Name"
@@ -247,6 +321,10 @@ class TransitCard(BalanceCard):
         return fields
 
     def __str__(self):
+        """
+        Return the description of the Transit Card
+        :return: the description of the Transit Card a String
+        """
         formatted = super().__str__()
         formatted = formatted + f"\nBalance: {self._balance}"
         for key, value in self.contact_details.get_details().items():
@@ -255,11 +333,33 @@ class TransitCard(BalanceCard):
 
 
 class GiftCard(Expirable, BalanceCard):
+    """
+    Represent a Gift Card. A gift card must have a balance of 0 or
+    more, and the card ID must start with a "G" and must be followed
+    by digits.
+
+    This class implements and inherits from the Expirable and
+    BalanceCard base classes.
+    """
 
     def __init__(self, **kwargs):
+        """
+        Initialize the Gift Card object
+        :param kwargs: a dictionary of named arguments and values. This
+        is to provide support in the event of multiple inheritance and
+        complex super() MRO calls. Usually contains the attributes of
+        other interfaces that have been implemented.
+        """
         super().__init__(**kwargs)
 
     def validate_card(self):
+        """
+        Contains the logic to check if a card is valid or not. Transit
+        Card ID must start with a "G" and are followed by digits. Also,
+        a Transit Card must have a balance of 0 or more.
+        :return: True if the card id valid. False if the card is
+        invalid
+        """
         if self.card_id[:1] == "G" and self.card_id[1:].isdigit() and \
                 int(self._balance) >= 0 and not self.expired:
             return True
@@ -267,6 +367,13 @@ class GiftCard(Expirable, BalanceCard):
 
     @classmethod
     def get_fields(cls):
+        """
+        Returns a dictionary of attributes and their string
+        representations to allow a Menu class to dynamically initialize
+        the class using kwargs.
+        :return: fields as a dictionary of attributes and their string
+        representations
+        """
         fields = super().get_fields()
         fields["balance"] = "Balance"
         fields["expiry_year"] = "Expiry Year"
@@ -275,6 +382,10 @@ class GiftCard(Expirable, BalanceCard):
         return fields
 
     def __str__(self):
+        """
+        Returns the description of the Gift Card
+        :return: the description of the Gift Card as a String
+        """
         formatted = super().__str__()
         formatted = formatted + f"\nBalance: {self._balance}"
         return formatted
