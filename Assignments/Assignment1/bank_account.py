@@ -165,7 +165,7 @@ class BankAccount:
         :param budget_type: budget type as an integer
         """
         budget = self.budgets[budget_type - 1]
-        if budget.budget_spent >= budget.total_budget * limit \
+        if budget.budget_spent > budget.total_budget * limit \
                 and not budget.is_locked:
             budget.is_locked = True
             self.num_locked = self.num_locked + 1
