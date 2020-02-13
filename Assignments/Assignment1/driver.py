@@ -99,7 +99,7 @@ class Driver:
             if main_menu == 1:
                 self.user.view_budgets()
             elif main_menu == 2:
-                # trans_amount must be a positive number
+                # trans_amount must be a positive float
                 trans_amount = float(input("\nEnter the amount spent: "))
                 # budget_type must be a positive integer
                 budget_type = None
