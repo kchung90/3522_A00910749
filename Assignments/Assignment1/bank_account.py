@@ -85,8 +85,8 @@ class BankAccount:
     def get_transaction_by_budget(self, budget_type):
         """
         Print out transaction details for a budget type
-        :param budget_type:
-        :return:
+        :param budget_type: an integer which represents the value of
+        Enum BudgetType
         """
         budget_name = BudgetTypes(budget_type)
         print("\n" + "-" * 100)
@@ -109,12 +109,12 @@ class BankAccount:
         the bank account and the budget amount get decreased by the
         amount spent.
         :param amount: amount to spend as a float
-        :param budget_type: budget type as an integer
+        :param budget_type: an integer which represents the value of
+        Enum BudgetType
         :param shop_name: name of the shop as a String
         """
         budget_name = BudgetTypes(budget_type)
 
-        # if self.verify_transaction(amount, budget_type):
         trans = Transaction(amount, budget_name, shop_name)
 
         self._balance = self._balance - trans.amount
@@ -130,8 +130,6 @@ class BankAccount:
                                        "Category", "Shop Name"))
         for transaction in self.trans_list[budget_name]:
             print(transaction)
-        # else:
-        #     print("Transaction cannot be processed.")
 
     def verify_transaction(self, amount, budget_type):
         """
@@ -139,8 +137,8 @@ class BankAccount:
         than the balance in the user's bank account and return Bool
         depending on the condition
         :param amount: amount spent as a float
-        :param budget_type: index of the budget type in the budgets list
-        as an integer
+        :param budget_type: an integer which represents the value of
+        Enum BudgetType
         :return: True if the amount spent is less than the balance in
         the user's bank account
         """
@@ -162,7 +160,8 @@ class BankAccount:
         Change the status of a budget to locked if the the budget limit
         is exceeded.
         :param limit: limit of the budget as a float
-        :param budget_type: budget type as an integer
+        :param budget_type: an integer which represents the value of
+        Enum BudgetType
         """
         budget = self.budgets[budget_type - 1]
         if budget.budget_spent > budget.total_budget * limit \
@@ -176,7 +175,8 @@ class BankAccount:
     def verify_budget_limit(self, budget_type):
         """
         Verify if the budget limit has been exceeded or not
-        :param budget_type: budget type as an integer
+        :param budget_type: an integer which represents the value of
+        Enum BudgetType
         :return:True if the user exceeded the budget limit
         """
         budget = self.budgets[budget_type - 1]
@@ -187,7 +187,8 @@ class BankAccount:
     def verify_warning_level(self, budget_type, level):
         """
         Verify if the user has exceeded the warning level of the budget
-        :param budget_type: budget type as an integer
+        :param budget_type: an integer which represents the value of
+        Enum BudgetType
         :param level: warning level as a float
         :return: True if the user exceeded the warning level
         """
@@ -221,7 +222,7 @@ class Transaction:
         """
         Initialize the transaction object
         :param amount: amount spent as a float
-        :param budget_type: category of the budget as a String
+        :param budget_type: budget type as a Enum BudgetType
         :param shop_name: name of the shop as a String
         """
         self.amount = amount

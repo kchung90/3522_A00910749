@@ -18,7 +18,7 @@ class Budget:
     def __init__(self, budget_type, total_budget):
         """
         Initialize the budget object
-        :param budget_type: budget type as a BudgetType enum
+        :param budget_type: budget type as a BudgetType Enum
         :param total_budget: total limit for the budget as a float
         """
         self.budget_type = budget_type

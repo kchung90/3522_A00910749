@@ -28,21 +28,14 @@ class User(abc.ABC):
         """
         self.name = name
         self.age = age
-        self._bank_account = None
-
-    @property
-    def bank_account(self):
-        """
-        Return bank account object of the user
-        :return: bank account as a BankAccount object
-        """
-        return self._bank_account
+        self.bank_account = None
 
     def view_trans_by_budget(self, budget_type):
         """
         Let the user view all processed transactions up to date by each
         budget type
-        :param budget_type: budget_type as an integer
+        :param budget_type: an integer which represents the value of
+        Enum BudgetType
         """
         self.bank_account.get_transaction_by_budget(budget_type)
 
@@ -72,7 +65,7 @@ class User(abc.ABC):
                                 "bank account number: "))
         bank_balance = float(input("Enter the user's bank balance: "))
 
-        self._bank_account = BankAccount(bank_name, account_num, bank_balance)
+        self.bank_account = BankAccount(bank_name, account_num, bank_balance)
         self.bank_account.add_budget()
 
     def view_budgets(self):
@@ -88,6 +81,10 @@ class User(abc.ABC):
         recorded in the list of transactions in the bank account object
         and printed out.
         Needs to be overridden by each child class.
+        :param amount: amount to spend as a float
+        :param budget_type: an integer which represents the value of
+        Enum BudgetType
+        :param shop_name: name of the shop as a String
         """
         pass
 
@@ -97,7 +94,8 @@ class User(abc.ABC):
         Sends out a notification to the user when the user spends more
         than the budget limit.
         Needs to be overridden by each child class.
-        :param budget_type: budget type as an integer
+        :param budget_type: an integer which represents the value of
+        Enum BudgetType
         """
         pass
 
@@ -108,7 +106,8 @@ class User(abc.ABC):
         than certain percentage of its budget for each type. The
         percentage level differs by its user type.
         Needs to be overridden by each child class.
-        :param budget_type: budget type as an integer
+        :param budget_type: an integer which represents the value of
+        Enum BudgetType
         """
         pass
 
@@ -122,8 +121,8 @@ class User(abc.ABC):
         :return: a test user as a User object
         """
         test_user = Rebel("Test User", 20)
-        test_user._bank_account = BankAccount("Scotiabank", "4536000011112222",
-                                              500)
+        test_user.bank_account = BankAccount("Scotiabank", "4536000011112222",
+                                             500)
         test_user.bank_account.add_test_budgets()
 
         return test_user
@@ -165,7 +164,8 @@ class Angel(User):
         When transactions are recorded, notifications are sent out
         depending on the amount the user has spent for each category.
         :param amount: amount to spend as a float
-        :param budget_type: budget type as an integer
+        :param budget_type: an integer which represents the value of
+        Enum BudgetType
         :param shop_name: name of the shop as a String
         """
         if self.bank_account.verify_transaction(amount, budget_type):
@@ -178,7 +178,8 @@ class Angel(User):
         """
         Print out a notification to the user when the user exceeds the
         budget limit.
-        :param budget_type: budget type as an integer
+        :param budget_type: an integer which represents the value of
+        Enum BudgetType
         """
         if self.bank_account.verify_budget_limit(budget_type):
             print("\n[IMPORTANT]"
@@ -189,7 +190,8 @@ class Angel(User):
         Print out a notification to the user when the user spends more
         than the warning level.
         Warning level for Angel type user is set to 90%
-        :param budget_type: budget type as an integer
+        :param budget_type: an integer which represents the value of
+        Enum BudgetType
         """
         if self.bank_account\
                 .verify_warning_level(budget_type, self.warning_level):
@@ -244,7 +246,8 @@ class Troublemaker(User):
         Also, when the amount spent for a budget exceed the lock out
         level, the budget category will be locked.
         :param amount: amount to spend as a float
-        :param budget_type: budget type as an integer
+        :param budget_type: an integer which represents the value of
+        Enum BudgetType
         :param shop_name: name of the shop as a String
         """
         if self.bank_account.verify_transaction(amount, budget_type):
@@ -258,7 +261,8 @@ class Troublemaker(User):
         """
         Print out a notification to the user when the user exceeds the
         budget limit.
-        :param budget_type: budget type as an integer
+        :param budget_type: an integer which represents the value of
+        Enum BudgetType
         :return:
         """
         if self.bank_account.verify_budget_limit(budget_type):
@@ -270,7 +274,8 @@ class Troublemaker(User):
         Print out a notification to the user when the user spends more
         than the warning level.
         Warning level for Angel type user is set to 90%
-        :param budget_type: budget type as an integer
+        :param budget_type: an integer which represents the value of
+        Enum BudgetType
         """
         if self.bank_account\
                 .verify_warning_level(budget_type, self.warning_level):
@@ -338,7 +343,8 @@ class Rebel(User):
         If 2 or more budget categories are locked, user gets locked out
         from their bank account.
         :param amount: amount to spend as a float
-        :param budget_type: budget type as an integer
+        :param budget_type: an integer which represents the value of
+        Enum BudgetType
         :param shop_name: name of the shop as a String
         """
         if self.bank_account.num_locked >= self.num_locks_allowed:
@@ -357,7 +363,8 @@ class Rebel(User):
         """
         Print out a notification to the user when the user exceeds the
         budget limit.
-        :param budget_type: budget type as an integer
+        :param budget_type: an integer which represents the value of
+        Enum BudgetType
         """
         if self.bank_account.verify_budget_limit(budget_type):
             print("\n[IMPORTANT]"
@@ -368,7 +375,8 @@ class Rebel(User):
         """
         Print out a notification to the user when the user spends more
         than the warning level.
-        :param budget_type: budget type as an integer
+        :param budget_type: an integer which represents the value of
+        Enum BudgetType
         """
         if self.bank_account\
                 .verify_warning_level(budget_type, self.warning_level):
