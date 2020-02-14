@@ -116,8 +116,9 @@ class User(abc.ABC):
         """
         Initialize a test user by hard-coding the information for a
         testing purpose.
-        A test user has all the information including the bank account
-        and budget information.
+        A test user is a Rebel type and has all the information to be
+        used for testing including the bank account and the budget
+        information.
         :return: a test user as a User object
         """
         test_user = Rebel("Test User", 20)
