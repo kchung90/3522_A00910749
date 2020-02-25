@@ -12,13 +12,13 @@ class CustomDictionary:
         self.words_queried = []
 
     def query(self, word):
-        try:
-            closest_word = get_close_matches(word.lower(),
-                                             list(self.definitions.keys()))
-            if not closest_word:
+        closest_word = get_close_matches(word.lower(),
+                                         list(self.definitions.keys()))
+        if not closest_word:
+            try:
                 raise WordNotFoundError(word)
-        except WordNotFoundError as e:
-            print(e)
+            except WordNotFoundError as e:
+                print(e)
         else:
             if closest_word[0] not in self.words_queried:
                 self.words_queried.append(closest_word[0])
@@ -50,9 +50,10 @@ def main():
     except FileNotFoundError:
         print("File is not found")
     else:
-        my_dict.query("coffee")
-        my_dict.query("zodiac")
+        my_dict.query("reservation")
         my_dict.query("rain")
+        my_dict.query("ksdf234234")
+        my_dict.query("zodiac")
         my_dict.query("rain")
         my_dict.export()
 
