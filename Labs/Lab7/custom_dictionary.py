@@ -1,8 +1,10 @@
+from difflib import get_close_matches
+
+
 class CustomDictionary:
 
     def __init__(self, path):
         with open(path, mode="r", encoding="utf-8") as my_file:
-
             lines = [line.split("\n") for line in
                      list(my_file.read().split("--"))]
 
@@ -12,11 +14,14 @@ class CustomDictionary:
             # self.words_queried
 
     def query(self, word):
-        word_list = ""
-        if word in self.definitions.keys():
-            for definition in self.definitions[word]:
-                word_list += definition
-        return word_list
+        word_lower_case = word.lower()
+        word_checked = get_close_matches(word_lower_case,
+                                         list(self.definitions.keys()))
+        def_list = ""
+        if word_checked[0] in self.definitions.keys():
+            for definition in self.definitions[word_checked[0]]:
+                def_list += definition + "\n"
+        return def_list
 
     def export(self):
         pass
@@ -24,7 +29,7 @@ class CustomDictionary:
 
 def main():
     test = CustomDictionary("data.txt")
-    print(test.query("rain"))
+    print(test.query("RAin"))
 
 
 if __name__ == '__main__':
