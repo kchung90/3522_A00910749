@@ -50,10 +50,10 @@ def main():
     except FileNotFoundError:
         print("File is not found")
     else:
-        print(my_dict.query("coffee"))
-        print(my_dict.query("zodiac"))
-        print(my_dict.query("rain"))
-        print(my_dict.query("rain"))
+        my_dict.query("coffee")
+        my_dict.query("zodiac")
+        my_dict.query("rain")
+        my_dict.query("rain")
         my_dict.export()
 
 
