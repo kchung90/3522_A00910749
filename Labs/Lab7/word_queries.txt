@@ -1,0 +1,9 @@
+--coffee
+A beverage made by infusing the beans of the coffee plant in hot water.
+A flowering plant of the genus Coffea whose seeds are used to make coffee.
+--zodiac
+One of the twelve signs, or houses, each corresponding to one of the constellations along the zodiac.
+A belt-shaped region in the heavens on either side to the ecliptic; divided into 12 constellations or signs for astrological purposes.
+--rain
+Precipitation in the form of liquid water drops with diameters greater than 0.5 millimetres.
+To fall from the clouds in drops of water.
