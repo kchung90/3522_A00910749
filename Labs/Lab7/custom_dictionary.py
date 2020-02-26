@@ -5,8 +5,12 @@ class CustomDictionary:
 
     def __init__(self, path):
         with open(path, mode="r", encoding="utf-8") as my_file:
-            lines = [line.split("\n") for line in
-                     list(my_file.read().split("--"))]
+            f = my_file.read()
+            if "--" not in f:
+                raise ImportError
+            else:
+                lines = [line.split("\n") for line in
+                         list(f.split("--"))]
         self.definitions = {value[0]: value[1:] for value in lines
                             if value != [""]}
         self.words_queried = []
@@ -49,6 +53,8 @@ def main():
         my_dict = CustomDictionary("data.txt")
     except FileNotFoundError:
         print("File is not found")
+    except ImportError:
+        print("File format is not correct.")
     else:
         my_dict.query("reservation")
         my_dict.query("rain")
