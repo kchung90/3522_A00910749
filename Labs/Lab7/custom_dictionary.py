@@ -6,7 +6,7 @@ class CustomDictionary:
     def __init__(self, path):
         with open(path, mode="r", encoding="utf-8") as my_file:
             f = my_file.read()
-            if "--" not in f:
+            if "--" not in f or "\n" not in f:
                 raise ImportError
             else:
                 lines = [line.split("\n") for line in
@@ -56,7 +56,8 @@ def main():
     except FileNotFoundError:
         print("File is not found")
     except ImportError:
-        print("File format is not correct.")
+        print("File is not in a correct format to use the methods in this "
+              "module.")
     except WordNotFoundError as e:
         print(e)
     else:
