@@ -19,10 +19,7 @@ class CustomDictionary:
         closest_word = get_close_matches(word.lower(),
                                          list(self.definitions.keys()))
         if not closest_word:
-            try:
-                raise WordNotFoundError(word)
-            except WordNotFoundError as e:
-                print(e)
+            raise WordNotFoundError(word)
         else:
             if closest_word[0] not in self.words_queried:
                 self.words_queried.append(closest_word[0])
@@ -51,16 +48,18 @@ class WordNotFoundError(Exception):
 def main():
     try:
         my_dict = CustomDictionary("data.txt")
-    except FileNotFoundError:
-        print("File is not found")
-    except ImportError:
-        print("File format is not correct.")
-    else:
         my_dict.query("reservation")
         my_dict.query("rain")
         my_dict.query("ksdf234234")
         my_dict.query("zodiac")
         my_dict.query("rain")
+    except FileNotFoundError:
+        print("File is not found")
+    except ImportError:
+        print("File format is not correct.")
+    except WordNotFoundError as e:
+        print(e)
+    else:
         my_dict.export()
 
 
