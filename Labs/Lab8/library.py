@@ -4,6 +4,7 @@ a high level module that is responsible for the loading, and perusal of
 LibraryItems.
 """
 
+
 class LibraryCatalogue:
     """
     A Catalogue is responsible for maintaining, loading and viewing the
@@ -39,7 +40,7 @@ class LibraryCatalogue:
 
             if user_input == 1:
                 input_data = input("Enter the title or call_number of the "
-                                    "item:")
+                                   "item:")
                 found_items = self.find_items(input_data)
                 print("We found the following:")
                 if len(found_items) > 0:
@@ -67,9 +68,9 @@ class LibraryCatalogue:
         :return: a list of matching LibraryItems.
         """
         results = [item
-                  for item in self._item_list
-                  if input_data == self._item_list._title or
-                     input_data == self._item_list._call_number]
+                   for item in self._item_list
+                   if input_data == self._item_list._title or
+                   input_data == self._item_list._call_number]
         return results
 
     def load_items(self):

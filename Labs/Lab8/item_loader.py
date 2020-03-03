@@ -5,9 +5,43 @@ implemented:
     - FactoryMapper
       Client facing class used to retrieve the right factory class
 """
-from abc import ABC, abstractmethod
-
+import abc
+from Labs.Lab8.items import Manga, Game, Movie
 import pandas
+
+
+class LibraryItemFactory(abc.ABC):
+
+    def __init__(self, path):
+        self.path = path
+
+    @abc.abstractmethod
+    def get_next_item(self):
+        pass
+
+
+class MangaFactory(LibraryItemFactory):
+    def get_next_item(self):
+        my_file = pandas.read_excel("manga_data.xlsx")
+
+        for item, row in my_file.iterrows():
+            yield Manga(**row.to_dict())
+
+
+class GameFactory(LibraryItemFactory):
+    def get_next_item(self):
+        my_file = pandas.read_excel("games_data.xlsx")
+
+        for item, row in my_file.iterrows():
+            yield Game(**row.to_dict())
+
+
+class MovieFactory(LibraryItemFactory):
+    def get_next_item(self):
+        my_file = pandas.read_excel("movies_data.xlsx")
+
+        for item, row in my_file.iterrows():
+            yield Movie(**row.to_dict())
 
 
 class FactoryMapper:
@@ -17,8 +51,11 @@ class FactoryMapper:
     provide the items selected.
     """
 
-    # TODO: Populate factory_map
-    factory_map = {}
+    factory_map = {
+        1: MangaFactory,
+        2: GameFactory,
+        3: MovieFactory
+    }
     """
     Factory map is a dictionary of type {int, FactoryClass}
     """
@@ -43,16 +80,7 @@ class FactoryMapper:
         return factory_type(file_name)
 
 
-# TODO: Define the factory classes
-class LibraryItemFactory(ABC):
-
-    def __init__(self, path):
-        self.path = path
-
-    @abstractmethod
-    def get_next_item(self):
-        pass
-
-
 if __name__ == '__main__':
-    df = pandas.read_excel("games_data.xlsx")
+    df = pandas.read_excel("manga_data.xlsx")
+    # for item, row in df.iterrows():
+    #     print(Manga(**row.to_dict()))
