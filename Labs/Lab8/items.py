@@ -9,6 +9,17 @@ These inherit from LibraryItem which is an ABC.
 from abc import ABC, abstractmethod
 
 
+class InvalidNumCopiesError(Exception):
+    def __init__(self):
+        super().__init__("Number of Copies must be a positive integer.")
+
+
+class InvalidCallNumberError(Exception):
+    def __init__(self, call_num):
+        super().__init__(f"{call_num} does not match the correct format for "
+                         f"call number.")
+
+
 class LibraryItem(ABC):
     """
     Defines the base class of the LibraryItem hierarchy as an ABC. All
@@ -25,7 +36,10 @@ class LibraryItem(ABC):
         """
         self._title = title
         self._call_number = call_num
-        self._num_copies = num_copies
+        if num_copies < 0:
+            raise InvalidNumCopiesError
+        else:
+            self._num_copies = num_copies
 
     @abstractmethod
     def __str__(self):
@@ -49,9 +63,16 @@ class Manga(LibraryItem):
         :precondition call_num: Call number must follow the format
                                 MG.###.###.### where # is a number.
         """
-        super().__init__(**kwargs)
-        self._artist = artist
-        self._volume_num = volume_num
+        call_num = kwargs["call_num"]
+        if call_num[0:3] == "MG." and call_num[3:6].isdigit() and \
+                call_num[7:10].isdigit() and call_num[11:14].isdigit() and \
+                call_num[6] == "." and call_num[10] == "." and \
+                len(call_num) == 14:
+            super().__init__(**kwargs)
+            self._artist = artist
+            self._volume_num = volume_num
+        else:
+            raise InvalidCallNumberError(call_num)
 
     def __str__(self):
         seperator = "-" * 20
@@ -72,10 +93,17 @@ class Game(LibraryItem):
         :precondition call_num: Call number must follow the format
                                 G.###.###.### where # is a number.
         """
-        super().__init__(**kwargs)
-        self._dev_studio = dev_studio
-        self._platform = platform
-        self._num_players = num_players
+        call_num = kwargs["call_num"]
+        if call_num[0:2] == "G." and call_num[2:5].isdigit() and \
+                call_num[6:9].isdigit() and call_num[10:13].isdigit() and \
+                call_num[5] == "." and call_num[9] == "." and \
+                len(call_num) == 13:
+            super().__init__(**kwargs)
+            self._dev_studio = dev_studio
+            self._platform = platform
+            self._num_players = num_players
+        else:
+            raise InvalidCallNumberError(call_num)
 
     def __str__(self):
         seperator = "-" * 20
@@ -96,9 +124,16 @@ class Movie(LibraryItem):
         :precondition call_num: Call number must follow the format
                                 M.###.###.### where # is a number.
         """
-        super().__init__(**kwargs)
-        self._genre = genre
-        self._release_year = release_year
+        call_num = kwargs["call_num"]
+        if call_num[0:2] == "M." and call_num[2:5].isdigit() and \
+                call_num[6:9].isdigit() and call_num[10:13].isdigit() and \
+                call_num[5] == "." and call_num[9] == "." and \
+                len(call_num) == 13:
+            super().__init__(**kwargs)
+            self._genre = genre
+            self._release_year = release_year
+        else:
+            raise InvalidCallNumberError(call_num)
 
     def __str__(self):
         seperator = "-" * 20

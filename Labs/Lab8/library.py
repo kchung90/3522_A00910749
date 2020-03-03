@@ -4,6 +4,7 @@ a high level module that is responsible for the loading, and perusal of
 LibraryItems.
 """
 from Labs.Lab8.item_loader import FactoryMapper
+from Labs.Lab8.items import InvalidNumCopiesError, InvalidCallNumberError
 
 
 class LibraryCatalogue:
@@ -51,7 +52,12 @@ class LibraryCatalogue:
                     print("Sorry! We found nothing that matches the input")
 
             elif user_input == 2:
-                self.load_items()
+                try:
+                    self.load_items()
+                except InvalidNumCopiesError as e:
+                    print(e)
+                except InvalidCallNumberError as e:
+                    print(e)
 
             elif user_input == 3:
                 self.display_available_items()
@@ -76,6 +82,7 @@ class LibraryCatalogue:
 
     def load_items(self):
         factory_mapper = FactoryMapper()
+
         for i in factory_mapper.execute_factory_menu().get_next_item():
             self._item_list.append(i)
 

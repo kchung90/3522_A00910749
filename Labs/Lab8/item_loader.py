@@ -6,8 +6,8 @@ implemented:
       Client facing class used to retrieve the right factory class
 """
 import abc
-from Labs.Lab8.items import Manga, Game, Movie
 import pandas
+from Labs.Lab8.items import Manga, Game, Movie
 
 
 class LibraryItemFactory(abc.ABC):
