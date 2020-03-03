@@ -22,7 +22,7 @@ class LibraryItemFactory(abc.ABC):
 
 class MangaFactory(LibraryItemFactory):
     def get_next_item(self):
-        my_file = pandas.read_excel("manga_data.xlsx")
+        my_file = pandas.read_excel(self.path)
 
         for item, row in my_file.iterrows():
             yield Manga(**row.to_dict())
@@ -30,7 +30,7 @@ class MangaFactory(LibraryItemFactory):
 
 class GameFactory(LibraryItemFactory):
     def get_next_item(self):
-        my_file = pandas.read_excel("games_data.xlsx")
+        my_file = pandas.read_excel(self.path)
 
         for item, row in my_file.iterrows():
             yield Game(**row.to_dict())
@@ -38,7 +38,7 @@ class GameFactory(LibraryItemFactory):
 
 class MovieFactory(LibraryItemFactory):
     def get_next_item(self):
-        my_file = pandas.read_excel("movies_data.xlsx")
+        my_file = pandas.read_excel(self.path)
 
         for item, row in my_file.iterrows():
             yield Movie(**row.to_dict())
@@ -82,5 +82,3 @@ class FactoryMapper:
 
 if __name__ == '__main__':
     df = pandas.read_excel("manga_data.xlsx")
-    # for item, row in df.iterrows():
-    #     print(Manga(**row.to_dict()))

@@ -3,6 +3,7 @@ This module houses the library Catalogue system. The LibraryCatalogue is
 a high level module that is responsible for the loading, and perusal of
 LibraryItems.
 """
+from Labs.Lab8.item_loader import FactoryMapper
 
 
 class LibraryCatalogue:
@@ -67,14 +68,20 @@ class LibraryCatalogue:
         :param input_data: a string
         :return: a list of matching LibraryItems.
         """
-        results = [item for item in self._item_list
-                   if input_data == self._item_list._title or
-                   input_data == self._item_list._call_number]
+        # results = [item for item in self._item_list
+        #            if input_data == self._item_list.title or
+        #            input_data == self._item_list.call_number]
+
+        results = []
+        for item in self._item_list:
+            if input_data == item._title or input_data == item._call_number:
+                results.append(item)
         return results
 
     def load_items(self):
-        # TODO: Lab 8 Implementation
-        pass
+        factory_mapper = FactoryMapper()
+        for i in factory_mapper.execute_factory_menu().get_next_item():
+            self._item_list.append(i)
 
     def display_available_items(self):
         """
