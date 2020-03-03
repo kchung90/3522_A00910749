@@ -68,14 +68,10 @@ class LibraryCatalogue:
         :param input_data: a string
         :return: a list of matching LibraryItems.
         """
-        # results = [item for item in self._item_list
-        #            if input_data == self._item_list.title or
-        #            input_data == self._item_list.call_number]
-
-        results = []
-        for item in self._item_list:
-            if input_data == item._title or input_data == item._call_number:
-                results.append(item)
+        results = [item
+                   for item in self._item_list
+                   if input_data == item._title or
+                   input_data == item._call_number]
         return results
 
     def load_items(self):

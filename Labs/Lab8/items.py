@@ -29,7 +29,7 @@ class LibraryItem(ABC):
 
     @abstractmethod
     def __str__(self):
-        return f"Name: {self.title}, Call Number: {self.call_number}, " \
+        return f"Name: {self._title}, Call Number: {self._call_number}, " \
                f"Availability: {self._num_copies} copies"
 
 
