@@ -80,7 +80,7 @@ class Game(LibraryItem):
     def __str__(self):
         seperator = "-" * 20
         game_details = f"Type: Game, Studio: {self._dev_studio}, Platform:" \
-               f"{self._platform}, Max Players: {self._num_players}"
+                       f"{self._platform}, Max Players: {self._num_players}"
         base_details = super().__str__()
         return '\n'.join([seperator, base_details, game_details, seperator])
 

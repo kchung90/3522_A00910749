@@ -67,8 +67,7 @@ class LibraryCatalogue:
         :param input_data: a string
         :return: a list of matching LibraryItems.
         """
-        results = [item
-                   for item in self._item_list
+        results = [item for item in self._item_list
                    if input_data == self._item_list._title or
                    input_data == self._item_list._call_number]
         return results
