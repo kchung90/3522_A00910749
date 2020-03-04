@@ -40,10 +40,12 @@ class MangaFactory(LibraryItemFactory):
         """
         Reads the excel file and yields the Manga object from the file.
         """
-        my_file = pandas.read_excel(self.path)
-
-        for item, row in my_file.iterrows():
-            yield Manga(**row.to_dict())
+        try:
+            my_file = pandas.read_excel(self.path)
+            for item, row in my_file.iterrows():
+                yield Manga(**row.to_dict())
+        except FileNotFoundError:
+            print("File is not found. Please check the file name again.")
 
 
 class GameFactory(LibraryItemFactory):
@@ -55,10 +57,12 @@ class GameFactory(LibraryItemFactory):
         Reads the excel file and yields the Game object from the file.
         :return:
         """
-        my_file = pandas.read_excel(self.path)
-
-        for item, row in my_file.iterrows():
-            yield Game(**row.to_dict())
+        try:
+            my_file = pandas.read_excel(self.path)
+            for item, row in my_file.iterrows():
+                yield Game(**row.to_dict())
+        except FileNotFoundError:
+            print("File is not found. Please check the file name again.")
 
 
 class MovieFactory(LibraryItemFactory):
@@ -69,10 +73,12 @@ class MovieFactory(LibraryItemFactory):
         """
         Reads the excel file and yields the Movie object from the file.
         """
-        my_file = pandas.read_excel(self.path)
-
-        for item, row in my_file.iterrows():
-            yield Movie(**row.to_dict())
+        try:
+            my_file = pandas.read_excel(self.path)
+            for item, row in my_file.iterrows():
+                yield Movie(**row.to_dict())
+        except FileNotFoundError:
+            print("File is not found. Please check the file name again.")
 
 
 class FactoryMapper:
@@ -104,10 +110,11 @@ class FactoryMapper:
         print("1. Manga")
         print("2. Games")
         print("3. Movies")
+
         user_choice = int(input("Enter your choice (1-3):"))
         factory_type = cls.factory_map[user_choice]
-
-        file_name = input("\nEnter file name of the excel file to load from:")
+        file_name = input("\nEnter file name of the excel file to "
+                          "load from:")
         return factory_type(file_name)
 
 
