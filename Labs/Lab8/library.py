@@ -81,6 +81,10 @@ class LibraryCatalogue:
         return results
 
     def load_items(self):
+        """
+        Items are read from an excel file and are added to the item
+        list.
+        """
         factory_mapper = FactoryMapper()
 
         for i in factory_mapper.execute_factory_menu().get_next_item():
@@ -97,6 +101,9 @@ class LibraryCatalogue:
 
 
 def main():
+    """
+    Drives the program
+    """
     catalogue = LibraryCatalogue()
     catalogue.display_catalogue_menu()
 

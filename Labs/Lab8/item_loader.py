@@ -7,21 +7,39 @@ implemented:
 """
 import abc
 import pandas
-from Labs.Lab8.items import Manga, Game, Movie
+from Labs.Lab8.items import LibraryItem, Manga, Game, Movie
 
 
 class LibraryItemFactory(abc.ABC):
-
+    """
+    Defines the base class of the LibraryItemFactory hierarchy as an
+    ABC. All library item factories must inherit from this class and
+    implement the get_next_item() method.
+    """
     def __init__(self, path):
+        """
+        Initializes the LibraryItemFactory
+        :param path: path of the file as a String
+        """
         self.path = path
 
     @abc.abstractmethod
     def get_next_item(self):
+        """
+        Generator function that yields the next item in the file. This
+        method needs to be overridden by the child classes
+        """
         pass
 
 
 class MangaFactory(LibraryItemFactory):
-    def get_next_item(self):
+    """
+    Represents the MangaFactory which initializes Manga objects
+    """
+    def get_next_item(self) -> LibraryItem:
+        """
+        Reads the excel file and yields the Manga object from the file.
+        """
         my_file = pandas.read_excel(self.path)
 
         for item, row in my_file.iterrows():
@@ -29,7 +47,14 @@ class MangaFactory(LibraryItemFactory):
 
 
 class GameFactory(LibraryItemFactory):
-    def get_next_item(self):
+    """
+    Represents the GameFactory which initializes Game objects
+    """
+    def get_next_item(self) -> LibraryItem:
+        """
+        Reads the excel file and yields the Game object from the file.
+        :return:
+        """
         my_file = pandas.read_excel(self.path)
 
         for item, row in my_file.iterrows():
@@ -37,7 +62,13 @@ class GameFactory(LibraryItemFactory):
 
 
 class MovieFactory(LibraryItemFactory):
-    def get_next_item(self):
+    """
+    Represents the MovieFactory which initializes Movie objects
+    """
+    def get_next_item(self) -> LibraryItem:
+        """
+        Reads the excel file and yields the Movie object from the file.
+        """
         my_file = pandas.read_excel(self.path)
 
         for item, row in my_file.iterrows():

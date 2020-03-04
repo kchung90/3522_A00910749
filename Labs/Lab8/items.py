@@ -10,12 +10,27 @@ from abc import ABC, abstractmethod
 
 
 class InvalidNumCopiesError(Exception):
+    """
+    Represents an exception that is raised when the number of copies
+    attribute has a negative integer
+    """
     def __init__(self):
+        """
+        Initializes the InvalidNumCopiesError exception
+        """
         super().__init__("Number of Copies must be a positive integer.")
 
 
 class InvalidCallNumberError(Exception):
+    """
+    Represents an exception that is raised when the call number
+    attribute does not match the correct format.
+    """
     def __init__(self, call_num):
+        """
+        Initializes the InvalidCallNumberError exception
+        :param call_num:
+        """
         super().__init__(f"{call_num} does not match the correct format for "
                          f"call number.")
 
