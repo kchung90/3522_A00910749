@@ -29,10 +29,11 @@ class InvalidCallNumberError(Exception):
     def __init__(self, call_num):
         """
         Initializes the InvalidCallNumberError exception
-        :param call_num:
+        :param call_num: call number as a String
         """
-        super().__init__(f"{call_num} does not match the correct format for "
-                         f"call number.")
+        self.call_num = call_num
+        super().__init__(f"{self.call_num} does not match the correct format "
+                         f"for call number.")
 
 
 class LibraryItem(ABC):
