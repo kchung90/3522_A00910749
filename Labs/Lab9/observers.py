@@ -43,3 +43,15 @@ class BarGraph(Graph):
         self.data = []
         self.labels = []
         self.output_name = output_name
+
+
+class TableGenerator:
+
+    def __init__(self, align):
+        self.align = align
+
+    def __call__(self, title, data, labels, output_name):
+        self.title = title
+        self.data = []
+        self.labels = []
+        self.output_name = output_name
