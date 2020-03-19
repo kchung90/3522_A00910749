@@ -6,11 +6,6 @@ from prettytable import PrettyTable
 class IObserver:
 
     def __call__(self, title, data, labels, output_name):
-        # plt.title(title)
-        # x = data[0]
-        # y = data[1]
-        # plt.xlabel(labels[0])
-        # plt.ylabel(labels[1])
         pass
 
 
@@ -37,6 +32,7 @@ class LineGraph(Graph):
             plt.plot(data[0], data[1], self.line_style)
         plt.xlabel(labels[0])
         plt.ylabel(labels[1])
+        plt.savefig(f"{output_name}_line.png")
 
 
 class BarGraph(Graph):
@@ -58,6 +54,7 @@ class BarGraph(Graph):
                     edgecolor=f"{self.edge_colour}")
         plt.xlabel(labels[0])
         plt.ylabel(labels[1])
+        plt.savefig(f"{output_name}_bar.png")
 
 
 class TableGenerator:
@@ -73,3 +70,7 @@ class TableGenerator:
             x.align[labels[1]] = self.align
         x.add_column(column_name[0], data[0])
         x.add_column(column_name[1], data[1])
+        table_txt = x.get_string(title=title)
+        with open(f"{output_name}_table.txt", mode="w", encoding="utf-8") as\
+                file:
+            file.write(table_txt)
