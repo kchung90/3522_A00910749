@@ -25,19 +25,20 @@ class LineGraph(Graph):
 
     def __call__(self, title, data, labels, output_name):
         plt.title(title)
-        if self.has_fill:
-            plt.plot(data[0], data[1], self.line_style,
-                     color=f"{self.fill_colour}")
-        else:
-            plt.plot(data[0], data[1], self.line_style)
         plt.xlabel(labels[0])
         plt.ylabel(labels[1])
+        if self.has_fill:
+            plt.plot(data[0], data[1], self.line_style)
+            plt.fill_between(data[0], data[1], color=f"{self.fill_colour}")
+        else:
+            plt.plot(data[0], data[1], self.line_style)
         plt.savefig(f"{output_name}_line.png")
+        plt.clf()
 
 
 class BarGraph(Graph):
 
-    def __init__(self, is_horizontal=False, edge_colour=None, bar_colour=None):
+    def __init__(self, edge_colour, bar_colour, is_horizontal=False):
         self.is_horizontal = is_horizontal
         self.edge_colour = edge_colour
         self.bar_colour = bar_colour
@@ -45,16 +46,19 @@ class BarGraph(Graph):
     def __call__(self, title, data, labels, output_name):
         plt.title(title)
         if self.is_horizontal:
+            plt.xlabel(labels[1])
+            plt.ylabel(labels[0])
             plt.barh(data[0], data[1],
                      color=f"{self.bar_colour}",
                      edgecolor=f"{self.edge_colour}")
         else:
+            plt.xlabel(labels[0])
+            plt.ylabel(labels[1])
             plt.bar(data[0], data[1],
                     color=f"{self.bar_colour}",
                     edgecolor=f"{self.edge_colour}")
-        plt.xlabel(labels[0])
-        plt.ylabel(labels[1])
         plt.savefig(f"{output_name}_bar.png")
+        plt.clf()
 
 
 class TableGenerator:
