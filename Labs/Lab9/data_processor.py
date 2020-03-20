@@ -1,5 +1,4 @@
 from pandas import read_excel
-
 from Labs.Lab9.observers import LineGraph, BarGraph, TableGenerator
 
 
@@ -26,11 +25,14 @@ class DataProcessor:
 
 def main():
     dp = DataProcessor()
-    line_graph = LineGraph("b-", True, "orange")
-    bar_graph = BarGraph("black", "orange")
-    tbl = TableGenerator("r")
+    line_graph = LineGraph("r-", True, "black")
+    bar_graph = BarGraph("black", "green", False)
+    tbl = TableGenerator("l")
     dp.subscribe_callbacks(bar_graph, line_graph, tbl)
-    dp.process_data("Temperatures.xlsx", "temperature")
+    try:
+        dp.process_data("Temperatures.xlsx", "temperature")
+    except FileNotFoundError:
+        print("File is not found. Please check the file name again.")
 
 
 if __name__ == '__main__':
