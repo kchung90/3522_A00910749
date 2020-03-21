@@ -36,8 +36,8 @@ class DataProcessor:
         reads an excel file and extracts data in two columns. Then
         passes data to objects in the list of callbacks to generate
         graphs or tables.
-        :param excel_file: name of the excel file
-        :param output_title: title of the output file
+        :param excel_file: name of the excel file as a String
+        :param output_title: title of the output file as a String
         """
         df = read_excel(excel_file)
         labels = df.columns.values.tolist()
