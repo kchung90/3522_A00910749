@@ -26,7 +26,7 @@ class DataProcessor:
         """
         accepts variable number of callable objects and adds them to
         the list of callbacks
-        :param args: callable IObserver objects
+        :param args: callable observer objects
         """
         for arg in args:
             self.callbacks.append(arg)
