@@ -10,23 +10,6 @@ from matplotlib import pyplot as plt
 from prettytable import PrettyTable
 
 
-class IObserver:
-    """
-    Represents the interface of all observers
-    """
-
-    def __call__(self, title, data, labels, output_name):
-        """
-        Allows the objects to be executed as functions. Needs to be
-        overridden by subclasses.
-        :param title: title of the graph/table as a String
-        :param data: data for x-axis and y-axis as a List
-        :param labels: labels for x-axis and y-axis as a List
-        :param output_name: name of the output file as a String
-        """
-        pass
-
-
 class Graph(abc.ABC):
     """
     An abstract class that represents objects that generate graphs when
