@@ -15,10 +15,10 @@ class MovieDatabaseProxy:
         self.cache = []
 
     def connect(self):
-        pass
+        self.movie_db.connect()
 
     def close_connection(self):
-        pass
+        self.movie_db.close_connection()
 
     def insert(self, movie: Movie):
         pass
@@ -30,4 +30,22 @@ class MovieDatabaseProxy:
         pass
 
     def search(self, title="", director="", language="", release_year=""):
-        pass
+        movie_list = []
+        print("---------------Querying Cache---------------")
+        for movie in self.cache:
+            if title == movie.title or \
+                    director == movie.director or \
+                    language == movie.language or \
+                    release_year == movie.release_year:
+                movie_list.append(movie)
+
+        if not movie_list:
+            print("---------------Querying Database---------------")
+            movie_list = self.movie_db.search(
+                title, director, language, release_year)
+
+        try:
+            for movie in movie_list:
+                self.cache.append(movie)
+        finally:
+            return movie_list
