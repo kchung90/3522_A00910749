@@ -44,7 +44,10 @@ class MovieDatabaseProxy:
         return movie_list
 
     def delete(self, movie_id):
-        pass
+        if self.access_level == UserAccessEnum.ADMIN:
+            self.movie_db.delete(movie_id)
+        else:
+            raise AccessLevelError("delete")
 
     def search(self, title="", director="", language="", release_year=""):
         movie_list = []
@@ -76,7 +79,7 @@ def main():
     #               Movie("title4", "director1", 2020, "KR"),
     #               Movie("title5", "director2", 2018, "FR")]
     movie_list = []
-    proxy1 = MovieDatabaseProxy(UserAccessEnum.MEMBER, "movie.db", movie_list)
+    proxy1 = MovieDatabaseProxy(UserAccessEnum.ADMIN, "movie.db", movie_list)
     for movie in proxy1.search("", "", "FR"):
         print(movie)
 
@@ -92,8 +95,13 @@ def main():
     for movie in proxy1.view():
         print(movie)
 
+    # try:
+    #     proxy1.insert(Movie("test", "test_director", 2020, "ENG"))
+    # except AccessLevelError as e:
+    #     print(e)
+
     try:
-        proxy1.insert(Movie("test", "test_director", 2020, "ENG"))
+        proxy1.delete(6)
     except AccessLevelError as e:
         print(e)
 
