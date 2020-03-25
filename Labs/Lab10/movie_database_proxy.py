@@ -24,7 +24,16 @@ class MovieDatabaseProxy:
         pass
 
     def view(self) -> list:
-        pass
+        movie_list = ["--- Movies in Cache:"]
+        for movie in self.cache:
+            movie_list.append(movie)
+        movie_list.append("--- Movies in the Database:")
+
+        db_movie_list = self.movie_db.view()
+        for movie in db_movie_list:
+            movie_list.append(movie)
+
+        return movie_list
 
     def delete(self, movie_id):
         pass
@@ -46,6 +55,35 @@ class MovieDatabaseProxy:
 
         try:
             for movie in movie_list:
-                self.cache.append(movie)
+                if movie not in [cache_movie for cache_movie in self.cache]:
+                    self.cache.append(movie)
         finally:
             return movie_list
+
+
+def main():
+    movie_list = [Movie("title1", "director1", 2020, "ENG"),
+                  Movie("title2", "director2", 2019, "FR"),
+                  Movie("title3", "director3", 2018, "ENG"),
+                  Movie("title4", "director1", 2020, "KR"),
+                  Movie("title5", "director2", 2018, "FR")]
+    # movie_list = []
+    proxy1 = MovieDatabaseProxy(0, "movie.db", movie_list)
+    for movie in proxy1.search("", "", "FR"):
+        print(movie)
+
+    for movie in proxy1.search("", "", "FR"):
+        print(movie)
+    #
+    # for movie in proxy1.search("", "", "ENG"):
+    #     print(movie)
+    #
+    # print("\n\n\n cache list")
+    # for a in proxy1.cache:
+    #     print(a)
+    for movie in proxy1.view():
+        print(movie)
+
+
+if __name__ == '__main__':
+    main()
