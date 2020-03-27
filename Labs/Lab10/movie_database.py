@@ -86,7 +86,7 @@ class MovieDatabase:
         """
         self.db_connection.close()
 
-    def insert(self, movie: Movie):
+    def insert(self, movie: Movie) -> Movie:
         """
         Inserts a row into the movies database. Refer to the column
         headings in the class comments to see what the movies database
@@ -95,12 +95,17 @@ class MovieDatabase:
         :param director: a string
         :param language: a string, ISO language code
         :param release_year: an int
-        :return:
+        :return: A movie object with the key filled in.
         """
         self.cursor.execute("INSERT INTO movies VALUES (NULL,?,?,?,?)",
                             (movie.title, movie.director, movie.language,
                              movie.release_year))
         self.db_connection.commit()
+        result = self.__search_specific(movie.title, movie.director, movie.language,
+                           movie.release_year)[0]
+        print(f"Inserted: {movie}")
+        print(f"Returned: {result}")
+        print("---------")
 
     def view(self) -> list:
         """
@@ -124,6 +129,31 @@ class MovieDatabase:
         self.cursor.execute("DELETE FROM movies WHERE id=?", (movie_id,))
         self.db_connection.commit()
 
+    def __search_specific(self, title="", director="", language="", release_year=""):
+        """
+        Retrieves the rows that match the exact combination of the given
+        parameters. This is a private method. DO NOT include as part of this
+        classes interface.
+        :param title: a string
+        :param director: a string
+        :param language: a string, ISO language code
+        :param release_year: an int
+        :return: a list of rows
+        """
+
+        self.cursor.execute(
+            "SELECT * FROM movies WHERE title=? AND director=? "
+            "AND language=? AND release_year=?",
+            (title, director, language, release_year))
+        rows = self.cursor.fetchall()
+        print(f"search returned:\n {rows} ")
+        movie_list = []
+        for row in rows:
+            movie = Movie(key=row[0], title=row[1], director=row[2],
+                          language=row[3], release_year=row[4])
+            movie_list.append(movie)
+        return movie_list
+
     def search(self, title="", director="", language="", release_year=""):
         """
         Retrieves the rows that match any combination of the given
@@ -134,11 +164,13 @@ class MovieDatabase:
         :param release_year: an int
         :return: a list of rows
         """
+
         self.cursor.execute(
             "SELECT * FROM movies WHERE title=? OR director=? "
             "OR language=? OR release_year=?",
             (title, director, language, release_year))
         rows = self.cursor.fetchall()
+        print(f"search returned:\n {rows} ")
         movie_list = []
         for row in rows:
             movie = Movie(key=row[0], title=row[1], director=row[2],
