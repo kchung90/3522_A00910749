@@ -18,6 +18,12 @@ class MovieDatabaseProxy:
         self.movie_db = MovieDatabase(db_file_name, movies)
         self.access_level = access_level
         self.cache = []
+        self.update_cache()
+
+    def update_cache(self):
+        db_movie_list = self.movie_db.view()
+        for movie in db_movie_list:
+            self.cache.append(movie)
 
     def connect(self):
         self.movie_db.connect()
@@ -28,6 +34,7 @@ class MovieDatabaseProxy:
     def insert(self, movie: Movie):
         if self.access_level == UserAccessEnum.ADMIN:
             self.movie_db.insert(movie)
+            self.cache.append(movie)
         else:
             raise AccessLevelError("insert")
 
@@ -46,6 +53,9 @@ class MovieDatabaseProxy:
     def delete(self, movie_id):
         if self.access_level == UserAccessEnum.ADMIN:
             self.movie_db.delete(movie_id)
+            for cache_movie in self.cache:
+                if cache_movie.key == movie_id:
+                    self.cache.remove(cache_movie)
         else:
             raise AccessLevelError("delete")
 
@@ -80,11 +90,11 @@ def main():
     #               Movie("title5", "director2", 2018, "FR")]
     movie_list = []
     proxy1 = MovieDatabaseProxy(UserAccessEnum.ADMIN, "movie.db", movie_list)
-    for movie in proxy1.search("", "", "FR"):
-        print(movie)
-
-    for movie in proxy1.search("", "", "FR"):
-        print(movie)
+    # for movie in proxy1.search(language="FR"):
+    #     print(movie)
+    #
+    # for movie in proxy1.search(language="FR"):
+    #     print(movie)
     #
     # for movie in proxy1.search("", "", "ENG"):
     #     print(movie)
@@ -92,8 +102,8 @@ def main():
     # print("\n\n\n cache list")
     # for a in proxy1.cache:
     #     print(a)
-    for movie in proxy1.view():
-        print(movie)
+    # for movie in proxy1.view():
+    #     print(movie)
 
     # try:
     #     proxy1.insert(Movie("test", "test_director", 2020, "ENG"))
@@ -101,12 +111,15 @@ def main():
     #     print(e)
 
     try:
-        proxy1.delete(6)
+        proxy1.delete(4)
     except AccessLevelError as e:
         print(e)
 
-    for movie in proxy1.view():
+    for movie in proxy1.cache:
         print(movie)
+    #
+    # for movie in proxy1.view():
+    #     print(movie)
 
 
 if __name__ == '__main__':
