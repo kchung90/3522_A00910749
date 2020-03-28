@@ -104,8 +104,8 @@ class MovieDatabase:
         result = self.__search_specific(movie.title, movie.director, movie.language,
                            movie.release_year)[0]
         print(f"Inserted: {movie}")
-        print(f"Returned: {result}")
         print("---------")
+        return result
 
     def view(self) -> list:
         """
