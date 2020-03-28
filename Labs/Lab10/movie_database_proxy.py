@@ -59,7 +59,6 @@ class MovieDatabaseProxy:
         Fetches information from its database and store information in
         the cache
         """
-        self.cache.clear()
         for movie in [db_movie for db_movie in self.movie_db.view()]:
             self.cache.append(movie)
 
@@ -89,8 +88,8 @@ class MovieDatabaseProxy:
         movie_list_db = [db_movie for db_movie in self.movie_db.view()]
         if self.access_level == UserAccessEnum.ADMIN:
             if not movie_list_db:
-                self.movie_db.insert(movie)
-                self.update_cache()
+                inserted_movie = self.movie_db.insert(movie)
+                self.cache.append(inserted_movie)
             else:
                 for movie_in_db in movie_list_db:
                     if movie.title == movie_in_db.title and \
@@ -99,8 +98,8 @@ class MovieDatabaseProxy:
                             and movie.language == movie_in_db.language:
                         raise DuplicateEntryError
 
-                self.movie_db.insert(movie)
-                self.update_cache()
+                inserted_movie = self.movie_db.insert(movie)
+                self.cache.append(inserted_movie)
         else:
             raise AccessLevelError("insert")
 
@@ -211,7 +210,11 @@ def main():
 
         print("-" * 100)
         print("Viewing Movies in Cache and Database:\n")
+        print("Movies in Admin Proxy:")
         for movie in proxy_admin.view():
+            print(movie)
+        print("\nMovies in Member Proxy:")
+        for movie in proxy_member.view():
             print(movie)
 
     except AccessLevelError as e:
