@@ -171,11 +171,8 @@ def main():
     """
     Drives the program.
     """
-    movie_list = []
-    proxy_admin = MovieDatabaseProxy(UserAccessEnum.ADMIN, "movies.db",
-                                     movie_list)
-    proxy_member = MovieDatabaseProxy(UserAccessEnum.MEMBER, "movies.db",
-                                      movie_list)
+    proxy_admin = MovieDatabaseProxy(UserAccessEnum.ADMIN, "movies.db")
+    proxy_member = MovieDatabaseProxy(UserAccessEnum.MEMBER, "movies.db")
 
     try:
         print("-" * 100)
