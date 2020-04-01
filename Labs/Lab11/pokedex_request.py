@@ -36,7 +36,11 @@ class PokedexRequest:
 
 
 def main():
-    pass
+    pokedex = PokedexRequest("https://pokeapi.co/api/v2/ability/{}")
+    requests = [1, 2, 3]
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    loop.run_until_complete(pokedex.process_requests(requests))
 
 
 if __name__ == '__main__':
