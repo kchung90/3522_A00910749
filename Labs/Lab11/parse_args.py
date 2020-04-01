@@ -17,6 +17,15 @@ class Request:
         else:
             self.output_file = None
 
+    def __str__(self):
+        return f"Request:\n" \
+               f"Mode: {self.mode}\n" \
+               f"Input Data: {self.input_data}\n" \
+               f"Expanded: {self.expanded}\n" \
+               f"Input File: {self.input_file}\n" \
+               f"Output File: {self.output_file}\n" \
+               f"-------------------------------------------\n"
+
     @classmethod
     def commandline_request(cls):
         parser = argparse.ArgumentParser()
@@ -50,6 +59,11 @@ class Request:
 def main():
     cmd_args = Request.commandline_request()
     print(cmd_args)
+    request = Request(mode=cmd_args.mode, input_data=cmd_args.inputdata,
+                      expanded=cmd_args.expanded,
+                      input_file=cmd_args.inputfile,
+                      output_file=cmd_args.outputfile)
+    print(request)
 
 
 if __name__ == '__main__':
