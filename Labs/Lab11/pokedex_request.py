@@ -1,11 +1,29 @@
+"""
+@author Kevin Chung
+
+This module sends HTTP GET requests to retrieve Pokemon ability data
+from the url and creates an Ability object.
+"""
 import aiohttp
 import asyncio
 
 
 class Ability:
+    """
+    Represents certain effects that pokemon can enable.
+    """
 
     def __init__(self, name: str, id_value: int, generation: str,
                  effect: str, effect_short: str, pokemon: list):
+        """
+        Initializes an Ability object.
+        :param name: name of the ability as a str
+        :param id_value: id of the ability as an int
+        :param generation: generation of the version introduced as a str
+        :param effect: description of the effect as a str
+        :param effect_short: short descripiton of the effect as a str
+        :param pokemon: list of Pokemons
+        """
         self.name = name
         self.id_value = id_value
         self.generation = generation
@@ -14,6 +32,10 @@ class Ability:
         self.pokemon = pokemon
 
     def __str__(self):
+        """
+        Returns the description of the Ability object
+        :return: description as a str
+        """
         return f"Pokemon Ability:\n" \
                f"Name: {self.name.title()}\n" \
                f"ID: {self.id_value}\n" \
@@ -25,11 +47,24 @@ class Ability:
 
 
 class Pokedex:
+    """
+    Represents a Pokedex that can send a single or multiple HTTP GET
+    requests to query the Pokemon ability data from an url.
+    """
 
     def __init__(self, url: str):
+        """
+        Initializes the Pokedex object
+        :param url: url of an API as a str
+        """
         self.url = url
 
     async def process_single_request(self, id_name):
+        """
+        Processes a single request to create an Ability object. Details
+        of the Ability object are printed out at the end.
+        :param id_name: a name/id of the ability as a str or an int
+        """
         url = self.url.format(id_name)
         async with aiohttp.ClientSession() as session:
             response = await self.get_ability_data(url, session)
@@ -43,6 +78,11 @@ class Pokedex:
                           ability_short_effect, ability_pokemon_list))
 
     async def process_requests(self, requests: list):
+        """
+        Processes multiple requests to create Ability objects. Details
+        of the Ability objects are printed out at the end.
+        :param requests: list of a name/id of the ability
+        """
         async with aiohttp.ClientSession() as session:
             list_urls = [self.url.format(id_name) for id_name in requests]
             coroutines = [self.get_ability_data(my_url, session)
@@ -63,12 +103,22 @@ class Pokedex:
 
     @classmethod
     async def get_ability_data(cls, url: str, session: aiohttp.ClientSession):
+        """
+        Sends HTTP GET requests to retrieve the Pokemon ability data
+        from an url.
+        :param url: url of an API as a str
+        :param session: aiohttp ClientSession
+        :return: response as a JSON dictionary
+        """
         response = await session.request(method="GET", url=url)
         json_response = await response.json()
         return json_response
 
 
 def main():
+    """
+    Drives the program.
+    """
     pokedex = Pokedex("https://pokeapi.co/api/v2/ability/{}")
 
     # -----------------------------
