@@ -24,14 +24,27 @@ class Ability:
                f"--------------------------------------------\n"
 
 
-class PokedexRequest:
+class Pokedex:
 
     def __init__(self, url: str):
         self.url = url
 
+    async def process_single_request(self, id_name):
+        url = self.url.format(id_name)
+        async with aiohttp.ClientSession() as session:
+            response = await self.get_ability_data(url, session)
+            for entry in response["effect_entries"]:
+                ability_effect = entry["effect"].replace("\n", " ")
+                ability_short_effect = entry["short_effect"]
+            ability_pokemon_list = [pokemon["pokemon"]["name"] for
+                                    pokemon in response["pokemon"]]
+            print(Ability(response["name"], response["id"],
+                          response["generation"]["name"], ability_effect,
+                          ability_short_effect, ability_pokemon_list))
+
     async def process_requests(self, requests: list):
         async with aiohttp.ClientSession() as session:
-            list_urls = [self.url.format(req_id) for req_id in requests]
+            list_urls = [self.url.format(id_name) for id_name in requests]
             coroutines = [self.get_ability_data(my_url, session)
                           for my_url in list_urls]
             responses = await asyncio.gather(*coroutines)
@@ -56,7 +69,16 @@ class PokedexRequest:
 
 
 def main():
-    pokedex = PokedexRequest("https://pokeapi.co/api/v2/ability/{}")
+    pokedex = Pokedex("https://pokeapi.co/api/v2/ability/{}")
+
+    # -----------------------------
+    # Single Request
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    loop.run_until_complete(pokedex.process_single_request(1))
+
+    # -----------------------------
+    # Multiple Requests
     requests = [1, 2, 3]
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
