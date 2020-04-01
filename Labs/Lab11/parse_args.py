@@ -24,15 +24,24 @@ class Request:
         parser.add_argument("mode", type=str,
                             choices=["pokemon", "ability", "move"],
                             help="Select the mode. Choices can be one of "
-                                 "pokemon, ability, or move")
+                                 "pokemon, ability, or move.")
 
         input_group = parser.add_mutually_exclusive_group(required=True)
         input_group.add_argument("--inputfile", type=str,
                                  help="Name of a text file that will be used "
-                                      "to query the Pokedex")
+                                      "to query the Pokedex.")
         input_group.add_argument("--inputdata", type=str,
                                  help="A Name or an ID that will be used to "
-                                      "query the Pokedex")
+                                      "query the Pokedex.")
+
+        parser.add_argument("-e", "--expanded", action="store_true",
+                            help="When True, the Pokedex will do sub-queries "
+                                 "to get more information about a particular "
+                                 "attribute. Default is False.")
+
+        parser.add_argument("-op", "--outputfile", type=str,
+                            help="Name of an output text file that the "
+                                 "results of all queries will be recorded.")
 
         args = parser.parse_args()
         return args
