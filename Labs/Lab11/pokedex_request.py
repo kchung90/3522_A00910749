@@ -13,6 +13,16 @@ class Ability:
         self.effect_short = effect_short
         self.pokemon = pokemon
 
+    def __str__(self):
+        return f"Pokemon Ability:\n" \
+               f"Name: {self.name.title()}\n" \
+               f"ID: {self.id_value}\n" \
+               f"Generation: {self.generation}\n" \
+               f"Effect: {self.effect}\n" \
+               f"Effect Short: {self.effect_short}\n" \
+               f"List of Pokemons: {self.pokemon}\n" \
+               f"--------------------------------------------\n"
+
 
 class PokedexRequest:
 
