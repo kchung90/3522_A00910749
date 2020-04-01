@@ -26,7 +26,17 @@ class PokedexRequest:
                           for my_url in list_urls]
             responses = await asyncio.gather(*coroutines)
             for response in responses:
-                print(response)
+                ability_name = response["name"]
+                ability_id = response["id"]
+                ability_gen = response["generation"]["name"]
+                for entry in response["effect_entries"]:
+                    ability_effect = entry["effect"].replace("\n", " ")
+                    ability_short_effect = entry["short_effect"]
+                ability_pokemon_list = [pokemon["pokemon"]["name"] for
+                                        pokemon in response["pokemon"]]
+                print(Ability(ability_name, ability_id, ability_gen,
+                              ability_effect, ability_short_effect,
+                              ability_pokemon_list))
 
     @classmethod
     async def get_ability_data(cls, url: str, session: aiohttp.ClientSession):
