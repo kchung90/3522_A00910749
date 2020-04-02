@@ -1,10 +1,28 @@
+"""
+@author Kevin Chung
+
+This module accepts command line arguments from a user through the
+terminal to create a Request object.
+"""
 import argparse
 
 
 class Request:
+    """
+    Represents an object that stores data queried from a user using
+    command line arguments
+    """
 
-    def __init__(self, mode, input_data, expanded, input_file=None,
-                 output_file=None):
+    def __init__(self, mode: str, input_data: str, expanded: bool,
+                 input_file: str = None, output_file: str = None):
+        """
+        Initializes the Request object
+        :param mode: mode of the request as a str
+        :param input_data: a name/id of the data to be queried as a str
+        :param expanded: whether to send sub-queries as a bool
+        :param input_file: name of an input file as a str
+        :param output_file: name of an output file as a str
+        """
         self.mode = mode
         self.input_data = input_data
         self.expanded = expanded
@@ -18,6 +36,10 @@ class Request:
             self.output_file = None
 
     def __str__(self):
+        """
+        Returns the description of the Request object
+        :return: description as a str
+        """
         return f"Request:\n" \
                f"Mode: {self.mode}\n" \
                f"Input Data: {self.input_data}\n" \
@@ -28,6 +50,11 @@ class Request:
 
     @classmethod
     def commandline_request(cls):
+        """
+        Accepts user inputs from a terminal command line arguments and
+        returns a Namespace
+        :return: command line arguments as a Namespace
+        """
         parser = argparse.ArgumentParser()
 
         parser.add_argument("mode", type=str,
@@ -57,6 +84,9 @@ class Request:
 
 
 def main():
+    """
+    Drives the program.
+    """
     cmd_args = Request.commandline_request()
     print(cmd_args)
     request = Request(mode=cmd_args.mode, input_data=cmd_args.inputdata,
